@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <!-- Instellingen voor de browser: tekenset en schermbreedte -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wildlife Quiz</title>
+  <!-- Koppeling naar het CSS-bestand met de vormgeving -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Bovenbalk: logo, voortgang, badges en punten -->
+  <header class="bovenbalk">
+    <!-- Het logo is een link naar het overzicht (#) -->
+    <a class="logo" href="#">
+      <span class="logo-blok"></span>
+      <div>
+        <h1>Wildlife Quiz</h1>
+        <p class="ondertitel">Test je dierenkennis</p>
+      </div>
+    </a>
+
+    <!-- Voortgangsbalk: hoeveel vragen je al beantwoord hebt -->
+    <div class="voortgang">
+      <div class="voortgang-tekst">
+        <span>Vragen</span>
+        <span><span id="beantwoord">0</span> / <span id="totaal">0</span></span>
+      </div>
+      <div class="voortgang-balk"><div id="voortgang-vulling" class="voortgang-vulling"></div></div>
+    </div>
+
+    <!-- Teller met verdiende badges. Hierheen vliegt een nieuwe badge
+         als het badge-vak niet in beeld is. -->
+    <a id="badge-indicator" class="badge-indicator" href="#achievements" title="Achievements">
+      <span class="mini-medaille">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 7.5l4.5 4L12 4l4.5 7.5 4.5-4-1.8 10H4.8z"/><rect x="4.8" y="18.5" width="14.4" height="2.2" rx="0.6"/></svg>
+      </span>
+      <span id="badge-teller">0/6</span>
+    </a>
+
+    <div class="punten">
+      <span class="punten-label">Punten</span>
+      <span id="punten" class="punten-getal">0</span>
+    </div>
+  </header>
+
+  <main>
+    <!-- WEERGAVE 1: overzicht van alle gebieden (adres: #) -->
+    <section id="overzicht">
+      <div class="intro">
+        <h2>Kies een gebied</h2>
+        <p>Elk dier heeft drie vragen. Elke vraag kun je één keer beantwoorden: goed = +1 punt.</p>
+      </div>
+      <!-- Hier zet JavaScript de gebiedskaarten neer -->
+      <div id="gebieden" class="gebieden-raster"></div>
+
+      <!-- Snelkoppelingen naar elk dier, met een zoekvak -->
+      <div class="alle-dieren">
+        <div class="intro">
+          <div>
+            <h2>Alle dieren</h2>
+            <p id="aantal-dieren"></p>
+          </div>
+          <!-- type="search" geeft een zoekvak; JavaScript luistert naar wat je typt -->
+          <input id="zoek-dier" class="zoekvak" type="search" placeholder="Zoek een dier of gebied..." aria-label="Zoek een dier">
+        </div>
+        <div id="dier-index" class="dier-index"></div>
+        <p id="geen-dier" class="geen-dier verborgen">Geen dier gevonden. Probeer een ander woord.</p>
+      </div>
+    </section>
+
+    <!-- WEERGAVE 2: de dieren van één gebied (adres: #gebied/...) -->
+    <section id="gebied-pagina" class="verborgen">
+      <nav class="kruimels">
+        <a class="knop-terug" href="#">← Alle gebieden</a>
+      </nav>
+      <div class="intro">
+        <div>
+          <h2 id="gebied-titel"></h2>
+          <p id="gebied-tekst"></p>
+        </div>
+        <p id="gebied-teller" class="accent-tekst"></p>
+      </div>
+      <!-- Hier zet JavaScript de dierenkaarten neer -->
+      <div id="dieren" class="dieren-raster"></div>
+    </section>
+
+    <!-- WEERGAVE 3: de pagina van één dier (adres: #dier/...) -->
+    <section id="dier-pagina" class="verborgen">
+      <nav class="kruimels">
+        <a class="knop-terug" href="#">← Alle gebieden</a>
+        <a id="terug-gebied" class="knop-terug" href="#"></a>
+      </nav>
+
+      <!-- Bovenste deel: grote foto van het volwassen dier en een foto van het jong -->
+      <div class="dier-kop">
+        <div class="dier-foto-vak">
+          <div id="dier-foto" class="dier-foto"></div>
+          <div class="dier-titel">
+            <p id="dier-gebied" class="vraag-label"></p>
+            <h2 id="dier-naam"></h2>
+          </div>
+        </div>
+        <div class="jong-vak">
+          <div id="jong-foto" class="jong-foto"></div>
+          <p id="jong-naam" class="jong-naam"></p>
+        </div>
+      </div>
+
+      <!-- Onderste deel: weetjes links, vragen rechts -->
+      <div class="dier-inhoud">
+        <div class="paneel">
+          <h3>Weetjes</h3>
+          <ul id="weetjes" class="weetjes"></ul>
+        </div>
+        <div class="paneel">
+          <div class="paneel-kop">
+            <h3>Vragen</h3>
+            <span id="vragen-teller" class="accent-tekst"></span>
+          </div>
+          <div id="vragen"></div>
+        </div>
+      </div>
+
+      <!-- Naar het vorige of volgende dier in dit gebied -->
+      <nav class="dier-navigatie">
+        <a id="vorige-dier" class="knop-terug" href="#"></a>
+        <a id="volgende-dier" class="knop-terug" href="#"></a>
+      </nav>
+    </section>
+
+    <!-- Achievements: badges die je vrijspeelt met punten (op elke weergave) -->
+    <section id="achievements" class="badges-vak">
+      <div class="badges-kop">
+        <div>
+          <h2>Achievements</h2>
+          <p>Verdien punten om nieuwe rangen vrij te spelen.</p>
+        </div>
+        <button id="opnieuw" class="knop-reset">Reset voortgang</button>
+      </div>
+      <div id="badges" class="badges-rij"></div>
+    </section>
+  </main>
+
+  <!-- Voettekst met de bron van de foto's -->
+  <footer class="voet">
+    Foto's: Wikimedia Commons (vrije licenties, zie fotos.txt)
+  </footer>
+
+  <!-- Koppeling naar het JavaScript-bestand: hier zit de logica -->
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,1030 @@
+/* =====================================================
+   KLEUREN
+   Variabelen: één keer een kleur kiezen en overal gebruiken.
+   Wil je een ander thema? Verander dan alleen deze waarden.
+   ===================================================== */
+:root {
+  --achtergrond: #0d1511;   /* heel donker groen */
+  --vlak: #16211b;          /* iets lichter, voor kaarten en panelen */
+  --rand: #2a3a31;          /* subtiele randen */
+  --tekst: #e8ede9;         /* bijna wit */
+  --tekst-zacht: #8fa196;   /* grijsgroen voor bijzaken */
+  --accent: #f5b700;        /* geel, de opvallende kleur */
+  --goed: #3ecf8e;          /* groen voor een goed antwoord */
+  --fout: #ff5c5c;          /* rood voor een fout antwoord */
+}
+
+/* ===== Basis: lettertype en achtergrond ===== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
+  background: var(--achtergrond);
+  color: var(--tekst);
+}
+
+/* Startscherm: pinguïnfoto als achtergrond.
+   Je kunt meerdere achtergronden op elkaar stapelen, gescheiden door een komma.
+   De eerste ligt bovenop: een donker verloop, zodat de tekst leesbaar blijft.
+   Het verloop begint bijna doorzichtig (je ziet de pinguïns) en wordt
+   naar beneden helemaal donker, zodat de foto overloopt in de achtergrond.
+   Daaronder ligt de foto: 100% breed, bovenaan de pagina. */
+body.start {
+  background:
+    linear-gradient(180deg,
+      rgba(13, 21, 17, 0.20) 0px,
+      rgba(13, 21, 17, 0.45) 200px,
+      rgba(13, 21, 17, 0.85) 380px,
+      rgb(13, 21, 17) 640px),
+    url("fotos/achtergrond-pinguins.jpg") center top / 100% auto no-repeat,
+    var(--achtergrond);
+}
+
+/* Extra ruimte boven "Kies een gebied", zodat de pinguïns te zien zijn */
+#overzicht > .intro {
+  padding-top: 170px;
+  align-items: flex-end;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+}
+#overzicht > .intro h2 {
+  font-size: 34px;
+}
+#overzicht > .intro p {
+  color: #e3ebe5;
+}
+
+h1, h2 {
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+/* ===== Bovenbalk ===== */
+.bovenbalk {
+  position: sticky;            /* blijft bovenaan staan tijdens scrollen */
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  padding: 14px 40px;
+  background: rgba(13, 21, 17, 0.92);
+  backdrop-filter: blur(8px);  /* maakt wat erachter zit wazig */
+  border-bottom: 1px solid var(--rand);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Klein logo: een gele ruit */
+.logo-blok {
+  width: 16px;
+  height: 16px;
+  margin: 0 4px;
+  background: var(--accent);
+  transform: rotate(45deg);
+  border-radius: 3px;
+}
+
+.logo h1 {
+  font-size: 22px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.ondertitel {
+  margin: 0;
+  font-size: 12px;
+  color: var(--tekst-zacht);
+}
+
+/* Voortgangsbalk in het midden */
+.voortgang {
+  flex: 1;
+  max-width: 420px;
+  margin-left: auto;
+}
+
+.voortgang-tekst {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--tekst-zacht);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+
+.voortgang-balk {
+  height: 6px;
+  background: var(--rand);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.voortgang-vulling {
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
+  transition: width 0.4s;
+}
+
+/* Puntenteller rechts */
+.punten {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 8px 18px;
+  border: 1px solid var(--rand);
+  border-radius: 8px;
+  background: var(--vlak);
+}
+
+.punten-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--tekst-zacht);
+}
+
+.punten-getal {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;  /* cijfers even breed */
+}
+
+/* ===== Inhoud ===== */
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 28px 40px 40px;
+}
+
+.intro {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 18px;
+}
+
+.intro h2 {
+  font-size: 26px;
+}
+
+.intro p {
+  margin: 4px 0 0;
+  color: var(--tekst-zacht);
+}
+
+/* ===== Overzicht: gebiedskaarten ===== */
+.gebieden-raster {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);  /* 4 gebieden per rij */
+  gap: 16px;
+}
+
+.gebied-kaart {
+  display: block;
+  position: relative;
+  height: 220px;
+  padding: 0;
+  border: 1px solid var(--rand);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--vlak);
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  color: white;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+/* 12 gebieden in 4 kolommen = precies 3 volle rijen.
+   (Wil je één kaart extra breed maken? Geef hem dan  grid-column: span 2;
+   maar zorg dat het totaal aantal vakjes deelbaar blijft door 4.) */
+
+.gebied-kaart:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+}
+
+.gebied-foto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s;
+}
+.gebied-kaart:hover .gebied-foto {
+  transform: scale(1.05);
+}
+.gebied-kaart .emoji {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  font-size: 60px;
+}
+
+/* Tekst onderaan de gebiedskaart, met donker verloop */
+.gebied-info {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 50px 16px 14px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+}
+.gebied-info h3 {
+  margin: 0;
+  font-size: 20px;
+}
+.gebied-info p {
+  margin: 2px 0 10px;
+  font-size: 13px;
+  color: #c9d3cc;
+}
+
+.gebied-voortgang {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.mini-balk {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.25);
+  overflow: hidden;
+}
+.mini-balk div {
+  height: 100%;
+  background: var(--accent);
+}
+.teller {
+  font-size: 13px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Gebied helemaal klaar: gele rand */
+.gebied-kaart.voltooid {
+  border-color: var(--accent);
+}
+
+/* ===== Gebiedspagina ===== */
+.knop-terug {
+  display: inline-block;
+  padding: 6px 12px;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--tekst-zacht);
+  background: transparent;
+  border: 1px solid var(--rand);
+  border-radius: 6px;
+  cursor: pointer;
+}
+.knop-terug:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.gebied-teller {
+  color: var(--accent) !important;
+  font-weight: 700;
+}
+
+/* ===== Raster met dierenkaarten ===== */
+.dieren-raster {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);  /* 3 grote kaarten per rij */
+  gap: 14px;
+}
+
+/* Eén kaart: de foto vult de hele kaart */
+.kaart {
+  display: block;
+  position: relative;
+  aspect-ratio: 3 / 2;          /* altijd dezelfde verhouding */
+  padding: 0;
+  border: 1px solid var(--rand);
+  border-radius: 10px;
+  overflow: hidden;             /* alles buiten de ronde hoek verbergen */
+  background: var(--vlak);
+  cursor: pointer;
+  font-family: inherit;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+/* Hover: kaart komt iets omhoog en krijgt een gele rand */
+.kaart:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5);
+}
+
+.kaart-foto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;              /* foto vult het vak zonder uit te rekken */
+  object-position: center 30%;    /* laat vooral het bovenste deel zien */
+  display: block;
+  transition: transform 0.4s;
+}
+
+.kaart:hover .kaart-foto {
+  transform: scale(1.06);         /* klein zoom-effect */
+}
+
+/* Reserve-emoji als de foto niet laadt */
+.kaart .emoji {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+}
+
+/* Naam over de foto, met een donker verloop zodat je hem goed leest */
+.kaart .naam {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 40px 16px 12px;
+  text-align: left;
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+}
+
+/* Dier met alle vragen beantwoord: foto iets donkerder */
+.kaart.klaar .kaart-foto {
+  filter: grayscale(0.6) brightness(0.6);
+}
+
+/* Label rechtsboven: goed of fout */
+.status {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--tekst);
+  background: rgba(0, 0, 0, 0.6);
+}
+.status.goed { background: var(--goed); color: #0d1511; }
+.status.fout { background: var(--fout); }
+
+/* ===== Links (de <a>-tag) netjes maken ===== */
+a {
+  color: inherit;
+  text-decoration: none;    /* geen streep onder links */
+}
+
+/* Rij met terugknoppen */
+.kruimels {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.accent-tekst {
+  color: var(--accent) !important;
+  font-weight: 700;
+}
+
+/* ===== Dierpagina ===== */
+.dier-kop {
+  display: grid;
+  grid-template-columns: 2fr 1fr;   /* grote foto 2 delen, jong 1 deel */
+  gap: 16px;
+}
+
+.dier-foto-vak {
+  position: relative;
+  height: 420px;
+  border: 1px solid var(--rand);
+  border-radius: 14px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+.dier-foto,
+.jong-foto {
+  width: 100%;
+  height: 100%;
+}
+
+.dier-foto-img,
+.jong-foto-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 35%;
+  display: block;
+}
+
+.dier-foto .emoji,
+.jong-foto .emoji {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  font-size: 90px;
+}
+
+/* De naam over de grote foto */
+.dier-titel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 70px 28px 22px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+}
+.dier-titel h2 {
+  font-size: 44px;
+  color: white;
+}
+
+/* Het vak met het jong */
+.jong-vak {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--rand);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--vlak);
+}
+.jong-foto {
+  flex: 1;
+  min-height: 0;
+}
+.jong-naam {
+  margin: 0;
+  padding: 14px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  border-top: 1px solid var(--rand);
+}
+
+/* Weetjes en vragen naast elkaar */
+.dier-inhoud {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 16px;
+  margin-top: 16px;
+  align-items: start;
+}
+
+.paneel {
+  padding: 22px 24px;
+  background: var(--vlak);
+  border: 1px solid var(--rand);
+  border-radius: 14px;
+}
+.paneel h3 {
+  margin: 0 0 12px;
+  font-size: 20px;
+}
+.paneel-kop {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+/* Weetjes-lijst met gele streepjes in plaats van bolletjes */
+.weetjes {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.weetjes li {
+  position: relative;
+  padding: 10px 0 10px 22px;
+  line-height: 1.5;
+  border-bottom: 1px solid var(--rand);
+}
+.weetjes li:last-child {
+  border-bottom: none;
+}
+.weetjes li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 19px;
+  width: 10px;
+  height: 3px;
+  background: var(--accent);
+}
+
+/* Eén vraagkaart */
+.vraag-kaart {
+  padding: 16px 18px;
+  margin-top: 12px;
+  border: 1px solid var(--rand);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.18);
+}
+.vraag-kaart.is-goed { border-color: rgba(62, 207, 142, 0.5); }
+.vraag-kaart.is-fout { border-color: rgba(255, 92, 92, 0.45); }
+
+.vraag-label {
+  margin: 0;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+}
+
+.vraag-tekst {
+  font-size: 17px;
+  line-height: 1.4;
+  margin: 6px 0 14px;
+}
+
+/* Vorige / volgende dier */
+.dier-navigatie {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+/* De vier antwoordknoppen */
+.antwoorden {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.antwoord {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  text-align: left;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--tekst);
+  background: transparent;
+  border: 1px solid var(--rand);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+/* De letter A, B, C of D voor elk antwoord */
+.letter {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 4px;
+  background: var(--rand);
+  color: var(--tekst-zacht);
+}
+
+.antwoord:hover:enabled {
+  border-color: var(--accent);
+  background: rgba(245, 183, 0, 0.08);
+}
+.antwoord:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+.antwoord.goed {
+  opacity: 1;
+  border-color: var(--goed);
+  background: rgba(62, 207, 142, 0.15);
+}
+.antwoord.goed .letter { background: var(--goed); color: #0d1511; }
+.antwoord.fout {
+  opacity: 1;
+  border-color: var(--fout);
+  background: rgba(255, 92, 92, 0.15);
+}
+.antwoord.fout .letter { background: var(--fout); color: #0d1511; }
+
+/* Uitslag na het antwoorden */
+.uitslag {
+  margin-top: 12px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--tekst-zacht);
+}
+.uitslag strong {
+  display: block;
+  font-size: 17px;
+}
+.uitslag .goed { color: var(--goed); }
+.uitslag .fout { color: var(--fout); }
+
+/* Knoppen */
+.knop-verder {
+  margin-top: 16px;
+  width: 100%;
+  padding: 12px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #0d1511;
+  background: var(--accent);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.knop-verder:hover {
+  filter: brightness(1.1);
+}
+
+.knop-reset {
+  padding: 8px 14px;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--tekst-zacht);
+  background: transparent;
+  border: 1px solid var(--rand);
+  border-radius: 6px;
+  cursor: pointer;
+}
+.knop-reset:hover {
+  color: var(--tekst);
+  border-color: var(--tekst-zacht);
+}
+
+/* ===== Achievements (badges) ===== */
+.badges-vak {
+  margin-top: 36px;
+  padding: 24px 28px;
+  background: var(--vlak);
+  border: 1px solid var(--rand);
+  border-radius: 14px;
+}
+
+.badges-kop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.badges-kop p {
+  margin: 4px 0 0;
+  color: var(--tekst-zacht);
+}
+
+.badges-rij {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.badge {
+  padding: 16px 10px;
+  text-align: center;
+  border: 1px solid var(--rand);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* De medaille: een cirkel met een getal of ster erin */
+.medaille {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2px solid var(--rand);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--tekst-zacht);
+  background: #1d2a23;
+}
+
+.badge-naam {
+  font-weight: 700;
+  color: var(--tekst-zacht);
+}
+
+.badge-eis {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--tekst-zacht);
+  opacity: 0.7;
+}
+
+/* Vrijgespeelde badge: gouden medaille met gloed */
+.badge.verdiend {
+  border-color: rgba(245, 183, 0, 0.5);
+  background: rgba(245, 183, 0, 0.06);
+}
+.medaille {
+  position: relative;
+}
+.medaille svg {
+  width: 28px;
+  height: 28px;
+  opacity: 0.45;                /* op slot: vaag en grijs */
+}
+/* Het kleine slotje rechtsonder de medaille */
+.slotje {
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2px solid var(--vlak);
+  background: #33443a;
+  color: var(--tekst-zacht);
+}
+.slotje svg {
+  width: 11px;
+  height: 11px;
+  opacity: 1;
+}
+.badge.verdiend .medaille svg {
+  opacity: 1;
+}
+.badge.verdiend .slotje {
+  display: none;               /* verdiend: geen slotje meer */
+}
+.badge.verdiend .medaille {
+  color: #0d1511;
+  border-color: #ffe08a;
+  background: linear-gradient(145deg, #ffd34d, #c98f00);
+  box-shadow: 0 0 18px rgba(245, 183, 0, 0.45);
+}
+.badge.verdiend .badge-naam {
+  color: var(--tekst);
+}
+.badge.verdiend .badge-eis {
+  color: var(--accent);
+  opacity: 1;
+}
+
+/* ===== Badge-teller in de bovenbalk ===== */
+.badge-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 1px solid var(--rand);
+  border-radius: 8px;
+  background: var(--vlak);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.mini-medaille svg {
+  width: 15px;
+  height: 15px;
+}
+.mini-medaille {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 13px;
+  color: #0d1511;
+  background: linear-gradient(145deg, #ffd34d, #c98f00);
+}
+
+/* Korte gloed als een badge net geland is */
+.badge.net-geland .medaille {
+  animation: gloed 0.8s ease-out;
+}
+@keyframes gloed {
+  0%   { box-shadow: 0 0 0 0 rgba(245, 183, 0, 0.9); transform: scale(1.25); }
+  100% { box-shadow: 0 0 18px rgba(245, 183, 0, 0.45); transform: scale(1); }
+}
+
+/* ===== Badge-animatie ===== */
+
+/* Donkere laag over de pagina. pointer-events: none = je kunt er doorheen klikken */
+.badge-scherm {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+  animation: invaden 0.3s ease-out;
+  transition: opacity 0.6s;
+}
+.badge-scherm.weg {
+  opacity: 0;
+}
+
+/* Houder van de grote medaille, precies in het midden van het scherm */
+.badge-groot {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  z-index: 41;
+  width: 260px;
+  margin-left: -130px;   /* de helft van de breedte, zo staat hij in het midden */
+  margin-top: -130px;
+  text-align: center;
+  pointer-events: none;
+  /* STAP 1: groeien en ronddraaien in 1,3 seconde */
+  animation: badgeVerschijnt 1.3s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+.medaille-groot svg {
+  width: 84px;
+  height: 84px;
+}
+.medaille-groot {
+  width: 160px;
+  height: 160px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 4px solid #ffe08a;
+  font-size: 56px;
+  font-weight: 800;
+  color: #0d1511;
+  background: linear-gradient(145deg, #ffd34d, #c98f00);
+  box-shadow: 0 0 60px rgba(245, 183, 0, 0.6);
+}
+
+.badge-groot-tekst {
+  margin-top: 18px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--tekst-zacht);
+  transition: opacity 0.2s;
+}
+.badge-groot-tekst strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 28px;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--accent);
+}
+
+/* De keyframes: van klein en onzichtbaar naar groot, met één rondje draaien */
+@keyframes badgeVerschijnt {
+  0%   { transform: scale(0.2) rotate(0deg);   opacity: 0; }
+  30%  { opacity: 1; }
+  100% { transform: scale(1)   rotate(360deg); opacity: 1; }
+}
+
+/* STAP 2: tijdens het vliegen verdwijnt de tekst en beweegt de medaille vloeiend */
+.badge-groot.vliegt .badge-groot-tekst {
+  opacity: 0;
+}
+.badge-groot.vliegt .medaille-groot svg {
+  width: 84px;
+  height: 84px;
+}
+.medaille-groot {
+  transition: transform 0.9s cubic-bezier(0.6, 0, 0.3, 1);
+}
+
+/* Minder beweging gewenst: alleen in- en uitfaden */
+.badge-groot.rustig {
+  animation: invaden 0.4s ease-out;
+  transition: opacity 0.4s;
+}
+.badge-groot.rustig.weg {
+  opacity: 0;
+}
+
+@keyframes invaden {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ===== Voettekst ===== */
+.voet {
+  text-align: center;
+  font-size: 13px;
+  color: var(--tekst-zacht);
+  padding: 0 0 24px;
+}
+
+/* Hulpklasse om iets te verbergen */
+.verborgen {
+  display: none;
+}
+
+
+/* ===== Startscherm: alle dieren ===== */
+.alle-dieren {
+  margin-top: 44px;
+}
+.alle-dieren .intro {
+  align-items: flex-end;
+}
+.zoekvak {
+  width: 280px;
+  padding: 10px 14px;
+  font: inherit;
+  font-size: 15px;
+  color: var(--tekst);
+  background: rgba(22, 33, 27, 0.85);
+  border: 1px solid var(--rand);
+  border-radius: 999px;   /* heel ronde hoeken = pilvorm */
+  outline: none;
+}
+.zoekvak:focus {
+  border-color: var(--accent);
+}
+
+/* auto-fill: zoveel kolommen als er passen, elk minstens 176px breed */
+.dier-index {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(176px, 1fr));
+  gap: 8px;
+}
+.index-dier {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px 6px 6px;
+  border: 1px solid var(--rand);
+  border-radius: 999px;
+  background: rgba(22, 33, 27, 0.85);
+  color: var(--tekst);
+  text-decoration: none;
+  font-size: 13px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.index-dier:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+.index-dier.verborgen {
+  display: none;
+}
+/* Ronde fotootjes: een vierkant met border-radius 50% wordt een cirkel */
+.index-foto {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--rand);
+}
+.index-dier .emoji.index-foto {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+.index-naam {
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;   /* te lange namen eindigen op ... */
+}
+.index-status {
+  font-size: 12px;
+  color: var(--tekst-zacht);
+  font-variant-numeric: tabular-nums;
+}
+/* Dier klaar: groene rand om de foto en een groen vinkje */
+.index-dier.klaar .index-foto {
+  border-color: var(--goed);
+}
+.index-dier.klaar .index-status {
+  color: var(--goed);
+  font-weight: 700;
+}
+.geen-dier {
+  color: var(--tekst-zacht);
+}
