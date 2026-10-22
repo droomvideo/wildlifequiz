@@ -55,6 +55,7 @@ body.start {
 
 /* Extra ruimte boven "Kies een gebied", zodat de pinguïns te zien zijn */
 #overzicht > .intro {
+  position: relative;
   padding-top: 170px;
   align-items: flex-end;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
@@ -1279,9 +1280,14 @@ a {
     align-items: stretch;
     flex-direction: column;
   }
-  .zoekvak {
+  .zoek-rij {
     width: 100%;
-    max-width: 100%;
+  }
+  .zoek-rij .zoekvak {
+    flex: 1 1 auto;
+    width: auto;
+    min-width: 0;
+    max-width: none;
   }
   .welkom {
     top: auto;
@@ -1461,5 +1467,291 @@ a {
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border: 0;
+  }
+  .zoek-rij {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .zoek-rij .zoekvak,
+  .knop-willekeurig {
+    flex: none;
+    width: 100%;
+  }
+}
+
+
+/* ===== Willekeurig dier ===== */
+.zoek-rij {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.knop-willekeurig {
+  flex: none;
+  min-height: 44px;
+  padding: 8px 14px;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--tekst);
+  background: transparent;
+  border: 1px solid var(--rand);
+  border-radius: 999px;
+  cursor: pointer;
+}
+.knop-willekeurig:hover,
+.knop-willekeurig:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Tikvlak op de pinguïnfoto van het startscherm */
+.pinguin-plek {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 150px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+
+/* Reeks in de puntenteller */
+.reeks {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.reeks.heet {
+  color: #ffe08a;
+}
+.reeks.verborgen {
+  display: none;
+}
+.punten-getal.punten-puls {
+  animation: puntenPuls 0.45s ease;
+}
+@keyframes puntenPuls {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+/* Kort antwoord-effect */
+.vraag-kaart.vers .antwoord.goed {
+  animation: juist 0.4s ease;
+}
+.vraag-kaart.vers .antwoord.fout {
+  animation: mis 0.35s ease;
+}
+@keyframes juist {
+  40% { background: rgba(62, 207, 142, 0.28); }
+}
+@keyframes mis {
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+}
+
+/* Klein stootje bij een goed antwoord */
+.confetti {
+  position: fixed;
+  z-index: 30;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+.confetti span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 1px;
+  animation: confettiWeg 0.65s ease-out forwards;
+}
+@keyframes confettiWeg {
+  to { transform: translate(var(--x), var(--y)); opacity: 0; }
+}
+
+/* Geheime badge, zelfde rij als de andere */
+.badge.geheim {
+  border-color: rgba(245, 183, 0, 0.35);
+}
+
+/* Buikglijden, binnen een strook zodat niets buiten het scherm valt */
+.glijbaan {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 18vh;
+  z-index: 29;
+  height: 80px;
+  overflow: hidden;
+  pointer-events: none;
+}
+.glijder {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  animation: glijBaan 2.5s cubic-bezier(0.22, 0.7, 0.2, 1) forwards;
+}
+.glijder svg {
+  display: block;
+  width: 140px;
+  height: auto;
+  filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.4));
+}
+@keyframes glijBaan {
+  from { left: -150px; }
+  to { left: 100%; }
+}
+.glijbaan.rustig .glijder {
+  left: 50%;
+  animation: none;
+  transform: translateX(-50%);
+}
+
+/* Poollicht: koel groen en goud, bovenaan */
+.poollicht {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 24;
+  height: 46vh;
+  max-height: 420px;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 18% 0%, rgba(62, 207, 142, 0.38), transparent 58%),
+    radial-gradient(ellipse at 72% 0%, rgba(245, 183, 0, 0.28), transparent 52%),
+    linear-gradient(180deg, rgba(12, 28, 24, 0.2), transparent 80%);
+  animation: poolAdem 4s ease forwards;
+}
+.poollicht.rustig {
+  animation: none;
+  opacity: 0.85;
+}
+@keyframes poolAdem {
+  0% { opacity: 0; }
+  18% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Radar: het logo en de gebiedskaarten lichten kort op */
+body.radar .logo-blok {
+  animation: radarBlik 1.15s ease-out;
+}
+body.radar .gebied-kaart {
+  animation: radarRand 1.15s ease;
+}
+body.radar-rustig .logo-blok,
+body.radar-rustig .gebied-kaart {
+  animation: none;
+  box-shadow: 0 0 0 1px rgba(245, 183, 0, 0.7);
+}
+@keyframes radarBlik {
+  0% { box-shadow: 0 0 0 0 rgba(245, 183, 0, 0.8); }
+  100% { box-shadow: 0 0 0 14px rgba(245, 183, 0, 0); }
+}
+@keyframes radarRand {
+  0% { border-color: var(--accent); box-shadow: 0 0 0 0 rgba(245, 183, 0, 0.45); }
+  100% { border-color: var(--rand); box-shadow: 0 0 0 10px rgba(245, 183, 0, 0); }
+}
+
+/* Nacht: van 21:00 tot 06:00 */
+body.nacht {
+  background-color: #070c12;
+}
+body.nacht.start {
+  background:
+    linear-gradient(180deg,
+      rgba(7, 12, 18, 0.25) 0px,
+      rgba(7, 14, 22, 0.55) 200px,
+      rgba(7, 12, 18, 0.9) 380px,
+      rgb(7, 12, 18) 640px),
+    url("fotos/achtergrond-pinguins.jpg") center top / 100% auto no-repeat,
+    #070c12;
+}
+.sterren {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 18%, rgba(232, 237, 233, 0.85), transparent),
+    radial-gradient(1.2px 1.2px at 28% 32%, rgba(232, 237, 233, 0.55), transparent),
+    radial-gradient(1.4px 1.4px at 64% 14%, rgba(232, 237, 233, 0.75), transparent),
+    radial-gradient(1px 1px at 78% 28%, rgba(232, 237, 233, 0.5), transparent),
+    radial-gradient(1.6px 1.6px at 88% 42%, rgba(245, 183, 0, 0.7), transparent),
+    radial-gradient(1.2px 1.2px at 42% 22%, rgba(232, 237, 233, 0.6), transparent);
+}
+body.nacht .sterren {
+  display: block;
+  animation: sterTwinkel 3.2s ease-in-out infinite alternate;
+}
+body.nacht.start .sterren::after {
+  content: "";
+  position: absolute;
+  top: 108px;
+  right: 28px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  box-shadow: -7px 3px 0 0 rgba(244, 236, 214, 0.9);
+}
+@keyframes sterTwinkel {
+  from { opacity: 0.55; }
+  to { opacity: 1; }
+}
+main,
+.voet {
+  position: relative;
+  z-index: 1;
+}
+
+.ei-teller {
+  margin: 8px 0 0;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--tekst-zacht);
+}
+.ei-teller:empty {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .pinguin-plek { height: 100px; }
+  .glijder svg { width: 120px; }
+  body.nacht.start .sterren::after { top: 92px; right: 16px; }
+}
+@media (max-width: 560px) {
+  .pinguin-plek { height: 64px; }
+  .glijbaan { bottom: 14vh; height: 70px; }
+  .glijder svg { width: 108px; }
+  .reeks { font-size: 11px; letter-spacing: 0.02em; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .punten-getal.punten-puls,
+  .vraag-kaart.vers .antwoord.goed,
+  .vraag-kaart.vers .antwoord.fout,
+  .confetti span,
+  .glijder,
+  .poollicht,
+  body.nacht .sterren,
+  body.radar .logo-blok,
+  body.radar .gebied-kaart {
+    animation: none;
+  }
+  body.nacht .sterren { opacity: 0.8; }
+  .glijbaan .glijder {
+    left: 50%;
+    transform: translateX(-50%);
   }
 }

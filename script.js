@@ -1963,6 +1963,7 @@ const badges = [
   { naam: "Bioloog",   punten: Math.round(alleVragen * 0.75),  icoon: "blad" },
   { naam: "Legende",   alles: true,                            icoon: "kroon" }
 ];
+const geheimeBadge = { naam: "Geheime Pinguïn", icoon: "pinguin", geheim: true };
 
 // De plaatjes zijn SVG: tekeningen gemaakt van code.
 // viewBox="0 0 24 24" betekent: we tekenen op een raster van 24 bij 24.
@@ -2007,8 +2008,24 @@ const iconen = {
     '<svg viewBox="0 0 24 24" fill="currentColor">' +
       '<path d="M7 10V7.5a5 5 0 0 1 10 0V10h-2.2V7.5a2.8 2.8 0 0 0-5.6 0V10z"/>' +
       '<rect x="5" y="10" width="14" height="11" rx="2"/>' +
+    "</svg>",
+  pinguin:
+    '<svg viewBox="0 0 24 24" fill="currentColor">' +
+      '<ellipse cx="12" cy="13" rx="6.2" ry="7.4"/>' +
+      '<ellipse cx="12" cy="15.2" rx="3.4" ry="4.2" fill="#0d1511"/>' +
+      '<circle cx="14.2" cy="8.2" r="1" fill="#0d1511"/>' +
+      '<path d="M16.2 8.6 21 10.2 16.2 11.6z" fill="#f5b700"/>' +
+      '<ellipse cx="10.2" cy="20.2" rx="2.2" ry="1.1" fill="#f5b700"/>' +
     "</svg>"
 };
+
+// De geheime badge hoort er pas bij als die vrij is. Daarvoor blijft de teller op /6.
+function zichtbareBadges() {
+  if (eiStaat.badge) {
+    return badges.concat([geheimeBadge]);
+  }
+  return badges;
+}
 
 
 // =====================================================
@@ -2026,6 +2043,42 @@ let antwoorden = opgeslagen.antwoorden || {};
 function opslaan() {
   // Zelfde sleutel op GitHub Pages: de browser bewaart dit voor deze site (https).
   localStorage.setItem(OPSLAG, JSON.stringify({ punten: punten, antwoorden: antwoorden }));
+}
+
+// Paaseieren staan apart. wildlifequiz-v2 blijft { punten, antwoorden }.
+const EI_SLEUTEL = "wildlifequiz-eieren";
+const EI_SOORTEN = ["parade", "glijden", "poollicht", "wildlife", "reeks", "nacht", "console"];
+const EI_VOOR_BADGE = 3;
+let reeks = 0;
+let badgeOnderweg = null;
+
+function leesEieren() {
+  try {
+    const ruw = JSON.parse(localStorage.getItem(EI_SLEUTEL) || "{}");
+    const gevonden = [];
+    const lijst = ruw && Array.isArray(ruw.gevonden) ? ruw.gevonden : [];
+    lijst.forEach(function (id) {
+      if (EI_SOORTEN.indexOf(id) !== -1 && gevonden.indexOf(id) === -1) {
+        gevonden.push(id);
+      }
+    });
+    return { gevonden: gevonden, badge: !!(ruw && ruw.badge) };
+  } catch (e) {
+    return { gevonden: [], badge: false };
+  }
+}
+
+function bewaarEieren() {
+  localStorage.setItem(EI_SLEUTEL, JSON.stringify({
+    gevonden: eiStaat.gevonden,
+    badge: eiStaat.badge
+  }));
+}
+
+let eiStaat = leesEieren();
+if (!eiStaat.badge && eiStaat.gevonden.length >= EI_VOOR_BADGE) {
+  eiStaat.badge = true;
+  bewaarEieren();
 }
 
 // Alleen als er bij het openen al voortgang stond. Eén keer, tot de pagina opnieuw laadt.
@@ -2060,7 +2113,7 @@ function toonWelkom() {
   }
   welkomGetoond = true;
   const el = document.getElementById("welkom");
-  const badgesBehaald = badges.filter(isVerdiend).length;
+  const badgesBehaald = zichtbareBadges().filter(isVerdiend).length;
   el.textContent = "";
   const titel = document.createElement("strong");
   titel.textContent = "Welkom terug!";
@@ -2445,11 +2498,27 @@ function kiesAntwoord(dier, nummer, keuze) {
   antwoorden[dier.id + ":" + nummer] = keuze;
   if (keuze === v.goed) {
     punten = punten + 1;
+    reeks = reeks + 1;
+  } else {
+    reeks = 0;
   }
   opslaan();
 
   const kaart = document.querySelectorAll(".vraag-kaart")[nummer];
   toonUitslag(kaart, v, keuze);
+  kaart.classList.add("vers");
+  if (keuze === v.goed) {
+    confettiBij(kaart.querySelectorAll(".antwoord")[keuze]);
+    const getal = document.getElementById("punten");
+    getal.classList.remove("punten-puls");
+    void getal.offsetWidth;
+    getal.classList.add("punten-puls");
+    if (reeks >= 5 && reeks % 5 === 0) {
+      toonSignaal(reeks + " op rij!");
+      vindEi("reeks", { teken: false });
+    }
+  }
+  toonReeks();
   document.getElementById("vragen-teller").textContent =
     vragenGedaan(dier) + " van " + dier.vragen.length + " beantwoord";
   toonStatus();
@@ -2461,6 +2530,12 @@ function kiesAntwoord(dier, nummer, keuze) {
 // 11. ACHIEVEMENTS TONEN
 // =====================================================
 function isVerdiend(badge) {
+  if (!badge) {
+    return false;
+  }
+  if (badge.geheim) {
+    return !!eiStaat.badge;
+  }
   if (badge.alles) {
     return Object.keys(antwoorden).length === aantalVragen();
   }
@@ -2477,12 +2552,14 @@ function toonBadges(animeren) {
   const rij = document.getElementById("badges");
   rij.innerHTML = "";
 
-  badges.forEach(function (badge) {
+  zichtbareBadges().forEach(function (badge) {
     const vak = document.createElement("div");
-    vak.className = "badge";
+    vak.className = "badge" + (badge.geheim ? " geheim" : "");
     vak.dataset.naam = badge.naam; // zodat we dit vak later terugvinden
 
-    const eis = badge.alles ? "Alle vragen" : badge.punten + (badge.punten === 1 ? " punt" : " punten");
+    const eis = badge.geheim
+      ? "Drie sporen"
+      : (badge.alles ? "Alle vragen" : badge.punten + (badge.punten === 1 ? " punt" : " punten"));
     vak.innerHTML =
       '<div class="medaille">' + iconen[badge.icoon] +
         '<span class="slotje">' + iconen.slot + "</span>" +
@@ -2492,9 +2569,13 @@ function toonBadges(animeren) {
     rij.appendChild(vak);
 
     if (isVerdiend(badge)) {
-      if (getoondeBadges.includes(badge.naam) || !animeren) {
+      const onderweg = badgeOnderweg === badge.naam;
+      const alInRij = wachtrij.some(function (b) { return b.naam === badge.naam; });
+      if (onderweg || alInRij) {
+        // De animatie loopt al. Niet nog een keer in de rij zetten.
+      } else if (getoondeBadges.includes(badge.naam) || !animeren) {
         maakGoud(badge);           // was al verdiend: meteen goud
-      } else if (!wachtrij.includes(badge)) {
+      } else {
         wachtrij.push(badge);      // nieuw: in de wachtrij voor de animatie
       }
     }
@@ -2502,7 +2583,7 @@ function toonBadges(animeren) {
 
   // Is er een badge weggevallen (bijvoorbeeld na een reset)? Dan vergeten we hem.
   getoondeBadges = getoondeBadges.filter(function (naam) {
-    return isVerdiend(badges.find(function (b) { return b.naam === naam; }));
+    return isVerdiend(zichtbareBadges().find(function (b) { return b.naam === naam; }));
   });
   toonBadgeTeller();
   startVolgendeAnimatie();
@@ -2523,7 +2604,7 @@ function maakGoud(badge) {
 
 // Het tellertje in de bovenbalk, bijvoorbeeld "3/6"
 function toonBadgeTeller() {
-  document.getElementById("badge-teller").textContent = getoondeBadges.length + "/" + badges.length;
+  document.getElementById("badge-teller").textContent = getoondeBadges.length + "/" + zichtbareBadges().length;
 }
 
 
@@ -2584,7 +2665,10 @@ function speelAnimatie(badge) {
   document.body.appendChild(groot);
 
   // Klaar met de animatie: opruimen en de volgende starten
+  badgeOnderweg = badge.naam;
+
   function klaar() {
+    badgeOnderweg = null;
     groot.remove();
     scherm.remove();
     maakGoud(badge);
@@ -2652,8 +2736,10 @@ document.getElementById("opnieuw").addEventListener("click", function () {
   if (confirm("Weet je zeker dat je al je voortgang wilt wissen?")) {
     punten = 0;
     antwoorden = {};
+    reeks = 0;
     verbergWelkom();
     opslaan();
+    toonReeks();
     navigeer();
     toonBadges(false);
   }
@@ -2806,3 +2892,361 @@ function luisterParadeTikken() {
   });
 }
 luisterParadeTikken();
+
+// De parade-code en de vijf tikken blijven zoals ze zijn.
+// Hier tellen we alleen mee wanneer de parade echt start.
+(function () {
+  const origineel = startParade;
+  startParade = function () {
+    const had = !!document.querySelector(".parade");
+    origineel();
+    if (!had && document.querySelector(".parade")) {
+      vindEi("parade");
+    }
+  };
+})();
+
+
+// =====================================================
+// 16. VERBORGEN SPOREN
+// =====================================================
+const SVG_GLIJ =
+  '<svg viewBox="0 0 120 48" aria-hidden="true">' +
+    '<ellipse cx="58" cy="28" rx="40" ry="13" fill="#f3f6f4"/>' +
+    '<ellipse cx="56" cy="30" rx="24" ry="7" fill="#17211c"/>' +
+    '<circle cx="92" cy="22" r="12" fill="#f3f6f4"/>' +
+    '<circle cx="97" cy="19" r="1.6" fill="#121a16"/>' +
+    '<path d="M102 21 118 25 102 28.5z" fill="#f5b700"/>' +
+    '<ellipse cx="40" cy="40" rx="10" ry="3" fill="#f5b700"/>' +
+    '<ellipse cx="24" cy="38" rx="8" ry="2.4" fill="#e2a400"/>' +
+  "</svg>";
+
+function vindEi(id, opties) {
+  if (EI_SOORTEN.indexOf(id) === -1 || eiStaat.gevonden.indexOf(id) !== -1) {
+    return false;
+  }
+  eiStaat.gevonden.push(id);
+  if (!eiStaat.badge && eiStaat.gevonden.length >= EI_VOOR_BADGE) {
+    eiStaat.badge = true;
+  }
+  bewaarEieren();
+  toonEiTeller();
+  if (!opties || opties.teken !== false) {
+    toonBadges(true);
+  }
+  return true;
+}
+
+function toonEiTeller() {
+  const el = document.getElementById("ei-teller");
+  if (!el) {
+    return;
+  }
+  if (eiStaat.gevonden.length === 0) {
+    el.textContent = "";
+    return;
+  }
+  el.textContent = "Easter eggs gevonden: " + eiStaat.gevonden.length + "/" + EI_SOORTEN.length;
+}
+
+function toonReeks() {
+  const el = document.getElementById("reeks");
+  if (!el) {
+    return;
+  }
+  if (reeks < 2) {
+    el.textContent = "";
+    el.classList.add("verborgen");
+    el.classList.remove("heet");
+    return;
+  }
+  el.textContent = reeks + " op rij";
+  el.classList.remove("verborgen");
+  el.classList.toggle("heet", reeks >= 5);
+}
+
+function confettiBij(element) {
+  if (!element || minderBeweging()) {
+    return;
+  }
+  const rect = element.getBoundingClientRect();
+  const laag = document.createElement("div");
+  laag.className = "confetti";
+  laag.setAttribute("aria-hidden", "true");
+  laag.style.left = (rect.left + rect.width / 2) + "px";
+  laag.style.top = (rect.top + rect.height / 2) + "px";
+  const kleuren = ["#f5b700", "#3ecf8e", "#ffe08a", "#e8ede9"];
+  for (let i = 0; i < 10; i++) {
+    const stuk = document.createElement("span");
+    const hoek = (Math.PI * 2 * i) / 10;
+    const afstand = 28 + (i % 3) * 10;
+    stuk.style.setProperty("--x", Math.cos(hoek) * afstand + "px");
+    stuk.style.setProperty("--y", (Math.sin(hoek) * afstand - 6) + "px");
+    stuk.style.background = kleuren[i % kleuren.length];
+    laag.appendChild(stuk);
+  }
+  document.body.appendChild(laag);
+  setTimeout(function () {
+    laag.remove();
+  }, 700);
+}
+
+function startGlijden() {
+  if (document.querySelector(".glijbaan")) {
+    return;
+  }
+  vindEi("glijden");
+  toonSignaal("Een pinguïn glijdt voorbij.");
+  const baan = document.createElement("div");
+  const rustig = minderBeweging();
+  baan.className = "glijbaan" + (rustig ? " rustig" : "");
+  baan.setAttribute("aria-hidden", "true");
+  const el = document.createElement("div");
+  el.className = "glijder";
+  el.innerHTML = SVG_GLIJ;
+  baan.appendChild(el);
+  document.body.appendChild(baan);
+  setTimeout(function () {
+    baan.remove();
+  }, rustig ? 1800 : 2800);
+}
+
+function startPoollicht() {
+  if (document.querySelector(".poollicht")) {
+    return;
+  }
+  vindEi("poollicht");
+  toonSignaal("Het poollicht antwoordt.");
+  const el = document.createElement("div");
+  el.className = "poollicht" + (minderBeweging() ? " rustig" : "");
+  el.setAttribute("aria-hidden", "true");
+  document.body.appendChild(el);
+  setTimeout(function () {
+    el.remove();
+  }, minderBeweging() ? 1600 : 4200);
+}
+
+function startRadar() {
+  vindEi("wildlife");
+  toonSignaal("Alle sporen lichten op.");
+  document.body.classList.add("radar");
+  if (minderBeweging()) {
+    document.body.classList.add("radar-rustig");
+  }
+  setTimeout(function () {
+    document.body.classList.remove("radar");
+    document.body.classList.remove("radar-rustig");
+  }, 1300);
+}
+
+function isNacht(nu) {
+  const uur = nu.getHours();
+  return uur >= 21 || uur < 6;
+}
+
+function pasNachtToe() {
+  const nacht = isNacht(new Date());
+  document.body.classList.toggle("nacht", nacht);
+  if (nacht) {
+    vindEi("nacht");
+  }
+}
+
+let onderdrukKlik = false;
+
+function telSnel(e, staat, grens, actie) {
+  if (onderdrukKlik) {
+    onderdrukKlik = false;
+    if (e && e.preventDefault) {
+      e.preventDefault();
+    }
+    return;
+  }
+  const nu = Date.now();
+  if (staat.n === 0 || nu - staat.t > 3000) {
+    staat.n = 0;
+    staat.t = nu;
+  }
+  staat.n = staat.n + 1;
+  if (staat.n >= grens) {
+    staat.n = 0;
+    staat.t = 0;
+    actie();
+  }
+}
+
+const glijStaat = { n: 0, t: 0 };
+const voetStaat = { n: 0, t: 0 };
+
+function koppelVasthouden(el, actie) {
+  if (!el) {
+    return;
+  }
+  let timer = null;
+  let lang = false;
+  let x = 0;
+  let y = 0;
+
+  function stopTimer() {
+    if (timer) {
+      clearTimeout(timer);
+      timer = null;
+    }
+  }
+
+  el.addEventListener("pointerdown", function (e) {
+    if (e.pointerType === "mouse" && e.button !== 0) {
+      return;
+    }
+    lang = false;
+    x = e.clientX;
+    y = e.clientY;
+    stopTimer();
+    timer = setTimeout(function () {
+      timer = null;
+      lang = true;
+      onderdrukKlik = true;
+      actie();
+      setTimeout(function () {
+        onderdrukKlik = false;
+      }, 700);
+    }, 700);
+  });
+  el.addEventListener("pointermove", function (e) {
+    if (!timer) {
+      return;
+    }
+    if (Math.abs(e.clientX - x) > 14 || Math.abs(e.clientY - y) > 14) {
+      stopTimer();
+    }
+  });
+  el.addEventListener("pointerup", stopTimer);
+  el.addEventListener("pointercancel", stopTimer);
+  el.addEventListener("contextmenu", function (e) {
+    e.preventDefault();
+  });
+}
+
+function veldActief(el) {
+  if (!el || !el.tagName) {
+    return false;
+  }
+  const tag = el.tagName;
+  return tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || el.isContentEditable;
+}
+
+function staartIsParade(lijst) {
+  if (lijst.length < PARADE_CODE.length) {
+    return false;
+  }
+  const staart = lijst.slice(-PARADE_CODE.length);
+  for (let i = 0; i < PARADE_CODE.length; i++) {
+    if (staart[i] !== PARADE_CODE[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+let woordBuffer = "";
+const toetsGeschiedenis = [];
+
+function luisterWoorden() {
+  window.addEventListener("keydown", function (e) {
+    if (e.repeat || e.metaKey || e.ctrlKey || e.altKey || !e.key) {
+      return;
+    }
+    if (veldActief(e.target)) {
+      return;
+    }
+    const toets = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+    toetsGeschiedenis.push(toets);
+    if (toetsGeschiedenis.length > 24) {
+      toetsGeschiedenis.shift();
+    }
+    // De parade eindigt op dezelfde letters. Die ronde hoort bij de parade.
+    if (staartIsParade(toetsGeschiedenis)) {
+      woordBuffer = "";
+      return;
+    }
+    if (e.key.length !== 1 || !/^[a-z\u00c0-\u024f]$/i.test(e.key)) {
+      if (e.key.length !== 1) {
+        woordBuffer = "";
+      }
+      return;
+    }
+    woordBuffer = (woordBuffer + e.key.toLowerCase()).slice(-16);
+    const plat = woordBuffer.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    if (plat.endsWith("pinguin")) {
+      woordBuffer = "";
+      startPoollicht();
+    } else if (plat.endsWith("wildlife")) {
+      woordBuffer = "";
+      startRadar();
+    }
+  });
+}
+
+function spoorInConsole() {
+  console.log(
+    "%cWildlife Quiz%c\nJe kijkt achter het glas. De kolonie heeft dat door.\nTyp %ckolonie()%c en druk op Enter.",
+    "color:#f5b700;font-weight:700;font-size:15px;letter-spacing:0.06em",
+    "color:#c5d0c8;font-size:13px",
+    "color:#f5b700;font-weight:700",
+    "color:#c5d0c8"
+  );
+  window.kolonie = function () {
+    vindEi("console");
+    toonSignaal("De kolonie heeft je gehoord.");
+    return "De kolonie heeft je gehoord.";
+  };
+}
+
+function startSporen() {
+  toonEiTeller();
+  toonReeks();
+
+  const plek = document.getElementById("pinguin-plek");
+  const logo = document.querySelector(".logo");
+  const voet = document.querySelector(".voet");
+
+  // Lang indrukken mag de klik daarna niet als parade-tik laten meetellen.
+  logo.addEventListener("click", function (e) {
+    if (!onderdrukKlik) {
+      return;
+    }
+    onderdrukKlik = false;
+    e.preventDefault();
+    e.stopPropagation();
+  }, true);
+
+  koppelVasthouden(plek, startPoollicht);
+  koppelVasthouden(logo, startRadar);
+
+  plek.addEventListener("click", function (e) {
+    telSnel(e, glijStaat, 5, startGlijden);
+  });
+  voet.addEventListener("click", function (e) {
+    telSnel(e, voetStaat, 5, function () {
+      vindEi("console");
+      toonSignaal("De kolonie heeft je gehoord.");
+    });
+  });
+
+  document.getElementById("willekeurig").addEventListener("click", function () {
+    const dier = dieren[Math.floor(Math.random() * dieren.length)];
+    location.hash = "#dier/" + dier.id;
+  });
+
+  luisterWoorden();
+  pasNachtToe();
+  setInterval(pasNachtToe, 60000);
+  document.addEventListener("visibilitychange", function () {
+    if (!document.hidden) {
+      pasNachtToe();
+    }
+  });
+  spoorInConsole();
+}
+
+startSporen();
