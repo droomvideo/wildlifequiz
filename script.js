@@ -2024,7 +2024,53 @@ let punten = opgeslagen.punten || 0;
 let antwoorden = opgeslagen.antwoorden || {};
 
 function opslaan() {
+  // Zelfde sleutel op GitHub Pages: de browser bewaart dit voor deze site (https).
   localStorage.setItem(OPSLAG, JSON.stringify({ punten: punten, antwoorden: antwoorden }));
+}
+
+// Alleen als er bij het openen al voortgang stond. Eén keer, tot de pagina opnieuw laadt.
+const terugkomer = punten > 0 || Object.keys(antwoorden).length > 0;
+let welkomGetoond = false;
+let welkomTimer = null;
+
+function heeftVoortgang() {
+  return punten > 0 || Object.keys(antwoorden).length > 0;
+}
+
+function aantalTekst(n, enkel, meer) {
+  return n + " " + (n === 1 ? enkel : meer);
+}
+
+function verbergWelkom() {
+  const el = document.getElementById("welkom");
+  if (!el) {
+    return;
+  }
+  el.classList.remove("zichtbaar");
+  el.setAttribute("aria-hidden", "true");
+  if (welkomTimer) {
+    clearTimeout(welkomTimer);
+    welkomTimer = null;
+  }
+}
+
+function toonWelkom() {
+  if (welkomGetoond || !terugkomer || !heeftVoortgang() || !document.body.classList.contains("start")) {
+    return;
+  }
+  welkomGetoond = true;
+  const el = document.getElementById("welkom");
+  const badgesBehaald = badges.filter(isVerdiend).length;
+  el.textContent = "";
+  const titel = document.createElement("strong");
+  titel.textContent = "Welkom terug!";
+  el.appendChild(titel);
+  el.append(" Je hebt " + aantalTekst(punten, "punt", "punten") + " en " + aantalTekst(badgesBehaald, "badge", "badges") + ".");
+  el.setAttribute("aria-hidden", "false");
+  requestAnimationFrame(function () {
+    el.classList.add("zichtbaar");
+  });
+  welkomTimer = setTimeout(verbergWelkom, 4500);
 }
 
 
@@ -2103,6 +2149,9 @@ function toonWeergave(id) {
   // Alleen op het startscherm krijgt <body> de klasse "start".
   // In style.css zorgt die klasse voor de pinguïnfoto op de achtergrond.
   document.body.classList.toggle("start", id === "overzicht");
+  if (id !== "overzicht") {
+    verbergWelkom();
+  }
 }
 
 
@@ -2166,6 +2215,7 @@ function toonOverzicht() {
   });
 
   toonDierIndex();
+  toonWelkom();
 }
 
 
@@ -2602,6 +2652,7 @@ document.getElementById("opnieuw").addEventListener("click", function () {
   if (confirm("Weet je zeker dat je al je voortgang wilt wissen?")) {
     punten = 0;
     antwoorden = {};
+    verbergWelkom();
     opslaan();
     navigeer();
     toonBadges(false);
