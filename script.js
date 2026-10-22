@@ -2661,12 +2661,18 @@ document.getElementById("opnieuw").addEventListener("click", function () {
 
 
 // =====================================================
-// 14. KONAMI: de pinguïnparade
+// 14. PINGUÏNPARADE
 // =====================================================
-// De klassieke code: pijl omhoog, omhoog, omlaag, omlaag,
-// links, rechts, links, rechts, en dan de letters b en a.
-const KONAMI = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
-let konamiIndex = 0;
+// Pijl omhoog, omhoog, omlaag, omlaag, links, links, rechts, rechts,
+// en daarna de letters p-i-n-g-u-i-n. Hoofdletters maken niet uit.
+const PARADE_CODE = [
+  "ArrowUp", "ArrowUp",
+  "ArrowDown", "ArrowDown",
+  "ArrowLeft", "ArrowLeft",
+  "ArrowRight", "ArrowRight",
+  "p", "i", "n", "g", "u", "i", "n"
+];
+let paradeIndex = 0;
 let signaalTimer = null;
 
 const SVG_PARADE =
@@ -2680,14 +2686,6 @@ const SVG_PARADE =
     '<ellipse cx="34" cy="57" rx="8" ry="2.6" fill="#f5b700"/>' +
     '<ellipse cx="24" cy="56.2" rx="6" ry="2.2" fill="#e2a400"/>' +
   "</svg>";
-
-function veldActief(el) {
-  if (!el || !el.tagName) {
-    return false;
-  }
-  const tag = el.tagName;
-  return tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || el.isContentEditable;
-}
 
 function toonSignaal(tekst) {
   const el = document.getElementById("signaal");
@@ -2732,28 +2730,45 @@ function startParade() {
   }, rustig ? 2200 : 12500);
 }
 
-function luisterKonami() {
-  document.addEventListener("keydown", function (e) {
+function paradeToets(e) {
+  if (!e || !e.key) {
+    return "";
+  }
+  return e.key.length === 1 ? e.key.toLowerCase() : e.key;
+}
+
+function inZoekvak(el) {
+  return !!(el && el.id === "zoek-dier");
+}
+
+// Luistert op window, zodat de code ook werkt als de focus op de pagina zelf staat.
+function luisterParadeCode() {
+  window.addEventListener("keydown", function (e) {
     if (e.repeat || e.metaKey || e.ctrlKey || e.altKey) {
       return;
     }
-    if (veldActief(e.target)) {
-      konamiIndex = 0;
+    const toets = paradeToets(e);
+    if (!toets) {
       return;
     }
-    const toets = e.key.length === 1 ? e.key.toLowerCase() : e.key;
-    if (toets === KONAMI[konamiIndex]) {
+    const match = toets === PARADE_CODE[paradeIndex];
+    // In het zoekvak alleen meetellen als de code daardoor blijft kloppen.
+    // "pinguin" zoeken zonder de pijlen ervoor start de parade dus niet.
+    if (inZoekvak(e.target) && !match) {
+      return;
+    }
+    if (match) {
       // Pas vanaf de tweede pijl tegenhouden, zodat gewoon omhoog scrollen blijft werken.
-      if (konamiIndex > 0 && toets.indexOf("Arrow") === 0) {
+      if (paradeIndex > 0 && toets.indexOf("Arrow") === 0) {
         e.preventDefault();
       }
-      konamiIndex = konamiIndex + 1;
-      if (konamiIndex === KONAMI.length) {
-        konamiIndex = 0;
+      paradeIndex = paradeIndex + 1;
+      if (paradeIndex === PARADE_CODE.length) {
+        paradeIndex = 0;
         startParade();
       }
     } else {
-      konamiIndex = toets === KONAMI[0] ? 1 : 0;
+      paradeIndex = toets === PARADE_CODE[0] ? 1 : 0;
     }
   });
 }
@@ -2762,6 +2777,6 @@ function luisterKonami() {
 // =====================================================
 // 15. START
 // =====================================================
-luisterKonami();
+luisterParadeCode();
 navigeer();
 toonBadges(false);
