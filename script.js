@@ -2765,3 +2765,29 @@ function luisterKonami() {
 luisterKonami();
 navigeer();
 toonBadges(false);
+
+// Op een telefoon zijn er geen pijltjestoetsen.
+// Vijf tikken op het logo of de titel, binnen 3 seconden, roepen dezelfde parade op.
+let paradeKliks = 0;
+let paradeKlikStart = 0;
+
+function luisterParadeTikken() {
+  const logo = document.querySelector(".logo");
+  if (!logo) {
+    return;
+  }
+  logo.addEventListener("click", function () {
+    const nu = Date.now();
+    if (paradeKliks === 0 || nu - paradeKlikStart > 3000) {
+      paradeKliks = 0;
+      paradeKlikStart = nu;
+    }
+    paradeKliks = paradeKliks + 1;
+    if (paradeKliks >= 5) {
+      paradeKliks = 0;
+      paradeKlikStart = 0;
+      startParade();
+    }
+  });
+}
+luisterParadeTikken();
