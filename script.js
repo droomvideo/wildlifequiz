@@ -2661,7 +2661,107 @@ document.getElementById("opnieuw").addEventListener("click", function () {
 
 
 // =====================================================
-// 14. START
+// 14. KONAMI: de pinguïnparade
 // =====================================================
+// De klassieke code: pijl omhoog, omhoog, omlaag, omlaag,
+// links, rechts, links, rechts, en dan de letters b en a.
+const KONAMI = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
+let konamiIndex = 0;
+let signaalTimer = null;
+
+const SVG_PARADE =
+  '<svg viewBox="0 0 78 64" aria-hidden="true">' +
+    '<ellipse cx="30" cy="40" rx="18" ry="16" fill="#f3f6f4"/>' +
+    '<ellipse cx="30" cy="42" rx="10" ry="11" fill="#17211c"/>' +
+    '<circle cx="46" cy="26" r="11" fill="#f3f6f4"/>' +
+    '<circle cx="50" cy="24" r="1.5" fill="#121a16"/>' +
+    '<path d="M56 25.2 70 29 56 32.2z" fill="#f5b700"/>' +
+    '<path d="M20 36c-8 2-12 8-10 12 4-2 10-2 14-6z" fill="#d5ddd8"/>' +
+    '<ellipse cx="34" cy="57" rx="8" ry="2.6" fill="#f5b700"/>' +
+    '<ellipse cx="24" cy="56.2" rx="6" ry="2.2" fill="#e2a400"/>' +
+  "</svg>";
+
+function veldActief(el) {
+  if (!el || !el.tagName) {
+    return false;
+  }
+  const tag = el.tagName;
+  return tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || el.isContentEditable;
+}
+
+function toonSignaal(tekst) {
+  const el = document.getElementById("signaal");
+  if (!el) {
+    return;
+  }
+  el.textContent = tekst;
+  el.classList.add("zichtbaar");
+  if (signaalTimer) {
+    clearTimeout(signaalTimer);
+  }
+  signaalTimer = setTimeout(function () {
+    el.classList.remove("zichtbaar");
+  }, 3200);
+}
+
+function startParade() {
+  if (document.querySelector(".parade")) {
+    return;
+  }
+  toonSignaal("De kolonie trekt voorbij.");
+  const laag = document.createElement("div");
+  const rustig = minderBeweging();
+  laag.className = "parade" + (rustig ? " rustig" : "");
+  laag.setAttribute("aria-hidden", "true");
+  const aantal = rustig ? 6 : 11;
+  for (let i = 0; i < aantal; i++) {
+    const vogel = document.createElement("span");
+    vogel.className = "parade-vogel";
+    vogel.innerHTML = SVG_PARADE;
+    if (!rustig) {
+      vogel.style.animationDuration = (7.2 + (i % 3) * 0.25) + "s";
+      vogel.style.animationDelay = (i * 0.42) + "s";
+      vogel.style.bottom = (12 + (i % 4) * 14) + "px";
+      vogel.style.setProperty("--schaal", String(0.78 + (i % 4) * 0.08));
+    }
+    laag.appendChild(vogel);
+  }
+  document.body.appendChild(laag);
+  setTimeout(function () {
+    laag.remove();
+  }, rustig ? 2200 : 12500);
+}
+
+function luisterKonami() {
+  document.addEventListener("keydown", function (e) {
+    if (e.repeat || e.metaKey || e.ctrlKey || e.altKey) {
+      return;
+    }
+    if (veldActief(e.target)) {
+      konamiIndex = 0;
+      return;
+    }
+    const toets = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+    if (toets === KONAMI[konamiIndex]) {
+      // Pas vanaf de tweede pijl tegenhouden, zodat gewoon omhoog scrollen blijft werken.
+      if (konamiIndex > 0 && toets.indexOf("Arrow") === 0) {
+        e.preventDefault();
+      }
+      konamiIndex = konamiIndex + 1;
+      if (konamiIndex === KONAMI.length) {
+        konamiIndex = 0;
+        startParade();
+      }
+    } else {
+      konamiIndex = toets === KONAMI[0] ? 1 : 0;
+    }
+  });
+}
+
+
+// =====================================================
+// 15. START
+// =====================================================
+luisterKonami();
 navigeer();
 toonBadges(false);
