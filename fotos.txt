@@ -1,0 +1,829 @@
+Foto's voor de Wildlife Quiz
+Alle foto's komen van Wikimedia Commons (vrije licenties) en zijn verkleind (volwassen dieren 720 px, jongen 560 px, achtergrond 1600 px breed).
+Sommige foto's zijn bijgesneden.
+De achtergrond van het startscherm is fotos/achtergrond-pinguins.jpg (keizerspinguïns op Antarctica).
+
+fotos/achtergrond-pinguins.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Penguin_in_Antarctica_jumping_out_of_the_water.jpg
+  Maker: Christopher Michel
+  Licentie: CC BY 2.0
+
+fotos/ara-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Scarlet_Macaw_chicks.png
+  Maker: Olahgy
+  Licentie: CC BY-SA 4.0
+
+fotos/ara.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Scarlet_macaw_(Ara_macao_cyanopterus)_Copan.jpg
+  Maker: Charles J. Sharp
+  Licentie: CC BY-SA 4.0
+
+fotos/bever-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Tayside_Beaver_mother_and_kit_June_5,_2010_Ray_Scott.jpg
+  Maker: Ray Scott
+  Licentie: CC BY-SA 3.0
+
+fotos/bever.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Beaver_pho34.jpg
+  Maker: Per Harald Olsen
+  Licentie: CC BY-SA 3.0
+
+fotos/bruinebeer-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Eurasian_brown_bear_(Ursus_arctos_arctos)_mother_and_cub.jpg
+  Maker: Charles J. Sharp
+  Licentie: CC BY-SA 4.0
+
+fotos/bruinebeer.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:2010-kodiak-bear-1.jpg
+  Maker: Yathin S Krishnappa
+  Licentie: CC BY-SA 3.0
+
+fotos/bultrug-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Humpback_whale_(Megaptera_novaeangliae)_with_calf_Moorea_2.jpg
+  Maker: Charles J. Sharp
+  Licentie: CC BY-SA 4.0
+
+fotos/bultrug.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Humpback_whale_breaching_off_Cabo_San_Lucas.jpg
+  Maker: Juan Cruzado Cortés
+  Licentie: CC BY 4.0
+
+fotos/cavia-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Guinea_pig_young.jpg
+  Maker: Kazulanth at English Wikipedia
+  Licentie: Public domain
+
+fotos/cavia.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:George_the_amazing_guinea_pig.jpg
+  Maker: Plath81 (uploader op Wikimedia Commons)
+  Licentie: CC BY-SA 3.0
+
+fotos/cheeta-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Cheetah_(Acinonyx_jubatus)_cub.jpg
+  Maker: Charles J. Sharp
+  Licentie: CC BY-SA 4.0
+
+fotos/cheeta.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Male_cheetah_facing_left_in_South_Africa.jpg
+  Maker: AfricanConservation
+  Licentie: CC BY-SA 4.0
+
+fotos/chimpansee-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:006_Chimpanzee_mother_and_baby_at_Kibale_forest_National_Park_Photo_by_Giles_Laurent.jpg
+  Maker: Giles Laurent
+  Licentie: CC BY-SA 4.0
+
+fotos/chimpansee.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:015_Chimpanzee_at_Kibale_forest_National_Park_Photo_by_Giles_Laurent.jpg
+  Maker: Giles Laurent
+  Licentie: CC BY-SA 4.0
+
+fotos/dolfijn-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Bottle_Nosed_Dolphin_calf_(52139338420).jpg
+  Maker: caroline legg
+  Licentie: CC BY 2.0
+
+fotos/dolfijn.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Tursiops_truncatus_01-cropped.jpg
+  Maker: NASA
+  Licentie: Public domain
+
+fotos/dromedaris-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:CamelCalf.jpg
+  Maker: Henryhbk
+  Licentie: Public domain
+
+fotos/dromedaris.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Domestic_Dromedary_Merzouga.jpg
+  Maker: Bjørn Christian Tørrissen
+  Licentie: CC BY-SA 3.0
+
+fotos/edelhert-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Red_deer_calf_-_geograph.org.uk_-_3497695.jpg
+  Maker: William Starkey
+  Licentie: CC BY-SA 2.0
+
+fotos/edelhert.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Cervus_elaphus_Luc_Viatour_6.jpg
+  Maker: Lviatour
+  Licentie: CC BY-SA 3.0
+
+fotos/eekhoorn-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Sciurus_vulgaris_fuscoater,_juvenile.jpg
+  Maker: Niki.L
+  Licentie: CC BY-SA 4.0
+
+fotos/eekhoorn.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Squirrel_posing.jpg
+  Maker: Peter Trimming
+  Licentie: CC BY 2.0
+
+fotos/eend-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:20240614_mallard_hen_and_ducklings_wethersfield_cove_PD200600.jpg
+  Maker: Paul Danese
+  Licentie: CC BY-SA 4.0
+
+fotos/eend.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Anas_platyrhynchos_male_female_quadrat.jpg
+  Maker: Richard Bartz
+  Licentie: CC BY-SA 2.5
+
+fotos/egel-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Baby_Hedgehog.jpg
+  Maker: LazyDaisie
+  Licentie: CC BY-SA 3.0
+
+fotos/egel.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Erinaceus_europaeus_LC0119.jpg
+  Maker: Jörg Hempel
+  Licentie: CC BY-SA 2.0 de
+
+fotos/emoe-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Emu_chick.jpg
+  Maker: PublicDomainPictures
+  Licentie: CC0
+
+fotos/emoe.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Emu_1_-_Tidbinbilla.jpg
+  Maker: JJ Harrison (https://www.jjharrison.com.au/)
+  Licentie: CC BY-SA 4.0
+
+fotos/ezel-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:New_Miniature_Donkey_Foal_(159443147).jpeg
+  Maker: Kelly Fletcher
+  Licentie: CC BY-SA 3.0
+
+fotos/ezel.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Donkey_in_Clovelly,_North_Devon,_England.jpg
+  Maker: Adrian Pingstone
+  Licentie: Public domain
+
+fotos/flamingo-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Greater_Flamingo_feeding_chick_at_zoo.jpg
+  Maker: Kongkham6211
+  Licentie: CC BY-SA 4.0
+
+fotos/flamingo.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:010_Greater_flamingos_male_and_female_in_the_Camargue_during_mating_season_Photo_by_Giles_Laurent.jpg
+  Maker: Giles Laurent
+  Licentie: CC BY-SA 4.0
+
+fotos/geit-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Goat_kid_2.jpg
+  Maker: Markus Koljonen (Dilaudid)
+  Licentie: CC BY-SA 3.0
+
+fotos/geit.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Hausziege_04.jpg
+  Maker: Kuebi = Armin Kübelbeck
+  Licentie: CC BY-SA 3.0
+
+fotos/giraffe-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Giraffe_mother_and_calf_(cropped).jpg
+  Maker: Chiswick Chap
+  Licentie: CC BY-SA 3.0
+
+fotos/giraffe.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Giraffe_Mikumi_National_Park.jpg
+  Maker: Muhammad Mahdi Karim
+  Licentie: GFDL 1.2
+
+fotos/gorilla-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Female_gorilla_with_8_months_old_baby_boy_gorilla_in_SF_zoo.jpg
+  Maker: Brocken Inaglory
+  Licentie: CC BY-SA 3.0
+
+fotos/gorilla.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Male_gorilla_in_SF_zoo.jpg
+  Maker: Brocken Inaglory
+  Licentie: CC BY-SA 3.0
+
+fotos/grasparkiet-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Melopsittacus_undulatus_-chick-8a.jpg
+  Maker: Jen Smith
+  Licentie: CC BY-SA 2.0
+
+fotos/grasparkiet.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Budgerigar-male-strzelecki-qld.jpg
+  Maker: Benjamint444
+  Licentie: GFDL 1.2
+
+fotos/hamster-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Juvenile_Female_Mesocricetus_auratus_in_Pet_Store_enclosure,_Illinois,_USA.jpg
+  Maker: Wschlitz
+  Licentie: CC BY 4.0
+
+fotos/hamster.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Golden_hamster_front_1.jpg
+  Maker: Adamjennison111 at English Wikipedia
+  Licentie: CC BY 2.5
+
+fotos/hond-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Siberian_Husky_Puppy.jpg
+  Maker: Puppydekho
+  Licentie: CC BY-SA 4.0
+
+fotos/hond.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Huskiesatrest.jpg
+  Maker: M. Rehemtulla
+  Licentie: CC BY 2.0
+
+fotos/honingbij-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Italian_honeybee_eggs_and_larvae.jpg
+  Maker: Benlisquare
+  Licentie: CC BY-SA 4.0
+
+fotos/honingbij.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Apis_mellifera_Western_honey_bee.jpg
+  Maker: Andreas Trepte
+  Licentie: CC BY-SA 2.5
+
+fotos/ijsbeer-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Female_polar_bear_(Ursus_maritimus)_with_cub,_Svalbard.jpg
+  Maker: AWeith
+  Licentie: CC BY-SA 4.0
+
+fotos/ijsbeer.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Polar_Bear_-_Alaska_(cropped).jpg
+  Maker: Alan Wilson
+  Licentie: CC BY-SA 3.0
+
+fotos/kangoeroe-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Eastern_Grey_Kangaroo_joey_01.jpg
+  Maker: SuperJew
+  Licentie: CC BY-SA 3.0
+
+fotos/kangoeroe.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Macropus_giganteus_-_Brunkerville.jpg
+  Maker: JJ Harrison (https://www.jjharrison.com.au/)
+  Licentie: CC BY-SA 4.0
+
+fotos/kat-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Six_weeks_old_cat_(aka).jpg
+  Maker: André Karwath aka Aka
+  Licentie: CC BY-SA 2.5
+
+fotos/kat.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Siam_lilacpoint.jpg
+  Maker: Karin Langner-Bahmann, upload von Martin Bahmann
+  Licentie: CC BY-SA 3.0
+
+fotos/keizerspinguin-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Emperor_Penguin_chicks_moulting.jpg
+  Maker: François Guerraz
+  Licentie: CC BY-SA 3.0
+
+fotos/keizerspinguin.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Aptenodytes_forsteri_-Snow_Hill_Island,_Antarctica_-adults_and_juvenile-8.jpg
+  Maker: Ian Duffy from UK
+  Licentie: CC BY 2.0
+
+fotos/kerkuil-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Barn_Owl_Chick.jpg
+  Maker: Aluminium
+  Licentie: CC BY-SA 3.0
+
+fotos/kerkuil.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:American_Barn_Owl_(Tyto_furcata_guatemalae),_Orange_Walk.jpg
+  Maker: Charles J. Sharp
+  Licentie: CC BY-SA 4.0
+
+fotos/kip-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Hen_with_chicks,_Raisen_district,_MP,_India.jpg
+  Maker: Yann (talk)
+  Licentie: CC BY-SA 4.0
+
+fotos/kip.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Male_and_female_chicken_sitting_together.jpg
+  Maker: Andrei Niemimäki from Turku, Finland
+  Licentie: CC BY-SA 2.0
+
+fotos/knobbelzwaan-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Mute_swans_(Cygnus_olor)_and_cygnets.jpg
+  Maker: Charles J. Sharp
+  Licentie: CC BY-SA 4.0
+
+fotos/knobbelzwaan.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:CygneVaires.jpg
+  Maker: Sanchezn
+  Licentie: CC BY-SA 3.0
+
+fotos/koala-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Koala_and_joey.jpg
+  Maker: Benjamint444
+  Licentie: CC BY-SA 3.0
+
+fotos/koala.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Koala_climbing_tree.jpg
+  Maker: Diliff
+  Licentie: CC BY-SA 3.0
+
+fotos/koe-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:New_born_Frisian_red_white_calf.jpg
+  Maker: Uberprutser
+  Licentie: CC BY-SA 3.0
+
+fotos/koe.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Cow_(Fleckvieh_breed)_Oeschinensee_Slaunger_2009-07-07.jpg
+  Maker: Kim Hansen
+  Licentie: CC BY-SA 3.0
+
+fotos/konijn-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Young_wild_rabbit.JPG
+  Maker: N p holmes
+  Licentie: CC BY-SA 3.0
+
+fotos/konijn.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Oryctolagus_cuniculus_-_euqirneto_-_419737670_(cropped).jpeg
+  Maker: euqirneto
+  Licentie: CC BY 4.0
+
+fotos/koninginnenpage-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Papilio_machaon_caterpillar_(side_view)_-_Keila.jpg
+  Maker: Ivar Leidus
+  Licentie: CC BY-SA 4.0
+
+fotos/koninginnenpage.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:PapilioMachaon2016_001.JPG
+  Maker: Entomolo
+  Licentie: CC BY-SA 4.0
+
+fotos/kookaburra-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Laughing_Kookaburra_Juvenile_Front.jpg
+  Maker: Toby Hudson
+  Licentie: CC BY-SA 3.0
+
+fotos/kookaburra.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Laughing_Kookaburra_1.jpg
+  Maker: Photo by: Paulweberphoto - paulweberphoto.com
+  Licentie: CC BY 4.0
+
+fotos/krokodil-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Juvenile_Nile_Crocodiles_(14345392644)a.jpg
+  Maker: Mark Jordahl from Gold Hill, CO
+  Licentie: CC BY 4.0
+
+fotos/krokodil.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:NileCrocodile.jpg
+  Maker: Dewet
+  Licentie: CC BY-SA 2.0
+
+fotos/lama-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Young_llama_at_Homestead_Llamas_in_Davidsonville,_MD.jpg
+  Maker: Bill Tarpenning
+  Licentie: Public domain
+
+fotos/lama.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Llamas,_Vernagt-Stausee,_Italy.jpg
+  Maker: Andrija12345678
+  Licentie: CC BY-SA 4.0
+
+fotos/leeuw-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Kalahari_lion_(Panthera_leo)_male_cub_4_months.jpg
+  Maker: Charles J. Sharp
+  Licentie: CC BY-SA 4.0
+
+fotos/leeuw.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:020_The_lion_king_Snyggve_in_the_Serengeti_National_Park_Photo_by_Giles_Laurent.jpg
+  Maker: Giles Laurent
+  Licentie: CC BY-SA 4.0
+
+fotos/libel-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Anax_imperator_(Aeshnidae)_(Blue_Emperor)_-_(larva_-_nimf),_Buren_(Gld.),_the_Netherlands.jpg
+  Maker: Wim Rubers at Waarneming.nl, a source of nature observations
+  Licentie: CC BY 3.0
+
+fotos/libel.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Anax_imperator_qtl2.jpg
+  Maker: Quartl
+  Licentie: CC BY 3.0
+
+fotos/lieveheersbeestje-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Coccinella_septempunctata_larva_on_the_leaf_-_1.jpg
+  Maker: KKPCW
+  Licentie: CC BY-SA 4.0
+
+fotos/lieveheersbeestje.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:7-Spotted-Ladybug-Coccinella-septempunctata-sq1.jpg
+  Maker: Dominik Stodulski
+  Licentie: CC BY-SA 3.0
+
+fotos/luiaard-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Mother_and_baby_sloth_crossing_the_road.jpg
+  Maker: Syedidia
+  Licentie: CC BY-SA 4.0
+
+fotos/luiaard.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Bradypus.jpg
+  Maker: Stefan Laube (Tauchgurke)
+  Licentie: Public domain
+
+fotos/marmot-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Marmota_marmota_Tauerntal_20220816_11.jpg
+  Maker: Uoaei1
+  Licentie: CC BY-SA 4.0
+
+fotos/marmot.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:071_Wild_marmot_at_Grand_Muveran_Nature_Reserve_Photo_by_Giles_Laurent.jpg
+  Maker: Photography captured by Giles Laurent
+  Licentie: CC BY-SA 4.0
+
+fotos/monarchvlinder-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Monarch_caterpillar_(23229).jpg
+  Maker: Rhododendrites
+  Licentie: CC BY-SA 4.0
+
+fotos/monarchvlinder.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Monarch_Butterfly_Danaus_plexippus_Male_2664px.jpg
+  Maker: Photo by and (c)2007 Derek Ramsey (Ram-Man)
+  Licentie: GFDL 1.2
+
+fotos/neushoorn-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:White_rhinoceros_(Ceratotherium_simum)_and_calf_6m.jpg
+  Maker: Charles J. Sharp
+  Licentie: CC BY-SA 4.0
+
+fotos/neushoorn.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:109_Male_White_rhinoceros_walking_in_the_Kalahari_Desert_of_Namibia_Photo_by_Giles_Laurent.jpg
+  Maker: Giles Laurent
+  Licentie: CC BY-SA 4.0
+
+fotos/nijlpaard-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Hippopotamus_Calf_on_Back_of_Mother_-_Mikumi_National_Park_-_Tanzania_(8892763085).jpg
+  Maker: Adam Jones from Kelowna, BC, Canada
+  Licentie: CC BY-SA 2.0
+
+fotos/nijlpaard.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Portrait_Hippopotamus_in_the_water.jpg
+  Maker: Muhammad Mahdi Karim
+  Licentie: CC BY-SA 4.0
+
+fotos/octopus-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Babyoctopus.jpg
+  Maker: Bart Braun
+  Licentie: Public domain
+
+fotos/octopus.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Octopus2.jpg
+  Maker: albert kok
+  Licentie: CC BY-SA 3.0
+
+fotos/olifant-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:African_bush_elephant_(Loxodonta_africana)_calf_Serengeti.jpg
+  Maker: Charles J. Sharp
+  Licentie: CC BY-SA 4.0
+
+fotos/olifant.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:178_Male_African_bush_elephant_in_Etosha_National_Park_Photo_by_Giles_Laurent.jpg
+  Maker: Giles Laurent
+  Licentie: CC BY-SA 4.0
+
+fotos/orangoetan-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Baby_Orangutan_Grip.jpg
+  Maker: Mbrickn
+  Licentie: CC BY 4.0
+
+fotos/orangoetan.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Tanjung_Puting30477.jpg
+  Maker: Nanosanchez
+  Licentie: CC BY-SA 4.0
+
+fotos/orka-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Orca_mother_calf.JPG
+  Maker: onbekend (publiek domein, zie bronpagina)
+  Licentie: Public domain
+
+fotos/orka.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Killerwhales_jumping.jpg
+  Maker: Robert Pittman
+  Licentie: Public domain
+
+fotos/otter-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Otter_Cubs_at_Play_-_geograph.org.uk_-_2354839.jpg
+  Maker: Peter Trimming
+  Licentie: CC BY-SA 2.0
+
+fotos/otter.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Fischotter,_Lutra_Lutra.JPG
+  Maker: Bernard Landgraf
+  Licentie: CC BY-SA 3.0
+
+fotos/paard-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Pony_foal_on_Cox_Tor.jpg
+  Maker: Nilfanion
+  Licentie: CC BY-SA 3.0
+
+fotos/paard.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Nokota_Horses_cropped.jpg
+  Maker: Nokota_Horses.jpg: François Marchal derivative work: Dana boomer (talk)
+  Licentie: CC BY-SA 3.0
+
+fotos/panda-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Su_Lin_giant_panda_bear_cub_at_the_San_Diego_Zoo.jpg
+  Maker: Original uploader was Ailuropoda at en.wikipedia
+  Licentie: CC BY-SA 3.0
+
+fotos/panda.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Grosser_Panda.JPG
+  Maker: J. Patrick Fischer
+  Licentie: CC BY-SA 3.0
+
+fotos/pijlgifkikker-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Strawberry_poison-dart_frog_transporting_the_tadpoles_(9464704765).jpg
+  Maker: Pavel Kirillov from St.Petersburg, Russia
+  Licentie: CC BY-SA 2.0
+
+fotos/pijlgifkikker.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Strawberry_Poison_Dart_Frog_(Oophaga_pumilio)_(52373289570).jpg
+  Maker: Bernard DUPONT from FRANCE
+  Licentie: CC BY-SA 2.0
+
+fotos/poolvos-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Arctic_fox_cub.JPG
+  Maker: Dror Ben Abba
+  Licentie: CC BY-SA 3.0
+
+fotos/poolvos.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Vulpes_lagopus_in_Iceland_(cropped_3).jpg
+  Maker: Jonatan Pie (unsplash.com/@r3dmax)
+  Licentie: CC0
+
+fotos/rendier-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Skansen,_reindeer_calf.jpg
+  Maker: Gerda Arendt
+  Licentie: CC BY-SA 4.0
+
+fotos/rendier.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Reinbukken_p%C3%A5_frisk_gr%C3%B8nt_beite._-_panoramio.jpg
+  Maker: Are G Nilsen
+  Licentie: CC BY-SA 3.0
+
+fotos/rodepanda-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Curious_Red_Panda_Cub_in_Langtang_National_Park.jpg
+  Maker: Sunuwargr
+  Licentie: CC BY-SA 4.0
+
+fotos/rodepanda.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Red_Panda,_Gentle_Tree-Dweller_of_the_Himalayas.jpg
+  Maker: Sunuwargr
+  Licentie: CC BY-SA 4.0
+
+fotos/schaap-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Lamb_-_Animal_Park_Muggensturm_01.jpg
+  Maker: H. Zell
+  Licentie: CC BY-SA 3.0
+
+fotos/schaap.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Flock_of_sheep.jpg
+  Maker: Keith Weller
+  Licentie: Public domain
+
+fotos/sneeuwluipaard-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Snow_leopard_cub_is_curious.jpg
+  Maker: Sini Merikallio
+  Licentie: CC BY-SA 2.0
+
+fotos/sneeuwluipaard.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Irbis4.JPG
+  Maker: Irbis1983
+  Licentie: Public domain
+
+fotos/sneeuwuil-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Bubo_scandiacus_-Artis_Zoo,_Netherlands_-juvenile-8b.jpg
+  Maker: Arjan Haverkamp
+  Licentie: CC BY 2.0
+
+fotos/sneeuwuil.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Snowy_owl_at_Jones_Beach_(04863).jpg
+  Maker: Rhododendrites
+  Licentie: CC BY-SA 4.0
+
+fotos/sprinkhaan-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Weibliche_Heupferd-Larve_(Tettigonia_viridissima).jpg
+  Maker: Konrads Bilderwerkstatt
+  Licentie: CC BY 2.0
+
+fotos/sprinkhaan.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:(MHNT)_Tettigonia_viridissima_on_Avena_fatua.jpg
+  Maker: Didier Descouens
+  Licentie: CC BY-SA 4.0
+
+fotos/steenbok-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Female_Alpine_Ibex_with_kid.jpg
+  Maker: Egemont
+  Licentie: CC BY 3.0
+
+fotos/steenbok.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:003_Wild_Alpine_Ibex_Sunset_Creux_du_Van_Mont_Racine_Photo_by_Giles_Laurent.jpg
+  Maker: Giles Laurent
+  Licentie: CC BY-SA 4.0
+
+fotos/stokstaartje-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Meerkat_and_pup.jpg
+  Maker: Charles J. Sharp
+  Licentie: CC BY-SA 3.0
+
+fotos/stokstaartje.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Meerkat_(Suricata_suricatta)_Tswalu.jpg
+  Maker: Charles J. Sharp
+  Licentie: CC BY-SA 4.0
+
+fotos/struisvogel-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Ostrich_chicks_(cropped).JPG
+  Maker: Anicap
+  Licentie: CC BY-SA 3.0
+
+fotos/struisvogel.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Struthio_camelus_-_Etosha_2014_(3).jpg
+  Maker: Yathin S Krishnappa
+  Licentie: CC BY-SA 4.0
+
+fotos/tasmaanseduivel-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Young_tasmanian_devils.jpg
+  Maker: tearsxintherain
+  Licentie: CC BY 2.0
+
+fotos/tasmaanseduivel.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Sarcophilus_harrisii_taranna.jpg
+  Maker: JJ Harrison (https://www.jjharrison.com.au/)
+  Licentie: CC BY-SA 3.0
+
+fotos/tijger-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Panthera_tigris_tigris_Tigress_with_cubs_Tadoba_India.jpg
+  Maker: Grassjewel
+  Licentie: CC BY-SA 3.0
+
+fotos/tijger.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Bengal_tiger_(Panthera_tigris_tigris)_female_3_crop.jpg
+  Maker: Charles J. Sharp
+  Licentie: CC BY-SA 4.0
+
+fotos/toekan-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Ramphastos_toco_-Diergaarde_Blijdorp_-juvenile-8a.jpg
+  Maker: Jar0d
+  Licentie: CC BY-SA 2.0
+
+fotos/toekan.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:006_Toco_toucan_in_Encontro_das_%C3%81guas_State_Park_Photo_by_Giles_Laurent.jpg
+  Maker: Giles Laurent
+  Licentie: CC BY-SA 4.0
+
+fotos/varken-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Standing_piglet_at_golden_hour_in_Don_Det_Laos.jpg
+  Maker: Basile Morin
+  Licentie: CC BY-SA 4.0
+
+fotos/varken.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Pig_farm_Vampula_1.jpg
+  Maker: kallerna
+  Licentie: CC BY-SA 4.0
+
+fotos/vliegendhert-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Lucanus_cervus_larva.JPG
+  Maker: Anaxibia
+  Licentie: CC BY-SA 4.0
+
+fotos/vliegendhert.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Lucanus_cervus.jpg
+  Maker: J.F. Gaffard
+  Licentie: CC BY-SA 3.0
+
+fotos/vos-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Red_Fox_cubs.jpg
+  Maker: Mike Baird from Morro Bay, USA
+  Licentie: CC BY 2.0
+
+fotos/vos.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Portrait_of_a_red_fox_in_Rautas_fj%C3%A4llurskog_(cropped).jpg
+  Maker: ClaudiaTen
+  Licentie: CC BY-SA 4.0
+
+fotos/walrus-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:A_curious_pacific_walrus_calf_checks_out_the_photographer_from_the_icy_water.jpg
+  Maker: Joel Garlich-Miller, U.S. Fish and Wildlife Service
+  Licentie: Public domain
+
+fotos/walrus.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Walrus_in_the_Russian_Arctic_National_Park,_Novaya_Zemlya_2015-2.jpg
+  Maker: Nixette
+  Licentie: CC BY-SA 4.0
+
+fotos/woestijnschildpad-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Desert_Tortoise_hatchling.jpg
+  Maker: Zion National Park
+  Licentie: Public domain
+
+fotos/woestijnschildpad.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Gopherus_agassizii.jpg
+  Maker: Tigerhawkvok
+  Licentie: CC BY-SA 3.0
+
+fotos/wolf-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Mexican_wolf_pup_(6411046205).jpg
+  Maker: U.S. Fish and Wildlife Service Headquarters
+  Licentie: Public domain
+
+fotos/wolf.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Eurasian_wolf_2.jpg
+  Maker: User:Mas3cf
+  Licentie: CC BY-SA 4.0
+
+fotos/wombat-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Common_wombat_(Vombatus_ursinus_tasmaniensis)_juvenile_Maria_Island.jpg
+  Maker: Charles J. Sharp
+  Licentie: CC BY-SA 4.0
+
+fotos/wombat.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Vombatus_ursinus_-Maria_Island_National_Park.jpg
+  Maker: JJ Harrison (jjharrison89@facebook.com)
+  Licentie: CC BY-SA 3.0
+
+fotos/wrattenzwijn-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Warthog_Piglet.jpg
+  Maker: safaritravelplus
+  Licentie: CC0
+
+fotos/wrattenzwijn.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Southern_warthog_(Phacochoerus_africanus_sundevallii)_male.jpg
+  Maker: Charles J. Sharp
+  Licentie: CC BY-SA 4.0
+
+fotos/yak-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Yak_calf_in_Austria_2009.jpg
+  Maker: Pongratz
+  Licentie: CC BY-SA 3.0
+
+fotos/yak.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Sarlyk_Yak2.jpg
+  Maker: Alexandr frolov
+  Licentie: CC BY-SA 4.0
+
+fotos/zandgazelle-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Arabian_Sand_Gazelle_Fawn_in_King_Salman_Bin_Abdulaziz_Royal_Reserve_(2025).jpg
+  Maker: Saudi Press Agency (SPA)
+  Licentie: CC BY-SA 4.0
+
+fotos/zandgazelle.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Arabian_sand_gazelle_(Gazella_marica).jpg
+  Maker: Charles J. Sharp
+  Licentie: CC BY-SA 4.0
+
+fotos/zebra-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Plains_zebra_(Equus_quagga)_foal_suckling_Maputo.jpg
+  Maker: Charles J. Sharp
+  Licentie: CC BY-SA 4.0
+
+fotos/zebra.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Equus_quagga_burchellii_-_Etosha,_2014.jpg
+  Maker: Yathin S Krishnappa
+  Licentie: CC BY-SA 3.0
+
+fotos/zeehond-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Harp_seal_whitecoat.jpg
+  Maker: Hotel Kaesong
+  Licentie: CC BY-SA 2.0
+
+fotos/zeehond.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Harp_Seal_(Pagophilus_groenlandicus),_Greenland_Sea_IMG_5075.jpg
+  Maker: Brian Gratwicke from DC, USA
+  Licentie: CC BY 2.0
+
+fotos/zeeleeuw-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:At_Dublin_Zoo_(Ireland)_-_Male_Californian_Sea_Lion_Pup_(7890736076).jpg
+  Maker: William Murphy from Dublin, Ireland
+  Licentie: CC BY-SA 2.0
+
+fotos/zeeleeuw.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:California_Sea_Lion,_Monterey,_California,_United_States_imported_from_iNaturalist_photo_203598492.jpg
+  Maker: (c) Jonathan Eisen, some rights reserved (CC BY)
+  Licentie: CC BY 4.0
+
+fotos/zeeotter-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Northern_sea_otter_(Enhydra_lutris_kenyoni)_female_with_pup_Quatsino_2.jpg
+  Maker: Charles J. Sharp
+  Licentie: CC BY-SA 4.0
+
+fotos/zeeotter.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Sea_Otter_(Enhydra_lutris)_(25169790524)_crop.jpg
+  Maker: Marshal Hedin from San Diego
+  Licentie: CC BY-SA 2.0
+
+fotos/zeepaardje-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Hippocampus_guttulatus_(Hippocampe_%C3%A0_long_nez)_juv%C3%A9nile.jpg
+  Maker: Simon Thevenin
+  Licentie: CC BY-SA 4.0
+
+fotos/zeepaardje.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Hippocampus_guttulatus_2.jpg
+  Maker: Mare Per Sempre
+  Licentie: CC BY-SA 4.0
+
+fotos/zeeschildpad-jong.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Chelonia_mydas_Green_Turtle_Hatchling_(113841713).jpg
+  Maker: Stefan Hunt
+  Licentie: CC BY 3.0
+
+fotos/zeeschildpad.jpg
+  Bron: https://commons.wikimedia.org/wiki/File:Green_sea_turtle_(Chelonia_mydas)_Moorea.jpg
+  Maker: Charles J. Sharp
+  Licentie: CC BY-SA 4.0
