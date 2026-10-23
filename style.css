@@ -1866,7 +1866,7 @@ main,
   color: var(--accent);
 }
 
-/* ===== IJsglijbaan ===== */
+/* ===== IJsklim ===== */
 html.minigame-open {
   overflow: hidden;
   height: 100%;
@@ -1983,6 +1983,19 @@ body.minigame #minigame {
   border: 0;
   border-radius: 999px;
   cursor: pointer;
+}
+.minigame-acties {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+.minigame-acties .knop-minigame-actie,
+.minigame-acties .knop-terug {
+  flex: 1 1 150px;
+  justify-content: center;
+  margin-top: 0;
+  text-align: center;
 }
 .minigame-stuur {
   display: flex;
