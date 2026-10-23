@@ -1834,6 +1834,207 @@ main,
   .bezoek { height: min(440px, 62vh); }
   .bezoeker { bottom: 6%; }
 }
+
+/* ===== Minigame: knop in de bovenbalk ===== */
+.knop-minigame {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex: none;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--rand);
+  border-radius: 8px;
+  background: var(--vlak);
+  color: var(--tekst);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.knop-minigame svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  color: var(--accent);
+}
+.knop-minigame:hover,
+.knop-minigame:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ===== IJsglijbaan ===== */
+html.minigame-open {
+  overflow: hidden;
+  height: 100%;
+}
+body.minigame {
+  overflow: hidden;
+  height: 100dvh;
+  max-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+body.minigame .badges-vak,
+body.minigame .voet {
+  display: none;
+}
+body.minigame main {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+body.minigame #minigame {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.minigame-balk {
+  display: flex;
+  align-items: center;
+  gap: 8px 14px;
+  flex-wrap: wrap;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--rand);
+}
+.minigame-stand {
+  margin: 0;
+  font-size: 14px;
+  color: var(--tekst-zacht);
+}
+.minigame-stand strong {
+  color: var(--accent);
+  font-size: 18px;
+  font-variant-numeric: tabular-nums;
+}
+.minigame-balk .minigame-stand:last-child {
+  margin-left: auto;
+}
+.minigame-veld {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  touch-action: none;
+  outline: none;
+  background: #0d1511;
+}
+#mg-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+}
+.minigame-scherm {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(13, 21, 17, 0.5);
+}
+.minigame-scherm.verborgen {
+  display: none;
+}
+.minigame-kaart {
+  width: min(460px, 100%);
+  max-height: 100%;
+  overflow: auto;
+  padding: 20px 18px;
+  background: rgba(22, 33, 27, 0.96);
+  border: 1px solid var(--rand);
+  border-radius: 12px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+}
+.minigame-kaart h2 {
+  font-size: 26px;
+  margin-bottom: 8px;
+}
+.minigame-kaart p {
+  margin: 0 0 10px;
+  color: var(--tekst-zacht);
+  font-size: 15px;
+  line-height: 1.45;
+}
+.minigame-eindscores {
+  color: var(--tekst) !important;
+}
+.minigame-eindscores strong {
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.knop-minigame-actie {
+  min-height: 44px;
+  margin-top: 4px;
+  padding: 8px 18px;
+  font: inherit;
+  font-weight: 700;
+  color: #0d1511;
+  background: var(--accent);
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.minigame-stuur {
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px max(8px, env(safe-area-inset-bottom));
+  background: rgba(13, 21, 17, 0.98);
+  border-top: 1px solid var(--rand);
+}
+.minigame-stuur button {
+  flex: 1 1 0;
+  min-height: 48px;
+  min-width: 0;
+  padding: 8px 6px;
+  font: inherit;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--tekst);
+  background: var(--vlak);
+  border: 1px solid var(--rand);
+  border-radius: 10px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.minigame-stuur button:active,
+.minigame-stuur button:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+@media (max-width: 900px) {
+  .knop-minigame {
+    padding: 6px 10px;
+    font-size: 13px;
+    gap: 6px;
+  }
+}
+@media (max-width: 480px) {
+  .logo {
+    flex: 1 1 auto;
+    min-width: 120px;
+  }
+  .knop-minigame {
+    margin-left: auto;
+  }
+  .punten {
+    margin-left: 0;
+  }
+}
+@media (max-width: 400px) {
+  .minigame-kaart h2 { font-size: 22px; }
+  .minigame-kaart p { font-size: 14px; }
+  .minigame-stuur button { font-size: 14px; }
+}
 @media (prefers-reduced-motion: reduce) {
   .bezoeker.nadert,
   .bezoeker.weg,
