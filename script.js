@@ -2868,38 +2868,59 @@ function luisterParadeCode() {
 
 
 // =====================================================
-// 15. IJSGLIJBAAN
-// Eindeloos: obstakels en vissen komen uit een vaste voorraad.
-// De snelheid loopt omhoog tot een plafond en stopt daar.
+// 15. IJSKLIM
+// Eindeloos omhoog. Schotsen, vissen en meeuwen komen uit een vaste voorraad.
+// De stap is vast (1/60 s), zodat 60 Hz en 120 Hz even snel lopen.
 // =====================================================
 const MG_SLEUTEL = "wildlifequiz-minigame";
-const MG_SNEL_START = 0.26;
-const MG_SNEL_MAX = 0.58;
-const MG_POOL = 14;
+const MG_STAP = 1 / 60;
+const MG_LOG_W = 390;
+const MG_LOG_H = 640;
+const MG_G = -3200;
+const MG_SPRONG = 1040;
+const MG_VEER = 1500;
+const MG_LOOP = 290;
 const MG_MEDAILLE = 100;
+const MG_VIS = 25;
 
 const mg = {
   raf: 0,
+  acc: 0,
+  laatste: 0,
   bezig: false,
   gepauzeerd: false,
   afgelopen: false,
   score: 0,
-  heel: 0,
+  heel: -1,
+  visPunten: 0,
+  maxY: 0,
   record: 0,
   ereteken: false,
-  afstand: 0,
-  fase: 0,
-  teller: 0,
-  lane: 1,
-  x: 1,
-  hoogte: 0,
+  reden: "val",
+  x: MG_LOG_W / 2,
+  y: 30,
+  vx: 0,
   vy: 0,
-  laatste: 0,
+  cam: 0,
+  volgendeY: 40,
+  gemaakt: 0,
   w: 0,
   h: 0,
   rustig: false,
-  eerst: true,
-  items: []
+  toetsLinks: false,
+  toetsRechts: false,
+  knopLinks: false,
+  knopRechts: false,
+  schermLinks: false,
+  schermRechts: false,
+  stuurVast: null,
+  kantel: 0,
+  kantelAan: false,
+  kantelGezien: false,
+  kantelGevraagd: false,
+  schotsen: [],
+  vissen: [],
+  meeuwen: []
 };
 
 const mgTekenen = [];
@@ -2922,63 +2943,215 @@ function mgBewaar() {
   }));
 }
 
-function mgPool() {
-  mg.items.length = 0;
-  for (let i = 0; i < MG_POOL; i++) {
-    mg.items.push({ aan: false, soort: "scheur", baan: 1, z: 0, ontweken: false });
+function mgMaak(lijst, n, extra) {
+  lijst.length = 0;
+  for (let i = 0; i < n; i++) {
+    const stuk = { aan: false, x: 0, y: 0, w: 78, vx: 0, soort: "vast", stuk: 0 };
+    if (extra) extra(stuk);
+    lijst.push(stuk);
   }
 }
 
-function mgSnelheid() {
-  const t = Math.min(1, mg.afstand / 80);
-  return MG_SNEL_START + (MG_SNEL_MAX - MG_SNEL_START) * t;
+function mgPool() {
+  mgMaak(mg.schotsen, 22);
+  mgMaak(mg.vissen, 10);
+  mgMaak(mg.meeuwen, 4);
 }
 
-function mgVrij() {
-  for (let i = 0; i < mg.items.length; i++) {
-    if (!mg.items[i].aan) return mg.items[i];
+function mgVrij(lijst) {
+  for (let i = 0; i < lijst.length; i++) {
+    if (!lijst[i].aan) return lijst[i];
   }
   return null;
 }
 
-function mgSpawn() {
-  const slot = mgVrij();
+function mgMoeilijk() {
+  return Math.min(1, mg.maxY / 7200);
+}
+
+function mgNieuwSchots() {
+  const slot = mgVrij(mg.schotsen);
   if (!slot) return false;
-  const moeilijk = Math.min(1, mg.afstand / 80);
-  const vis = Math.random() < (0.4 - 0.1 * moeilijk);
-  const bezet = [false, false, false];
-  for (let i = 0; i < mg.items.length; i++) {
-    const it = mg.items[i];
-    if (it.aan && it.soort !== "vis" && it.z < 0.45) bezet[it.baan] = true;
-  }
-  const open = [];
-  for (let b = 0; b < 3; b++) {
-    if (!bezet[b]) open.push(b);
-  }
-  if (!vis && open.length < 2) return false;
-  let baan = 1;
-  if (vis) {
-    baan = Math.floor(Math.random() * 3);
-  } else if (mg.eerst) {
-    baan = 1;
-    mg.eerst = false;
-  } else {
-    baan = open[Math.floor(Math.random() * open.length)];
+  const m = mgMoeilijk();
+  const vroeg = mg.gemaakt < 7;
+  const gat = vroeg ? 58 : (62 + 86 * m);
+  let soort = "vast";
+  if (!vroeg) {
+    const r = Math.random();
+    if (r < 0.06 + 0.08 * m) soort = "veer";
+    else if (r < 0.16 + 0.34 * m) soort = "beweegt";
+    else if (r < 0.24 + 0.5 * m) soort = "breek";
   }
   slot.aan = true;
-  slot.soort = vis ? "vis" : (Math.random() < 0.55 ? "scheur" : "zeehond");
-  slot.baan = baan;
-  slot.z = -0.02;
-  slot.ontweken = false;
+  slot.w = vroeg ? 96 : 78;
+  slot.x = 18 + Math.random() * (MG_LOG_W - slot.w - 36);
+  slot.y = mg.volgendeY;
+  slot.soort = soort;
+  slot.vx = soort === "beweegt" ? ((Math.random() < 0.5 ? -1 : 1) * (42 + 48 * m)) : 0;
+  slot.stuk = 0;
+  mg.volgendeY += Math.min(gat, 150);
+  mg.gemaakt += 1;
+
+  if (!vroeg && Math.random() < 0.2) {
+    const vis = mgVrij(mg.vissen);
+    if (vis) {
+      vis.aan = true;
+      vis.x = slot.x + slot.w * 0.5;
+      vis.y = slot.y + 42;
+    }
+  }
+  if (m > 0.22 && mg.gemaakt % 8 === 0) {
+    const meeuw = mgVrij(mg.meeuwen);
+    if (meeuw) {
+      meeuw.aan = true;
+      meeuw.y = slot.y + Math.min(gat, 150) * 0.45;
+      meeuw.x = slot.x > MG_LOG_W / 2 ? 36 : MG_LOG_W - 70;
+      meeuw.vx = (slot.x > MG_LOG_W / 2 ? 1 : -1) * (60 + 50 * m);
+    }
+  }
   return true;
 }
 
-function mgTel(extra) {
-  mg.score = Math.min(999999, mg.score + extra);
-  if (!mg.ereteken && mg.score >= MG_MEDAILLE) {
-    mg.ereteken = true;
-    mgBewaar();
-    toonSignaal("Medaille: IJsglijder");
+function mgVul() {
+  const doel = mg.cam + MG_LOG_H + 180;
+  let teller = 0;
+  while (mg.volgendeY < doel && teller < 30) {
+    if (!mgNieuwSchots()) break;
+    teller += 1;
+  }
+}
+
+function mgRuim(lijst, marge) {
+  for (let i = 0; i < lijst.length; i++) {
+    if (lijst[i].aan && lijst[i].y < mg.cam - marge) lijst[i].aan = false;
+  }
+}
+
+function mgDir() {
+  if (mg.stuurVast === -1 || mg.stuurVast === 1 || mg.stuurVast === 0) return mg.stuurVast;
+  const links = mg.toetsLinks || mg.knopLinks || mg.schermLinks;
+  const rechts = mg.toetsRechts || mg.knopRechts || mg.schermRechts;
+  if (links && !rechts) return -1;
+  if (rechts && !links) return 1;
+  if (mg.kantelAan && mg.kantelGezien) return mg.kantel;
+  return 0;
+}
+
+function mgOverlapX(cx, half, links, rechts) {
+  function binnen(x) {
+    return x + half > links && x - half < rechts;
+  }
+  return binnen(cx) || binnen(cx - MG_LOG_W) || binnen(cx + MG_LOG_W);
+}
+
+function mgStap(dt) {
+  if (!mg.bezig || mg.gepauzeerd) return;
+  const dir = mgDir();
+  mg.vx = dir * MG_LOOP;
+  mg.x += mg.vx * dt;
+  if (mg.x < 0) mg.x += MG_LOG_W;
+  if (mg.x > MG_LOG_W) mg.x -= MG_LOG_W;
+
+  const vorigeY = mg.y;
+  mg.vy += MG_G * dt;
+  if (mg.vy < -1400) mg.vy = -1400;
+  mg.y += mg.vy * dt;
+
+  for (let i = 0; i < mg.schotsen.length; i++) {
+    const schots = mg.schotsen[i];
+    if (!schots.aan) continue;
+    if (schots.vx) {
+      schots.x += schots.vx * dt;
+      if (schots.x < 10) {
+        schots.x = 10;
+        schots.vx = Math.abs(schots.vx);
+      } else if (schots.x > MG_LOG_W - schots.w - 10) {
+        schots.x = MG_LOG_W - schots.w - 10;
+        schots.vx = -Math.abs(schots.vx);
+      }
+    }
+    if (schots.stuk > 0) {
+      schots.stuk -= dt;
+      schots.y -= 28 * dt;
+      if (schots.stuk <= 0) schots.aan = false;
+      continue;
+    }
+    if (mg.vy < 0 && vorigeY >= schots.y - 2 && mg.y <= schots.y + 8 && mgOverlapX(mg.x, 15, schots.x, schots.x + schots.w)) {
+      mg.y = schots.y;
+      mg.vy = schots.soort === "veer" ? MG_VEER : MG_SPRONG;
+      if (schots.soort === "breek") schots.stuk = 0.16;
+      break;
+    }
+  }
+
+  for (let i = 0; i < mg.vissen.length; i++) {
+    const vis = mg.vissen[i];
+    if (!vis.aan) continue;
+    if (Math.abs(vis.y - (mg.y + 20)) < 28 && mgOverlapX(mg.x, 16, vis.x - 14, vis.x + 14)) {
+      vis.aan = false;
+      mg.visPunten = Math.min(999999, mg.visPunten + MG_VIS);
+    }
+  }
+
+  for (let i = 0; i < mg.meeuwen.length; i++) {
+    const meeuw = mg.meeuwen[i];
+    if (!meeuw.aan) continue;
+    meeuw.x += meeuw.vx * dt;
+    if (meeuw.x < -30) meeuw.x = MG_LOG_W + 20;
+    if (meeuw.x > MG_LOG_W + 30) meeuw.x = -20;
+    const raak = Math.abs(meeuw.y - (mg.y + 22)) < 26 && mgOverlapX(mg.x, 16, meeuw.x - 8, meeuw.x + 36);
+    if (raak && mg.maxY > 500) {
+      mg.reden = "meeuw";
+      mgEinde();
+      return;
+    }
+  }
+
+  if (mg.y > mg.maxY) mg.maxY = mg.y;
+  const geklommen = Math.max(0, mg.maxY - 36);
+  const score = Math.min(999999, Math.floor(geklommen / 7) + mg.visPunten);
+  if (score !== mg.score) {
+    mg.score = score;
+    if (!mg.ereteken && mg.score >= MG_MEDAILLE) {
+      mg.ereteken = true;
+      mgBewaar();
+      toonSignaal("Medaille: IJsglijder");
+    }
+    const heel = Math.floor(mg.score);
+    if (heel !== mg.heel) {
+      mg.heel = heel;
+      mgHud();
+    }
+  }
+
+  const doelCam = mg.y - MG_LOG_H * 0.36;
+  if (doelCam > mg.cam) mg.cam = doelCam;
+  mgVul();
+  mgRuim(mg.schotsen, 90);
+  mgRuim(mg.vissen, 70);
+  mgRuim(mg.meeuwen, 80);
+
+  if (mg.y < mg.cam - 36) {
+    mg.reden = "val";
+    mgEinde();
+  }
+}
+
+function mgVoegTijd(dt) {
+  if (!mg.bezig || mg.gepauzeerd) return;
+  if (dt < 0) dt = 0;
+  if (dt > 0.1) dt = 0.1;
+  mg.acc += dt;
+  let n = 0;
+  while (mg.acc >= MG_STAP - 1e-8 && n < 8) {
+    mg.acc -= MG_STAP;
+    if (mg.acc < 1e-8) mg.acc = 0;
+    mgStap(MG_STAP);
+    n += 1;
+    if (!mg.bezig || mg.gepauzeerd) {
+      mg.acc = 0;
+      return;
+    }
   }
 }
 
@@ -3002,19 +3175,17 @@ function mgToonScherm() {
   start.classList.toggle("verborgen", mg.bezig || mg.afgelopen);
   pauze.classList.toggle("verborgen", !(mg.bezig && mg.gepauzeerd));
   einde.classList.toggle("verborgen", !mg.afgelopen);
+  const tekst = document.getElementById("mg-einde-tekst");
+  if (tekst) {
+    tekst.textContent = mg.reden === "meeuw"
+      ? "Een meeuw zat in de weg. De pinguïn keert om. Niets gewond."
+      : "De pinguïn zakt onder het beeld. Niets gewond.";
+  }
 }
 
 function mgFocus() {
   const veld = document.getElementById("mg-veld");
   if (veld) veld.focus({ preventScroll: true });
-}
-
-function mgBaan(richting) {
-  mg.lane = Math.max(0, Math.min(2, mg.lane + richting));
-}
-
-function mgSpring() {
-  if (mg.hoogte <= 0.001 && mg.vy <= 0) mg.vy = 2.35;
 }
 
 function mgAfmetingen() {
@@ -3030,266 +3201,243 @@ function mgAfmetingen() {
     canvas.width = pxW;
     canvas.height = pxH;
   }
-  const ctx = canvas.getContext("2d");
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  canvas.getContext("2d").setTransform(dpr, 0, 0, dpr, 0, 0);
   mg.w = w;
   mg.h = h;
 }
 
-function mgEenheid() {
-  return Math.min(mg.w * 0.92, 680) * 0.0092;
+function mgBeeld() {
+  const s = Math.min(mg.w / MG_LOG_W, mg.h / MG_LOG_H);
+  const bw = MG_LOG_W * s;
+  const bh = MG_LOG_H * s;
+  return { s: s, ox: (mg.w - bw) / 2, oy: (mg.h - bh) / 2, bw: bw, bh: bh };
 }
 
-function mgProject(baan, z) {
-  const zz = z < 0 ? 0 : (z > 1.08 ? 1.08 : z);
-  const horizon = mg.h * 0.16;
-  const grond = mg.h * 0.9;
-  const y = horizon + (grond - horizon) * zz;
-  const maxBreed = Math.min(mg.w * 0.92, 680);
-  const smal = maxBreed * 0.08;
-  const breed = maxBreed * 0.34;
-  const span = smal + (breed - smal) * zz;
+function mgPX(x, y) {
+  const v = mgBeeld();
   return {
-    x: mg.w / 2 + (baan - 1) * span,
-    y: y,
-    s: 0.26 + 0.74 * zz,
-    span: span
+    x: v.ox + x * v.s,
+    y: v.oy + v.bh - (y - mg.cam) * v.s,
+    s: v.s
   };
 }
 
-function mgTekenBaan(ctx) {
-  const links0 = mgProject(-0.55, 0);
-  const rechts0 = mgProject(2.55, 0);
-  const links1 = mgProject(-0.55, 1);
-  const rechts1 = mgProject(2.55, 1);
-  ctx.fillStyle = "#0d1511";
-  ctx.fillRect(0, 0, mg.w, mg.h);
-
-  const lucht = ctx.createLinearGradient(0, 0, 0, mg.h * 0.28);
-  lucht.addColorStop(0, "#101820");
-  lucht.addColorStop(1, "#0d1511");
-  ctx.fillStyle = lucht;
-  ctx.fillRect(0, 0, mg.w, mg.h * 0.28);
-
+function mgRond(ctx, x, y, w, h, r) {
+  const rr = Math.max(0, Math.min(r, w / 2, h / 2));
   ctx.beginPath();
-  ctx.moveTo(links0.x, links0.y);
-  ctx.lineTo(rechts0.x, rechts0.y);
-  ctx.lineTo(rechts1.x, rechts1.y + 24);
-  ctx.lineTo(links1.x, links1.y + 24);
+  ctx.moveTo(x + rr, y);
+  ctx.arcTo(x + w, y, x + w, y + h, rr);
+  ctx.arcTo(x + w, y + h, x, y + h, rr);
+  ctx.arcTo(x, y + h, x, y, rr);
+  ctx.arcTo(x, y, x + w, y, rr);
   ctx.closePath();
-  const ijs = ctx.createLinearGradient(0, links0.y, 0, links1.y);
-  ijs.addColorStop(0, "#1c3338");
-  ijs.addColorStop(1, "#8fb8c4");
-  ctx.fillStyle = ijs;
-  ctx.fill();
+}
 
-  for (let baan = 0; baan < 3; baan++) {
-    const a = mgProject(baan - 0.48, 0);
-    const b = mgProject(baan + 0.48, 0);
-    const c = mgProject(baan + 0.48, 1);
-    const d = mgProject(baan - 0.48, 1);
-    ctx.beginPath();
-    ctx.moveTo(a.x, a.y);
-    ctx.lineTo(b.x, b.y);
-    ctx.lineTo(c.x, c.y + 18);
-    ctx.lineTo(d.x, d.y + 18);
-    ctx.closePath();
-    ctx.fillStyle = Math.abs(mg.x - baan) < 0.55 ? "rgba(255, 255, 255, 0.16)" : "rgba(13, 21, 17, 0.14)";
-    ctx.fill();
+function mgTekenLucht(ctx) {
+  ctx.fillStyle = "#0c1216";
+  ctx.fillRect(0, 0, mg.w, mg.h);
+  const v = mgBeeld();
+  const lucht = ctx.createLinearGradient(0, v.oy, 0, v.oy + v.bh);
+  lucht.addColorStop(0, "#121a22");
+  lucht.addColorStop(1, "#1a3840");
+  ctx.fillStyle = lucht;
+  ctx.fillRect(v.ox, v.oy, v.bw, v.bh);
+  ctx.strokeStyle = "rgba(245, 183, 0, 0.28)";
+  ctx.lineWidth = 1;
+  ctx.strokeRect(v.ox + 0.5, v.oy + 0.5, v.bw - 1, v.bh - 1);
+  ctx.fillStyle = "rgba(232, 237, 233, 0.45)";
+  for (let i = 0; i < 10; i++) {
+    const sx = v.ox + ((i * 73) % MG_LOG_W) * v.s;
+    const sy = v.oy + ((i * 97) % MG_LOG_H) * v.s;
+    ctx.fillRect(sx, sy, 2, 2);
   }
+}
 
-  ctx.strokeStyle = "rgba(232, 244, 246, 0.82)";
-  ctx.lineWidth = Math.max(2, mgEenheid() * 0.32);
-  for (let lijn = 0; lijn < 4; lijn++) {
-    const a = mgProject(lijn - 0.5, 0);
-    const b = mgProject(lijn - 0.5, 1);
+function mgTekenSchots(ctx, schots) {
+  const p = mgPX(schots.x, schots.y);
+  const s = p.s;
+  const w = schots.w * s;
+  const h = 14 * s;
+  const zak = schots.stuk > 0 ? (0.16 - schots.stuk) * 40 * s : 0;
+  ctx.fillStyle = schots.soort === "breek" ? "#b7c9d0" : "#d5e2e8";
+  mgRond(ctx, p.x, p.y + zak, w, h, 5 * s);
+  ctx.fill();
+  ctx.fillStyle = "rgba(255, 255, 255, 0.45)";
+  ctx.fillRect(p.x + 6 * s, p.y + zak + 2 * s, w - 12 * s, 2 * s);
+  if (schots.soort === "breek" || schots.stuk > 0) {
+    ctx.strokeStyle = "#1c2a30";
+    ctx.lineWidth = Math.max(1, s);
     ctx.beginPath();
-    ctx.moveTo(a.x, a.y);
-    ctx.lineTo(b.x, b.y + 20);
+    ctx.moveTo(p.x + w * 0.25, p.y + zak + h * 0.3);
+    ctx.lineTo(p.x + w * 0.48, p.y + zak + h * 0.85);
+    ctx.lineTo(p.x + w * 0.72, p.y + zak + h * 0.25);
     ctx.stroke();
   }
-
-  ctx.fillStyle = "rgba(13, 21, 17, 0.28)";
-  const strepen = mg.rustig ? 4 : 8;
-  for (let i = 0; i < strepen; i++) {
-    const z = ((mg.rustig ? 0.15 : mg.fase) + i / strepen) % 1;
-    for (let baan = 0; baan < 3; baan++) {
-      const p = mgProject(baan, z);
-      ctx.fillRect(p.x - 8 * p.s, p.y, 16 * p.s, 3 * p.s);
+  if (schots.soort === "veer") {
+    ctx.strokeStyle = "#f5b700";
+    ctx.lineWidth = Math.max(1.5, 2 * s);
+    ctx.lineJoin = "round";
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    const cx = p.x + w * 0.5;
+    const amp = 5 * s;
+    const n = 5;
+    ctx.moveTo(cx - amp, p.y);
+    for (let k = 1; k <= n; k++) {
+      const y = p.y - (18 * s * k) / n;
+      const x = cx + (k % 2 === 0 ? -amp : amp);
+      ctx.lineTo(x, y);
     }
+    ctx.stroke();
   }
 }
 
-function mgTekenStuk(ctx, it) {
-  const p = mgProject(it.baan, it.z);
-  const s = p.s * mgEenheid();
-  if (it.soort === "vis") {
-    ctx.fillStyle = "#f5b700";
-    ctx.beginPath();
-    ctx.ellipse(p.x, p.y, 13 * s, 6 * s, 0, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.beginPath();
-    ctx.moveTo(p.x - 10 * s, p.y);
-    ctx.lineTo(p.x - 20 * s, p.y - 7 * s);
-    ctx.lineTo(p.x - 20 * s, p.y + 7 * s);
-    ctx.fill();
-    ctx.fillStyle = "#121a16";
-    ctx.beginPath();
-    ctx.arc(p.x + 5 * s, p.y - 1 * s, 1.3 * s, 0, Math.PI * 2);
-    ctx.fill();
-    return;
-  }
-  if (it.soort === "zeehond") {
-    ctx.fillStyle = "#243038";
-    ctx.beginPath();
-    ctx.ellipse(p.x, p.y, 18 * s, 12 * s, 0, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = "#d7dfda";
-    ctx.beginPath();
-    ctx.ellipse(p.x, p.y + 2 * s, 8 * s, 7 * s, 0, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = "#121a16";
-    ctx.beginPath();
-    ctx.arc(p.x - 4 * s, p.y - 1 * s, 1.5 * s, 0, Math.PI * 2);
-    ctx.arc(p.x + 4 * s, p.y - 1 * s, 1.5 * s, 0, Math.PI * 2);
-    ctx.fill();
-    return;
-  }
-  ctx.fillStyle = "rgba(7, 16, 20, 0.88)";
+function mgTekenVis(ctx, vis) {
+  const p = mgPX(vis.x, vis.y);
+  const s = p.s;
+  ctx.fillStyle = "#f5b700";
   ctx.beginPath();
-  ctx.ellipse(p.x, p.y, 24 * s, 9 * s, 0, 0, Math.PI * 2);
+  ctx.ellipse(p.x, p.y, 11 * s, 5.5 * s, 0, 0, Math.PI * 2);
   ctx.fill();
-  ctx.strokeStyle = "#9fd0dc";
-  ctx.lineWidth = Math.max(1, 2 * s);
   ctx.beginPath();
-  ctx.moveTo(p.x - 18 * s, p.y);
-  ctx.lineTo(p.x - 6 * s, p.y - 5 * s);
-  ctx.lineTo(p.x + 3 * s, p.y + 4 * s);
-  ctx.lineTo(p.x + 18 * s, p.y - 2 * s);
-  ctx.stroke();
+  ctx.moveTo(p.x - 8 * s, p.y);
+  ctx.lineTo(p.x - 16 * s, p.y - 5 * s);
+  ctx.lineTo(p.x - 16 * s, p.y + 5 * s);
+  ctx.fill();
+  ctx.fillStyle = "#121a16";
+  ctx.beginPath();
+  ctx.arc(p.x + 4 * s, p.y - 1 * s, 1.1 * s, 0, Math.PI * 2);
+  ctx.fill();
 }
 
-function mgTekenPingu(ctx) {
-  const p = mgProject(mg.x, 1);
-  const s = mgEenheid() * 1.25;
-  const lucht = mg.hoogte * mgEenheid() * 26;
-  const bob = mg.rustig || mg.hoogte > 0 ? 0 : Math.sin(mg.fase * Math.PI * 2) * mgEenheid() * 0.35;
-  const y = p.y;
-  const py = y - 16 * s - lucht - bob;
-  ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
+function mgTekenMeeuw(ctx, meeuw) {
+  const p = mgPX(meeuw.x, meeuw.y);
+  const s = p.s;
+  const kijk = meeuw.vx >= 0 ? 1 : -1;
+  ctx.save();
+  ctx.translate(p.x, p.y);
+  ctx.scale(kijk, 1);
+  ctx.fillStyle = "#e8ede9";
   ctx.beginPath();
-  ctx.ellipse(p.x, y + 8, 18 * s, 6 * s, 0, 0, Math.PI * 2);
+  ctx.ellipse(10 * s, 0, 14 * s, 6 * s, 0, 0, Math.PI * 2);
   ctx.fill();
+  ctx.fillStyle = "#8fa196";
+  ctx.beginPath();
+  ctx.moveTo(4 * s, -2 * s);
+  ctx.quadraticCurveTo(16 * s, -16 * s, 28 * s, -3 * s);
+  ctx.quadraticCurveTo(14 * s, -6 * s, 4 * s, -2 * s);
+  ctx.fill();
+  ctx.fillStyle = "#f5b700";
+  ctx.beginPath();
+  ctx.moveTo(22 * s, 0);
+  ctx.lineTo(30 * s, 2 * s);
+  ctx.lineTo(22 * s, 4 * s);
+  ctx.fill();
+  ctx.restore();
+}
+
+function mgTekenPingu(ctx, wx) {
+  const p = mgPX(wx, mg.y);
+  const s = p.s;
+  const kijk = mg.vx === 0 ? 1 : (mg.vx > 0 ? 1 : -1);
+  ctx.save();
+  ctx.translate(p.x, p.y);
+  const ps = s * 1.3;
+  ctx.scale(kijk * ps, ps);
   ctx.fillStyle = "#e2a400";
   ctx.beginPath();
-  ctx.ellipse(p.x - 8 * s, py + 18 * s, 7 * s, 3.2 * s, 0, 0, Math.PI * 2);
-  ctx.ellipse(p.x + 8 * s, py + 18 * s, 7 * s, 3.2 * s, 0, 0, Math.PI * 2);
+  ctx.ellipse(-6, -2, 5, 2.4, 0, 0, Math.PI * 2);
+  ctx.ellipse(6, -2, 5, 2.4, 0, 0, Math.PI * 2);
   ctx.fill();
   ctx.fillStyle = "#d5ddd8";
   ctx.beginPath();
-  ctx.ellipse(p.x - 18 * s, py + 2 * s, 5 * s, 11 * s, 0.45, 0, Math.PI * 2);
-  ctx.ellipse(p.x + 18 * s, py + 2 * s, 5 * s, 11 * s, -0.45, 0, Math.PI * 2);
+  ctx.ellipse(-12, -16, 4, 8, 0.4, 0, Math.PI * 2);
   ctx.fill();
   ctx.fillStyle = "#17211c";
   ctx.beginPath();
-  ctx.ellipse(p.x, py, 15 * s, 20 * s, 0, 0, Math.PI * 2);
+  ctx.ellipse(0, -20, 11, 14, 0, 0, Math.PI * 2);
   ctx.fill();
   ctx.fillStyle = "#f3f6f4";
   ctx.beginPath();
-  ctx.ellipse(p.x - 9 * s, py + 3 * s, 5 * s, 13 * s, 0.15, 0, Math.PI * 2);
-  ctx.ellipse(p.x + 9 * s, py + 3 * s, 5 * s, 13 * s, -0.15, 0, Math.PI * 2);
+  ctx.ellipse(3, -18, 7, 10, 0, 0, Math.PI * 2);
   ctx.fill();
   ctx.fillStyle = "#17211c";
   ctx.beginPath();
-  ctx.arc(p.x, py - 18 * s, 9 * s, 0, Math.PI * 2);
+  ctx.arc(4, -32, 7, 0, Math.PI * 2);
   ctx.fill();
   ctx.fillStyle = "#f3f6f4";
   ctx.beginPath();
-  ctx.arc(p.x, py - 16 * s, 4.5 * s, 0.15, Math.PI - 0.15);
+  ctx.arc(6, -31, 3.2, 0, Math.PI * 2);
   ctx.fill();
+  ctx.fillStyle = "#121a16";
+  ctx.beginPath();
+  ctx.arc(7.2, -31.5, 1.1, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = "#f5b700";
+  ctx.beginPath();
+  ctx.moveTo(8, -29);
+  ctx.lineTo(16, -27);
+  ctx.lineTo(8, -25.5);
+  ctx.fill();
+  ctx.restore();
 }
 
 function mgTeken() {
   const canvas = document.getElementById("mg-canvas");
   if (!canvas || !mg.w) return;
   const ctx = canvas.getContext("2d");
-  mgTekenBaan(ctx);
+  const v = mgBeeld();
+  mgTekenLucht(ctx);
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(v.ox, v.oy, v.bw, v.bh);
+  ctx.clip();
   mgTekenen.length = 0;
-  for (let i = 0; i < mg.items.length; i++) {
-    if (mg.items[i].aan) mgTekenen.push(mg.items[i]);
+  for (let i = 0; i < mg.schotsen.length; i++) {
+    if (mg.schotsen[i].aan) mgTekenen.push(mg.schotsen[i]);
   }
-  mgTekenen.sort(function (a, b) { return a.z - b.z; });
-  for (let i = 0; i < mgTekenen.length; i++) mgTekenStuk(ctx, mgTekenen[i]);
-  mgTekenPingu(ctx);
+  mgTekenen.sort(function (a, b) { return b.y - a.y; });
+  for (let i = 0; i < mgTekenen.length; i++) mgTekenSchots(ctx, mgTekenen[i]);
+  for (let i = 0; i < mg.vissen.length; i++) {
+    if (mg.vissen[i].aan) mgTekenVis(ctx, mg.vissen[i]);
+  }
+  for (let i = 0; i < mg.meeuwen.length; i++) {
+    if (mg.meeuwen[i].aan) mgTekenMeeuw(ctx, mg.meeuwen[i]);
+  }
+  mgTekenPingu(ctx, mg.x);
+  if (mg.x < 36) mgTekenPingu(ctx, mg.x + MG_LOG_W);
+  if (mg.x > MG_LOG_W - 36) mgTekenPingu(ctx, mg.x - MG_LOG_W);
+  ctx.restore();
 }
 
-function mgStap(dt) {
-  if (!mg.bezig || mg.gepauzeerd) return;
-  const snel = mgSnelheid();
-  if (mg.afstand < 80) mg.afstand = Math.min(80, mg.afstand + snel * dt);
-  mg.fase = (mg.fase + snel * dt) % 1;
-  if (mg.fase < 0) mg.fase += 1;
-  mgTel(snel * dt * 12);
-
-  const volg = mg.rustig ? 1 : Math.min(1, dt * 10);
-  mg.x += (mg.lane - mg.x) * volg;
-  mg.vy -= 5.2 * dt;
-  mg.hoogte += mg.vy * dt;
-  if (mg.hoogte <= 0) {
-    mg.hoogte = 0;
-    mg.vy = 0;
-  }
-  mg.teller += snel * dt;
-  const gat = 0.62 - 0.24 * Math.min(1, mg.afstand / 80);
-  if (mg.teller >= gat) {
-    if (mgSpawn()) mg.teller -= gat;
-    if (mg.teller > gat * 2) mg.teller = gat * 2;
-  }
-
-  for (let i = 0; i < mg.items.length; i++) {
-    const it = mg.items[i];
-    if (!it.aan) continue;
-    it.z += snel * dt;
-    if (it.z > 1.2) {
-      it.aan = false;
-      continue;
-    }
-    if (it.z < 0.92 || it.z > 1.05) continue;
-    if (Math.abs(mg.x - it.baan) > 0.46) continue;
-    if (it.soort === "vis") {
-      it.aan = false;
-      mgTel(15);
-      continue;
-    }
-    if (mg.hoogte >= 0.34) {
-      it.ontweken = true;
-      continue;
-    }
-    if (!it.ontweken) {
-      mgEinde();
-      return;
-    }
-  }
-
-  const heel = Math.floor(mg.score);
-  if (heel !== mg.heel) {
-    mg.heel = heel;
-    mgHud();
-  }
-}
-
-function mgLus(nu) {
-  if (!mg.bezig || mg.gepauzeerd) return;
-  if (!mg.laatste) mg.laatste = nu;
-  let dt = (nu - mg.laatste) / 1000;
-  mg.laatste = nu;
-  if (dt < 0) dt = 0;
-  if (dt > 0.05) dt = 0.05;
-  mgAfmetingen();
-  mgStap(dt);
-  if (!mg.bezig || mg.gepauzeerd) return;
-  mgTeken();
-  mg.raf = requestAnimationFrame(mgLus);
+function mgReset() {
+  mg.score = 0;
+  mg.heel = -1;
+  mg.visPunten = 0;
+  mg.maxY = 0;
+  mg.reden = "val";
+  mg.x = MG_LOG_W / 2;
+  mg.y = 36;
+  mg.vx = 0;
+  mg.vy = 0;
+  mg.cam = 0;
+  mg.acc = 0;
+  mg.laatste = 0;
+  mg.volgendeY = 78;
+  mg.gemaakt = 1;
+  mg.stuurVast = null;
+  for (let i = 0; i < mg.schotsen.length; i++) mg.schotsen[i].aan = false;
+  for (let i = 0; i < mg.vissen.length; i++) mg.vissen[i].aan = false;
+  for (let i = 0; i < mg.meeuwen.length; i++) mg.meeuwen[i].aan = false;
+  const grond = mg.schotsen[0];
+  grond.aan = true;
+  grond.x = MG_LOG_W / 2 - 58;
+  grond.y = 0;
+  grond.w = 116;
+  grond.soort = "vast";
+  grond.vx = 0;
+  grond.stuk = 0;
+  mgVul();
 }
 
 function mgEinde() {
@@ -3297,6 +3445,7 @@ function mgEinde() {
   mg.afgelopen = true;
   mg.bezig = false;
   mg.gepauzeerd = false;
+  mg.stuurVast = null;
   if (mg.raf) {
     cancelAnimationFrame(mg.raf);
     mg.raf = 0;
@@ -3312,21 +3461,11 @@ function mgStart() {
   mg.bezig = true;
   mg.gepauzeerd = false;
   mg.afgelopen = false;
-  mg.score = 0;
-  mg.heel = 0;
-  mg.afstand = 0;
-  mg.fase = 0;
-  mg.teller = 0.2;
-  mg.eerst = true;
-  mg.lane = 1;
-  mg.x = 1;
-  mg.hoogte = 0;
-  mg.vy = 0;
-  mg.laatste = 0;
-  for (let i = 0; i < mg.items.length; i++) mg.items[i].aan = false;
+  mgReset();
   mgToonScherm();
   mgHud();
   mgAfmetingen();
+  mgTeken();
   mgFocus();
   if (mg.raf) cancelAnimationFrame(mg.raf);
   mg.raf = requestAnimationFrame(mgLus);
@@ -3336,6 +3475,7 @@ function mgVerder() {
   if (!mg.bezig || mg.afgelopen) return;
   mg.gepauzeerd = false;
   mg.laatste = 0;
+  mg.acc = 0;
   mgToonScherm();
   mgFocus();
   if (mg.raf) cancelAnimationFrame(mg.raf);
@@ -3345,6 +3485,12 @@ function mgVerder() {
 function mgPauzeerRoute() {
   if (!mg.bezig || mg.afgelopen) return;
   mg.gepauzeerd = true;
+  mg.toetsLinks = false;
+  mg.toetsRechts = false;
+  mg.knopLinks = false;
+  mg.knopRechts = false;
+  mg.schermLinks = false;
+  mg.schermRechts = false;
   if (mg.raf) {
     cancelAnimationFrame(mg.raf);
     mg.raf = 0;
@@ -3357,22 +3503,63 @@ function mgPauzeerRoute() {
   mgToonScherm();
 }
 
-function mgStatus() {
-  let actief = 0;
-  for (let i = 0; i < mg.items.length; i++) {
-    if (mg.items[i].aan) actief = actief + 1;
+function mgLus(nu) {
+  if (!mg.bezig || mg.gepauzeerd) return;
+  if (!mg.laatste) mg.laatste = nu;
+  let dt = (nu - mg.laatste) / 1000;
+  mg.laatste = nu;
+  if (dt < 0) dt = 0;
+  mgAfmetingen();
+  mgVoegTijd(dt);
+  if (!mg.bezig || mg.gepauzeerd) return;
+  mgTeken();
+  mg.raf = requestAnimationFrame(mgLus);
+}
+
+function mgDoelX() {
+  let best = null;
+  let bestDy = 1e9;
+  for (let i = 0; i < mg.schotsen.length; i++) {
+    const schots = mg.schotsen[i];
+    if (!schots.aan || schots.stuk > 0) continue;
+    const dy = schots.y - mg.y;
+    if (dy < -8 || dy > 190) continue;
+    if (dy < bestDy) {
+      bestDy = dy;
+      best = schots.x + schots.w / 2;
+    }
   }
+  return best;
+}
+
+function mgStatus() {
+  let schotsen = 0;
+  let vissen = 0;
+  let meeuwen = 0;
+  for (let i = 0; i < mg.schotsen.length; i++) if (mg.schotsen[i].aan) schotsen += 1;
+  for (let i = 0; i < mg.vissen.length; i++) if (mg.vissen[i].aan) vissen += 1;
+  for (let i = 0; i < mg.meeuwen.length; i++) if (mg.meeuwen[i].aan) meeuwen += 1;
   return {
-    snelheid: mgSnelheid(),
-    actief: actief,
-    pool: mg.items.length,
+    x: mg.x,
+    y: mg.y,
+    vy: mg.vy,
+    cam: mg.cam,
     score: mg.score,
+    maxY: mg.maxY,
     bezig: mg.bezig,
     gepauzeerd: mg.gepauzeerd,
-    afstand: mg.afstand,
-    lane: mg.lane,
-    hoogte: mg.hoogte
+    pool: mg.schotsen.length,
+    schotsen: schotsen,
+    vissen: vissen,
+    meeuwen: meeuwen,
+    doel: mgDoelX(),
+    kantelAan: mg.kantelAan
   };
+}
+
+function mgStuur(dir) {
+  if (dir === -1 || dir === 0 || dir === 1) mg.stuurVast = dir;
+  else mg.stuurVast = null;
 }
 
 function toonMinigame() {
@@ -3392,19 +3579,36 @@ function mgToets(e) {
   if (!document.body.classList.contains("minigame")) return;
   if (e.target && e.target.closest && e.target.closest("button, a, input, textarea, select")) return;
   const toets = e.key.length === 1 ? e.key.toLowerCase() : e.key;
-  const stuur = toets === "ArrowLeft" || toets === "ArrowRight" || toets === "ArrowUp" || toets === " " || toets === "a" || toets === "d";
+  const stuur = toets === "ArrowLeft" || toets === "ArrowRight" || toets === "a" || toets === "d";
   if (!stuur) return;
-  if (toets === " " || toets.indexOf("Arrow") === 0) e.preventDefault();
-  if (!mg.bezig || mg.afgelopen) return;
-  e.stopImmediatePropagation();
-  if (mg.gepauzeerd) {
-    if (toets === " " || toets === "ArrowUp") mgVerder();
+  if (toets.indexOf("Arrow") === 0) e.preventDefault();
+  if (mg.bezig && !mg.afgelopen) e.stopImmediatePropagation();
+  if (mg.gepauzeerd || mg.afgelopen || !mg.bezig) return;
+  if (toets === "ArrowLeft" || toets === "a") mg.toetsLinks = true;
+  if (toets === "ArrowRight" || toets === "d") mg.toetsRechts = true;
+}
+
+function mgToetsLos(e) {
+  if (!e.key) return;
+  const toets = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+  if (toets === "ArrowLeft" || toets === "a") mg.toetsLinks = false;
+  if (toets === "ArrowRight" || toets === "d") mg.toetsRechts = false;
+}
+
+function mgVraagKantel() {
+  const Ev = window.DeviceOrientationEvent;
+  if (!Ev) return;
+  if (typeof Ev.requestPermission !== "function") {
+    mg.kantelAan = true;
     return;
   }
-  if (e.repeat && (toets === "ArrowLeft" || toets === "ArrowRight" || toets === "a" || toets === "d")) return;
-  if (toets === "ArrowLeft" || toets === "a") mgBaan(-1);
-  else if (toets === "ArrowRight" || toets === "d") mgBaan(1);
-  else mgSpring();
+  if (mg.kantelGevraagd) return;
+  mg.kantelGevraagd = true;
+  Ev.requestPermission().then(function (staat) {
+    mg.kantelAan = staat === "granted";
+  }).catch(function () {
+    mg.kantelAan = false;
+  });
 }
 
 function mgKoppel() {
@@ -3414,60 +3618,76 @@ function mgKoppel() {
   mgPool();
   mgHud();
 
-  document.getElementById("mg-start").addEventListener("click", mgStart);
-  document.getElementById("mg-opnieuw").addEventListener("click", mgStart);
+  document.getElementById("mg-start").addEventListener("click", function () {
+    mgVraagKantel();
+    mgStart();
+  });
+  document.getElementById("mg-opnieuw").addEventListener("click", function () {
+    mgVraagKantel();
+    mgStart();
+  });
   document.getElementById("mg-verder").addEventListener("click", mgVerder);
 
-  function stuurKnop(id, actie) {
-    document.getElementById(id).addEventListener("pointerdown", function (e) {
+  function houd(id, veld) {
+    const knop = document.getElementById(id);
+    knop.addEventListener("pointerdown", function (e) {
       e.preventDefault();
       if (!mg.bezig || mg.afgelopen || mg.gepauzeerd) return;
-      actie();
+      mg[veld] = true;
       mgFocus();
     });
+    knop.addEventListener("pointerup", function () { mg[veld] = false; });
+    knop.addEventListener("pointercancel", function () { mg[veld] = false; });
+    knop.addEventListener("pointerleave", function () { mg[veld] = false; });
   }
-  stuurKnop("mg-links", function () { mgBaan(-1); });
-  stuurKnop("mg-rechts", function () { mgBaan(1); });
-  stuurKnop("mg-spring", mgSpring);
+  houd("mg-links", "knopLinks");
+  houd("mg-rechts", "knopRechts");
 
   const veld = document.getElementById("mg-veld");
-  let aanraking = null;
   veld.addEventListener("pointerdown", function (e) {
     if (e.pointerType === "mouse" && e.button !== 0) return;
     if (e.target.closest("button, a")) return;
-    aanraking = { x: e.clientX, y: e.clientY, id: e.pointerId };
-  });
-  veld.addEventListener("pointerup", function (e) {
-    if (!aanraking || e.pointerId !== aanraking.id) return;
-    const dx = e.clientX - aanraking.x;
-    const dy = e.clientY - aanraking.y;
-    aanraking = null;
     if (!mg.bezig || mg.afgelopen) return;
     if (mg.gepauzeerd) {
       mgVerder();
       return;
     }
-    const adx = Math.abs(dx);
-    const ady = Math.abs(dy);
-    if (adx < 24 && ady < 24) mgSpring();
-    else if (adx > ady && adx >= 28) mgBaan(dx < 0 ? -1 : 1);
-    else if (dy < 0 && ady >= 28) mgSpring();
+    const rect = veld.getBoundingClientRect();
+    const links = e.clientX < rect.left + rect.width / 2;
+    mg.schermLinks = links;
+    mg.schermRechts = !links;
   });
-  veld.addEventListener("pointercancel", function () { aanraking = null; });
+  function schermLos() {
+    mg.schermLinks = false;
+    mg.schermRechts = false;
+  }
+  veld.addEventListener("pointerup", schermLos);
+  veld.addEventListener("pointercancel", schermLos);
+  window.addEventListener("pointerup", schermLos);
+  window.addEventListener("pointercancel", schermLos);
   veld.addEventListener("touchmove", function (e) { e.preventDefault(); }, { passive: false });
 
   window.addEventListener("keydown", mgToets);
+  window.addEventListener("keyup", mgToetsLos);
+  window.addEventListener("blur", function () {
+    mg.toetsLinks = false;
+    mg.toetsRechts = false;
+  });
   window.addEventListener("resize", function () {
     if (!document.body.classList.contains("minigame")) return;
     mgAfmetingen();
     mgTeken();
+  });
+  window.addEventListener("deviceorientation", function (e) {
+    if (e.gamma == null || isNaN(e.gamma)) return;
+    mg.kantelGezien = true;
+    mg.kantel = Math.max(-1, Math.min(1, e.gamma / 24));
   });
   document.addEventListener("visibilitychange", function () {
     if (document.hidden) mgPauzeerRoute();
   });
 }
 mgKoppel();
-
 
 // =====================================================
 // 16. START
