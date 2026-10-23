@@ -2047,7 +2047,7 @@ function opslaan() {
 
 // Paaseieren staan apart. wildlifequiz-v2 blijft { punten, antwoorden }.
 const EI_SLEUTEL = "wildlifequiz-eieren";
-const EI_SOORTEN = ["parade", "glijden", "poollicht", "wildlife", "reeks", "nacht", "console"];
+const EI_SOORTEN = ["parade", "glijden", "poollicht", "wildlife", "reeks", "nacht", "console", "bezoeker"];
 const EI_VOOR_BADGE = 3;
 let reeks = 0;
 let badgeOnderweg = null;
@@ -3011,6 +3011,63 @@ function startGlijden() {
   }, rustig ? 1800 : 2800);
 }
 
+const SVG_BEZOEK =
+  '<svg viewBox="0 0 120 150" aria-hidden="true">' +
+    '<ellipse cx="60" cy="142" rx="28" ry="5" fill="#0c1210" opacity="0.35"/>' +
+    '<path d="M42 74c-16 5-22 26-12 38 8-2 16-10 16-20 0-7 0-13-4-18z" fill="#d5ddd8"/>' +
+    '<ellipse cx="60" cy="90" rx="28" ry="34" fill="#f3f6f4"/>' +
+    '<ellipse cx="60" cy="98" rx="16" ry="22" fill="#17211c"/>' +
+    '<circle cx="60" cy="48" r="22" fill="#f3f6f4"/>' +
+    '<circle cx="51" cy="46" r="2.3" fill="#121a16"/>' +
+    '<circle cx="69" cy="46" r="2.3" fill="#121a16"/>' +
+    '<path d="M53 56h14l-7 10z" fill="#f5b700"/>' +
+    '<path d="M55 59h10l-5 6z" fill="#e2a400"/>' +
+    '<ellipse cx="46" cy="124" rx="11" ry="4.2" fill="#f5b700"/>' +
+    '<ellipse cx="74" cy="124" rx="11" ry="4.2" fill="#e2a400"/>' +
+    '<g class="vleugel">' +
+      '<path d="M78 74c16 5 22 26 12 38-8-2-16-10-16-20 0-7 0-13 4-18z" fill="#d5ddd8"/>' +
+    "</g>" +
+  "</svg>";
+
+function startBezoeker() {
+  if (document.querySelector(".bezoek")) {
+    return;
+  }
+  vindEi("bezoeker");
+  toonSignaal("Er komt een bezoeker aan.");
+  const laag = document.createElement("div");
+  const rustig = minderBeweging();
+  laag.className = "bezoek" + (rustig ? " rustig" : "");
+  laag.setAttribute("aria-hidden", "true");
+  const el = document.createElement("div");
+  el.className = "bezoeker";
+  el.innerHTML = SVG_BEZOEK;
+  laag.appendChild(el);
+  document.body.appendChild(laag);
+  if (rustig) {
+    setTimeout(function () {
+      laag.remove();
+    }, 2500);
+    return;
+  }
+  el.classList.add("nadert");
+  setTimeout(function () {
+    el.classList.remove("nadert");
+    el.classList.add("staat");
+  }, 2600);
+  setTimeout(function () {
+    el.classList.remove("staat");
+    el.classList.add("zwaai");
+  }, 3600);
+  setTimeout(function () {
+    el.classList.remove("zwaai");
+    el.classList.add("weg");
+  }, 4600);
+  setTimeout(function () {
+    laag.remove();
+  }, 6200);
+}
+
 function startPoollicht() {
   if (document.querySelector(".poollicht")) {
     return;
@@ -3075,7 +3132,7 @@ function telSnel(e, staat, grens, actie) {
   }
 }
 
-const glijStaat = { n: 0, t: 0 };
+const plekStaat = { n: 0, t: 0, timer: null };
 const voetStaat = { n: 0, t: 0 };
 
 function koppelVasthouden(el, actie) {
@@ -3177,12 +3234,19 @@ function luisterWoorden() {
     }
     woordBuffer = (woordBuffer + e.key.toLowerCase()).slice(-16);
     const plat = woordBuffer.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    if (plat.endsWith("pinguin")) {
-      woordBuffer = "";
-      startPoollicht();
-    } else if (plat.endsWith("wildlife")) {
-      woordBuffer = "";
-      startRadar();
+    // Alleen het eind van de buffer telt. "pinpin" en "pinguin" delen het begin
+    // "pin"; een korter woord mag het langere dus niet onderscheppen.
+    const sporen = [
+      ["wildlife", startRadar],
+      ["pinguin", startPoollicht],
+      ["pinpin", startBezoeker]
+    ];
+    for (let i = 0; i < sporen.length; i++) {
+      if (plat.endsWith(sporen[i][0])) {
+        woordBuffer = "";
+        sporen[i][1]();
+        break;
+      }
     }
   });
 }
@@ -3223,8 +3287,39 @@ function startSporen() {
   koppelVasthouden(plek, startPoollicht);
   koppelVasthouden(logo, startRadar);
 
+  // Drie tikken, en daarna even wachten: de bezoeker.
+  // Een vierde of vijfde tik binnen die pauze annuleert hem.
+  // Vijf tikken blijven de buikglijder.
   plek.addEventListener("click", function (e) {
-    telSnel(e, glijStaat, 5, startGlijden);
+    if (onderdrukKlik) {
+      onderdrukKlik = false;
+      e.preventDefault();
+      return;
+    }
+    const nu = Date.now();
+    if (plekStaat.n === 0 || nu - plekStaat.t > 3000) {
+      plekStaat.n = 0;
+      plekStaat.t = nu;
+    }
+    plekStaat.n = plekStaat.n + 1;
+    if (plekStaat.timer) {
+      clearTimeout(plekStaat.timer);
+      plekStaat.timer = null;
+    }
+    if (plekStaat.n >= 5) {
+      plekStaat.n = 0;
+      plekStaat.t = 0;
+      startGlijden();
+      return;
+    }
+    if (plekStaat.n === 3) {
+      plekStaat.timer = setTimeout(function () {
+        plekStaat.timer = null;
+        plekStaat.n = 0;
+        plekStaat.t = 0;
+        startBezoeker();
+      }, 500);
+    }
   });
   voet.addEventListener("click", function (e) {
     telSnel(e, voetStaat, 5, function () {

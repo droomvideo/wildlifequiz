@@ -1746,12 +1746,102 @@ main,
   .poollicht,
   body.nacht .sterren,
   body.radar .logo-blok,
-  body.radar .gebied-kaart {
+  body.radar .gebied-kaart,
+  .bezoeker,
+  .vleugel {
     animation: none;
   }
   body.nacht .sterren { opacity: 0.8; }
   .glijbaan .glijder {
     left: 50%;
     transform: translateX(-50%);
+  }
+  .bezoek.rustig .bezoeker {
+    animation: bezoekFade 2.4s ease forwards;
+  }
+}
+
+/* Bezoeker: één pinguïn komt van ver, zwaait, en glijdt weg */
+.bezoek {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 27;
+  height: min(520px, 68vh);
+  overflow: hidden;
+  pointer-events: none;
+}
+.bezoeker {
+  position: absolute;
+  left: 50%;
+  bottom: 8%;
+  width: min(200px, 52vw);
+  margin-left: calc(min(200px, 52vw) / -2);
+  transform-origin: 50% 100%;
+}
+.bezoeker svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.38));
+}
+.bezoeker.nadert {
+  animation: bezoekNader 2.6s cubic-bezier(0.22, 0.7, 0.3, 1) forwards;
+}
+@keyframes bezoekNader {
+  0% { transform: translateY(-72px) scale(0.22) rotate(-8deg); }
+  16% { transform: translateY(-60px) scale(0.34) rotate(8deg); }
+  32% { transform: translateY(-48px) scale(0.48) rotate(-7deg); }
+  48% { transform: translateY(-34px) scale(0.62) rotate(6deg); }
+  64% { transform: translateY(-20px) scale(0.76) rotate(-4deg); }
+  80% { transform: translateY(-8px) scale(0.9) rotate(3deg); }
+  100% { transform: translateY(0) scale(1) rotate(0deg); }
+}
+.bezoeker.staat,
+.bezoeker.zwaai {
+  transform: translateY(0) scale(1) rotate(0deg);
+}
+.bezoeker .vleugel {
+  transform-box: fill-box;
+  transform-origin: 18% 12%;
+}
+.bezoeker.zwaai .vleugel {
+  animation: vleugelZwaai 0.45s ease-in-out 2;
+}
+@keyframes vleugelZwaai {
+  0%, 100% { transform: rotate(0deg); }
+  45% { transform: rotate(-34deg); }
+}
+.bezoeker.weg {
+  animation: bezoekWeg 1.5s cubic-bezier(0.45, 0, 0.75, 0.35) forwards;
+}
+@keyframes bezoekWeg {
+  0% { transform: translateY(0) scale(1) rotate(0deg); }
+  22% { transform: translateX(4%) translateY(8px) rotate(-72deg) scale(0.92, 0.76); }
+  100% { transform: translateX(90vw) translateY(14px) rotate(-78deg) scale(0.9, 0.72); }
+}
+.bezoek.rustig .bezoeker {
+  animation: bezoekFade 2.4s ease forwards;
+}
+@keyframes bezoekFade {
+  0% { opacity: 0; }
+  18% { opacity: 1; }
+  72% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@media (max-width: 560px) {
+  .bezoek { height: min(440px, 62vh); }
+  .bezoeker { bottom: 6%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bezoeker.nadert,
+  .bezoeker.weg,
+  .bezoeker.zwaai .vleugel {
+    animation: none;
+  }
+  .bezoek.rustig .bezoeker {
+    transform: none;
+    animation: bezoekFade 2.4s ease forwards;
   }
 }
