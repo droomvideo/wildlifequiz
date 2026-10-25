@@ -1951,16 +1951,17 @@ const dieren = [
 // alles: true = je moet ALLE vragen beantwoord hebben
 // icoon = de naam van het plaatje uit de lijst "iconen" hieronder
 //
-// De grenzen zijn een percentage van alle vragen samen. Voeg je dieren toe,
-// dan schuiven de badges vanzelf mee. Math.round rondt af op een heel getal.
+// De grenzen zijn een percentage van alle vragen samen, in goede antwoorden.
+// Voeg je dieren toe, dan schuiven de badges vanzelf mee. Math.round rondt af.
 // Met 82 dieren x 3 vragen = 246 vragen wordt dat: 1, 25, 62, 123, 185 en alles.
+// Ranger, Expert en Bioloog zijn het kwart, de helft en driekwart.
 const alleVragen = dieren.reduce(function (som, dier) { return som + dier.vragen.length; }, 0);
 const badges = [
   { naam: "Rookie",    punten: 1,                              icoon: "poot" },
   { naam: "Verkenner", punten: Math.round(alleVragen * 0.10),  icoon: "kompas" },
-  { naam: "Ranger",    punten: Math.round(alleVragen * 0.25),  icoon: "boom" },
-  { naam: "Expert",    punten: Math.round(alleVragen * 0.50),  icoon: "loep" },
-  { naam: "Bioloog",   punten: Math.round(alleVragen * 0.75),  icoon: "blad" },
+  { naam: "Ranger",    punten: Math.round(alleVragen * 0.25),  icoon: "boom", stempel: "Kwart",      mijlpaal: "Kwart gehaald!" },
+  { naam: "Expert",    punten: Math.round(alleVragen * 0.50),  icoon: "loep", stempel: "Halverwege", mijlpaal: "Halverwege!" },
+  { naam: "Bioloog",   punten: Math.round(alleVragen * 0.75),  icoon: "blad", stempel: "Driekwart",  mijlpaal: "Driekwart gehaald!" },
   { naam: "Legende",   alles: true,                            icoon: "kroon" }
 ];
 const geheimeBadge = { naam: "Geheime Pinguïn", icoon: "pinguin", geheim: true };
@@ -2567,11 +2568,15 @@ function toonBadges(animeren) {
     const eis = badge.geheim
       ? "Drie sporen"
       : (badge.alles ? "Alle vragen" : badge.punten + (badge.punten === 1 ? " punt" : " punten"));
+    const stempel = badge.stempel
+      ? '<div class="badge-stempel">' + badge.stempel + "</div>"
+      : "";
     vak.innerHTML =
       '<div class="medaille">' + iconen[badge.icoon] +
         '<span class="slotje">' + iconen.slot + "</span>" +
       "</div>" +
       '<div class="badge-naam">' + badge.naam + "</div>" +
+      stempel +
       '<div class="badge-eis">' + eis + "</div>";
     rij.appendChild(vak);
 
@@ -2623,7 +2628,8 @@ function toonBadgeTeller() {
 // STAP 1 - Verschijnen (CSS @keyframes "badgeVerschijnt" in style.css)
 //   Een grote medaille staat midden in beeld. Hij begint klein
 //   (transform: scale(0.2)) en groeit naar normale grootte (scale(1)).
-//   Tegelijk draait hij één keer rond: rotate(0deg) naar rotate(360deg).
+//   De medaille zelf draait één keer rond. De tekst eronder blijft stil,
+//   zodat "Kwart gehaald!" leesbaar is.
 //
 // STAP 2 - Wegvliegen (CSS transition + JavaScript)
 //   We meten met getBoundingClientRect() waar de medaille nu staat
@@ -2663,18 +2669,30 @@ function speelAnimatie(badge) {
   scherm.className = "badge-scherm";
   document.body.appendChild(scherm);
 
-  // De grote medaille met tekst eronder
+  // De grote medaille met tekst eronder.
+  // Bij kwart, helft en driekwart staat die mijlpaal groot in beeld.
   const groot = document.createElement("div");
   groot.className = "badge-groot";
+  groot.setAttribute("role", "status");
+  groot.setAttribute("aria-live", "polite");
+  const kop = badge.mijlpaal
+    ? badge.naam + "<strong>" + badge.mijlpaal + "</strong>"
+    : "Achievement ontgrendeld<strong>" + badge.naam + "</strong>";
   groot.innerHTML =
-    '<div class="medaille-groot">' + iconen[badge.icoon] + "</div>" +
-    '<div class="badge-groot-tekst">Achievement ontgrendeld<strong>' + badge.naam + "</strong></div>";
+    '<div class="medaille-groot"><div class="medaille-draai">' + iconen[badge.icoon] + "</div></div>" +
+    '<div class="badge-groot-tekst">' + kop + "</div>";
   document.body.appendChild(groot);
 
   // Klaar met de animatie: opruimen en de volgende starten
   badgeOnderweg = badge.naam;
+  let afgerond = false;
 
   function klaar() {
+    if (afgerond) {
+      return;
+    }
+    afgerond = true;
+    clearTimeout(nood);
     badgeOnderweg = null;
     groot.remove();
     scherm.remove();
@@ -2686,6 +2704,9 @@ function speelAnimatie(badge) {
     animatieBezig = false;
     startVolgendeAnimatie();
   }
+
+  // Valt de animatie stil, dan landt de badge alsnog. Geen tweede feest.
+  const nood = setTimeout(klaar, 4000);
 
   // Minder beweging: alleen rustig in- en uitfaden
   if (minderBeweging()) {
@@ -2700,7 +2721,10 @@ function speelAnimatie(badge) {
 
   // STAP 1: de CSS-animatie "badgeVerschijnt" start vanzelf (duurt 1,3 s).
   // Als die klaar is, gaat STAP 2 beginnen.
-  groot.addEventListener("animationend", function () {
+  groot.addEventListener("animationend", function (e) {
+    if (e.target !== groot) {
+      return;
+    }
     const medaille = groot.querySelector(".medaille-groot");
     const start = medaille.getBoundingClientRect();
     const doel = zoekDoel(badge).getBoundingClientRect();
