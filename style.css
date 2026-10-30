@@ -28,7 +28,10 @@ body {
   margin: 0;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
   font-size: 16px;
-  background: var(--achtergrond);
+  background:
+    radial-gradient(880px 420px at 0% -8%, rgba(245, 183, 0, 0.055), transparent 58%),
+    radial-gradient(720px 380px at 100% 0%, rgba(26, 56, 64, 0.5), transparent 52%),
+    var(--achtergrond);
   color: var(--tekst);
   overflow-x: clip;
   padding-left: env(safe-area-inset-left);
@@ -607,7 +610,10 @@ a {
   border: 1px solid var(--rand);
   border-radius: 8px;
   cursor: pointer;
-  transition: border-color 0.15s, background 0.15s;
+  transition: border-color 0.15s, background 0.15s, transform 0.12s;
+}
+.antwoord:active:enabled {
+  transform: translateY(1px);
 }
 
 /* De letter A, B, C of D voor elk antwoord */
@@ -1114,7 +1120,13 @@ a {
   font-weight: 700;
 }
 .geen-dier {
+  margin: 8px 0 0;
+  padding: 22px 16px;
+  text-align: center;
   color: var(--tekst-zacht);
+  background: var(--vlak);
+  border: 1px dashed var(--rand);
+  border-radius: 12px;
 }
 
 
@@ -2080,5 +2092,251 @@ body.minigame #minigame {
   .bezoek.rustig .bezoeker {
     transform: none;
     animation: bezoekFade 2.4s ease forwards;
+  }
+}
+
+/* ===== Extra detail: dagkaart, gebied, paspoort ===== */
+#overzicht:not(.verborgen),
+#gebied-pagina:not(.verborgen),
+#dier-pagina:not(.verborgen) {
+  animation: paginaIn 0.34s ease;
+}
+@keyframes paginaIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+.start-strook {
+  display: grid;
+  grid-template-columns: 1.35fr 0.9fr;
+  gap: 14px;
+  margin: 0 0 22px;
+}
+.dag-kaart,
+.totaal-kaart {
+  min-width: 0;
+  border: 1px solid var(--rand);
+  border-radius: 14px;
+  background: rgba(22, 33, 27, 0.92);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+}
+.dag-kaart {
+  display: grid;
+  grid-template-columns: 128px 1fr;
+  min-height: 128px;
+  overflow: hidden;
+  color: inherit;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.dag-kaart:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+.dag-foto {
+  width: 128px;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.dag-tekst {
+  padding: 14px 16px;
+}
+.dag-tekst h3 {
+  margin: 4px 0 6px;
+  font-size: 22px;
+}
+.dag-tekst p:last-child {
+  margin: 0;
+  color: var(--tekst-zacht);
+  font-size: 14px;
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.totaal-kaart {
+  padding: 14px 16px 16px;
+}
+.totaal-cijfers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 14px;
+  margin-top: 10px;
+}
+.totaal-cijfers div {
+  min-width: 0;
+  font-size: 13px;
+  color: var(--tekst-zacht);
+}
+.totaal-cijfers strong {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 20px;
+  font-variant-numeric: tabular-nums;
+  color: var(--tekst);
+}
+
+.gebied-kop {
+  display: grid;
+  grid-template-columns: auto 1fr minmax(190px, 260px);
+  gap: 8px 16px;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 16px 18px;
+  background: rgba(22, 33, 27, 0.92);
+  border: 1px solid var(--rand);
+  border-radius: 14px;
+}
+.gebied-icoon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  color: #0d1511;
+  background: linear-gradient(145deg, #ffe08a, #c98f00);
+}
+.gebied-icoon svg {
+  width: 26px;
+  height: 26px;
+}
+.gebied-kop-tekst h2 {
+  font-size: 28px;
+}
+.gebied-kop-tekst p {
+  margin: 4px 0 0;
+  color: var(--tekst-zacht);
+}
+.gebied-stand {
+  min-width: 0;
+}
+.stand-balk {
+  height: 6px;
+  margin: 8px 0 6px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+#gebied-balk {
+  height: 100%;
+  width: 0;
+  background: var(--accent);
+  transition: width 0.4s ease;
+}
+#gebied-score {
+  margin: 0;
+  font-size: 13px;
+  color: var(--tekst-zacht);
+}
+
+.dier-extra {
+  display: grid;
+  grid-template-columns: 1.45fr 0.9fr;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.paspoort {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 9px 12px;
+  align-content: start;
+  margin: 0;
+  padding: 16px 18px;
+  background: rgba(22, 33, 27, 0.92);
+  border: 1px solid var(--rand);
+  border-radius: 14px;
+}
+.paspoort dt {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tekst-zacht);
+}
+.paspoort dd {
+  margin: 0;
+  line-height: 1.35;
+}
+.paspoort dd.let-op {
+  color: #f0c14a;
+}
+.wistjedat {
+  margin: 0;
+  padding: 16px 18px;
+  background: rgba(22, 33, 27, 0.92);
+  border: 1px solid var(--rand);
+  border-left: 3px solid var(--accent);
+  border-radius: 14px;
+}
+.wistjedat p:last-child {
+  margin: 8px 0 0;
+  line-height: 1.5;
+}
+
+.voet-regel {
+  margin: 0 0 4px;
+  color: var(--tekst);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.gebied-kaart:active,
+.kaart:active,
+.dag-kaart:active {
+  transform: translateY(0) scale(0.985);
+}
+
+@media (max-width: 800px) {
+  .start-strook,
+  .dier-extra,
+  .gebied-kop {
+    grid-template-columns: 1fr;
+  }
+  .gebied-icoon {
+    grid-row: 1;
+  }
+}
+@media (max-width: 560px) {
+  .dag-kaart {
+    grid-template-columns: 96px 1fr;
+    min-height: 112px;
+  }
+  .dag-foto { width: 96px; }
+  .dag-tekst { padding: 12px; }
+  .dag-tekst h3 { font-size: 18px; }
+  .totaal-cijfers strong { font-size: 18px; }
+  .gebied-kop { padding: 14px; }
+  .gebied-kop-tekst h2 { font-size: 24px; }
+  .paspoort { grid-template-columns: 78px 1fr; padding: 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #overzicht,
+  #gebied-pagina,
+  #dier-pagina,
+  .gebied-kaart,
+  .kaart,
+  .dag-kaart,
+  .antwoord,
+  .voortgang-vulling,
+  #gebied-balk,
+  .gebied-foto,
+  .kaart-foto {
+    animation: none;
+    transition: none;
+  }
+  .gebied-kaart:hover,
+  .kaart:hover,
+  .dag-kaart:hover,
+  .gebied-kaart:active,
+  .kaart:active,
+  .dag-kaart:active,
+  .gebied-kaart:hover .gebied-foto,
+  .kaart:hover .kaart-foto,
+  .antwoord:active:enabled {
+    transform: none;
   }
 }
