@@ -24,18 +24,18 @@
 //
 // Nieuw gebied? Voeg een regel toe en geef dieren hetzelfde gebied-id.
 const gebieden = [
-  { id: "pool",       naam: "Poolgebieden", tekst: "IJs, sneeuw en extreme kou",             foto: "fotos/ijsbeer.jpg" },
-  { id: "savanne",    naam: "Savanne",      tekst: "Eindeloze graslanden in Afrika",         foto: "fotos/zebra.jpg" },
-  { id: "oceaan",     naam: "Oceaan",       tekst: "Leven onder het wateroppervlak",         foto: "fotos/zeeschildpad.jpg" },
-  { id: "jungle",     naam: "Regenwoud",    tekst: "Warm, nat en vol leven",                 foto: "fotos/ara.jpg" },
-  { id: "bos",        naam: "Bos",          tekst: "Bomen, bladeren en verborgen bewoners",  foto: "fotos/eekhoorn.jpg" },
-  { id: "insecten",   naam: "Insecten",     tekst: "Klein, slim en overal te vinden",        foto: "fotos/koninginnenpage.jpg" },
-  { id: "boerderij",  naam: "Boerderij",    tekst: "Dieren die met mensen samenleven",       foto: "fotos/paard.jpg" },
-  { id: "huisdieren", naam: "Huisdieren",   tekst: "Je beste vrienden thuis",                foto: "fotos/hond.jpg" },
-  { id: "woestijn",   naam: "Woestijn",     tekst: "Hitte, zand en weinig water",            foto: "fotos/dromedaris.jpg" },
-  { id: "rivier",     naam: "Rivier & Meer", tekst: "Leven in en rond zoet water",           foto: "fotos/nijlpaard.jpg" },
-  { id: "australie",  naam: "Australië",    tekst: "Buideldieren en bijzondere vogels",      foto: "fotos/koala.jpg" },
-  { id: "bergen",     naam: "Bergen",       tekst: "Hoog, steil en ijskoud",                 foto: "fotos/sneeuwluipaard.jpg" }
+  { id: "pool",       naam: "Poolgebieden", tekst: "IJs, sneeuw en extreme kou",            zin: "Dieren die kou, sneeuw en zee-ijs als thuis gebruiken.", foto: "fotos/ijsbeer.jpg" },
+  { id: "savanne",    naam: "Savanne",      tekst: "Eindeloze graslanden in Afrika",        zin: "Grote kuddes en jagers op de open vlakte.", foto: "fotos/zebra.jpg" },
+  { id: "oceaan",     naam: "Oceaan",       tekst: "Leven onder het wateroppervlak",        zin: "Van de kust tot de diepe zee.", foto: "fotos/zeeschildpad.jpg" },
+  { id: "jungle",     naam: "Regenwoud",    tekst: "Warm, nat en vol leven",                zin: "Dichte bossen waar het zelden stil is.", foto: "fotos/ara.jpg" },
+  { id: "bos",        naam: "Bos",          tekst: "Bomen, bladeren en verborgen bewoners", zin: "Bosrand, holle boom en open plek.", foto: "fotos/eekhoorn.jpg" },
+  { id: "insecten",   naam: "Insecten",     tekst: "Klein, slim en overal te vinden",       zin: "Zes poten, en een grotere rol dan je denkt.", foto: "fotos/koninginnenpage.jpg" },
+  { id: "boerderij",  naam: "Boerderij",    tekst: "Dieren die met mensen samenleven",      zin: "Dieren die al eeuwen op het erf staan.", foto: "fotos/paard.jpg" },
+  { id: "huisdieren", naam: "Huisdieren",   tekst: "Je beste vrienden thuis",               zin: "Dieren die bij mensen in huis wonen.", foto: "fotos/hond.jpg" },
+  { id: "woestijn",   naam: "Woestijn",     tekst: "Hitte, zand en weinig water",           zin: "Overleven waar water schaars is.", foto: "fotos/dromedaris.jpg" },
+  { id: "rivier",     naam: "Rivier & Meer", tekst: "Leven in en rond zoet water",          zin: "Oevers, stromend water en ondiepe meren.", foto: "fotos/nijlpaard.jpg" },
+  { id: "australie",  naam: "Australië",    tekst: "Buideldieren en bijzondere vogels",     zin: "Een continent met dieren die nergens anders leven.", foto: "fotos/koala.jpg" },
+  { id: "bergen",     naam: "Bergen",       tekst: "Hoog, steil en ijskoud",                zin: "Steile hellingen en ijle lucht.", foto: "fotos/sneeuwluipaard.jpg" }
 ];
 
 
@@ -1944,6 +1944,109 @@ const dieren = [
 ];
 
 
+// Korte, controleerbare feiten per dier. Alleen velden die breed bekend zijn.
+// Bij een groep (dolfijn, schildpad) staat dat soorten verschillen.
+const paspoort = {
+  ijsbeer: { lengte: "2–3 m", gewicht: "Mannetjes vaak meer dan 500 kg", leeftijd: "20–25 jaar", dieet: "Vooral zeehonden", leeft: "Noordpool, op zee-ijs", status: "Kwetsbaar" },
+  poolvos: { lengte: "50–75 cm", gewicht: "3–8 kg", leeftijd: "3–6 jaar in het wild", dieet: "Lemming, vogels en aas", leeft: "Toendra rond de pool", status: "Niet bedreigd" },
+  keizerspinguin: { lengte: "Ruim 1 m", gewicht: "Tot ongeveer 40 kg", leeftijd: "Ongeveer 20 jaar", dieet: "Vis, krill en inktvis", leeft: "Antarctica", status: "Gevoelig" },
+  walrus: { lengte: "2,5–3,5 m", gewicht: "Grote mannetjes meer dan 1000 kg", leeftijd: "30–40 jaar", dieet: "Schelpdieren van de zeebodem", leeft: "Ondiepe poolzeeën", status: "Kwetsbaar" },
+  sneeuwuil: { lengte: "53–70 cm", gewicht: "1–2,5 kg", leeftijd: "Ongeveer 10 jaar", dieet: "Vooral lemmingen", leeft: "Arctische toendra", status: "Kwetsbaar" },
+  rendier: { lengte: "1,5–2,1 m", gewicht: "80–180 kg", leeftijd: "12–15 jaar", dieet: "Korstmos en planten", leeft: "Toendra en noordelijk bos", status: "Kwetsbaar" },
+  zeehond: { lengte: "1,6–1,9 m", gewicht: "100–140 kg", leeftijd: "Tot ongeveer 30 jaar", dieet: "Vis en kreeftachtigen", leeft: "Noordelijke Atlantische Oceaan", status: "Niet bedreigd" },
+  olifant: { lengte: "Schouder 3–4 m", gewicht: "Grote mannetjes tot ongeveer 6000 kg", leeftijd: "60–70 jaar", dieet: "Gras, bladeren en bast", leeft: "Afrikaanse savanne", status: "Bedreigd" },
+  leeuw: { lengte: "1,7–2,5 m", gewicht: "Mannetjes 150–250 kg", leeftijd: "10–14 jaar in het wild", dieet: "Vlees", leeft: "Afrikaanse savanne", status: "Kwetsbaar" },
+  giraffe: { lengte: "Tot bijna 6 m", gewicht: "800–1200 kg", leeftijd: "Ongeveer 25 jaar", dieet: "Bladeren, vooral acacia", leeft: "Afrikaanse savanne", status: "Kwetsbaar" },
+  zebra: { lengte: "2,2–2,5 m", gewicht: "220–350 kg", leeftijd: "20–25 jaar", dieet: "Gras", leeft: "Afrikaanse savanne", status: "Gevoelig" },
+  cheeta: { lengte: "Lichaam 1,1–1,5 m", gewicht: "35–65 kg", leeftijd: "10–12 jaar in het wild", dieet: "Vlees", leeft: "Open savanne", status: "Kwetsbaar" },
+  neushoorn: { lengte: "3,5–4,5 m", gewicht: "Meer dan 2000 kg", leeftijd: "40–50 jaar", dieet: "Gras", leeft: "Zuidelijk en oostelijk Afrika", status: "Gevoelig" },
+  struisvogel: { lengte: "Ongeveer 2,5 m", gewicht: "90–150 kg", leeftijd: "30–40 jaar", dieet: "Planten, zaden en insecten", leeft: "Afrikaanse savanne", status: "Niet bedreigd" },
+  wrattenzwijn: { lengte: "1,2–1,5 m", gewicht: "50–150 kg", leeftijd: "12–15 jaar", dieet: "Gras, wortels en knollen", leeft: "Afrikaanse savanne", status: "Niet bedreigd" },
+  bultrug: { lengte: "12–16 m", gewicht: "25–30 ton", leeftijd: "Ongeveer 50 jaar", dieet: "Krill en kleine vis", leeft: "Alle oceanen", status: "Niet bedreigd" },
+  dolfijn: { lengte: "2–4 m, afhankelijk van de soort", gewicht: "150–400 kg", leeftijd: "20–40 jaar", dieet: "Vis en inktvis", leeft: "Kust en open oceaan", status: "De bekende tuimelaar is niet bedreigd" },
+  octopus: { lengte: "Armen tot ongeveer 1 m", gewicht: "3–10 kg", leeftijd: "1–2 jaar", dieet: "Krabben en schelpdieren", leeft: "Rotsige kusten", status: "Niet bedreigd" },
+  zeeschildpad: { lengte: "0,6–1,5 m, soorten verschillen", gewicht: "40–150 kg", leeftijd: "Tientallen jaren", dieet: "Zeegras, kwallen of schaaldieren", leeft: "Warme zeeën", status: "De meeste soorten zijn bedreigd" },
+  zeepaardje: { lengte: "2–30 cm, afhankelijk van de soort", gewicht: "Enkele grammen tot ruim 100 g", leeftijd: "1–5 jaar", dieet: "Kleine kreeftachtigen", leeft: "Ondiep water met zeegras", status: "Veel soorten zijn kwetsbaar" },
+  orka: { lengte: "Mannetjes 8–9 m", gewicht: "3–6 ton", leeftijd: "30–50 jaar, vrouwtjes vaak langer", dieet: "Vis of zeezoogdieren, per groep", leeft: "Alle oceanen", status: "Onvoldoende gegevens" },
+  zeeotter: { lengte: "1–1,5 m", gewicht: "15–45 kg", leeftijd: "15–20 jaar", dieet: "Zee-egels, krabben en schelpen", leeft: "Kusten van de noordelijke Stille Oceaan", status: "Bedreigd" },
+  zeeleeuw: { lengte: "1,8–2,5 m", gewicht: "Vrouwtjes rond 100 kg, mannetjes rond 300 kg", leeftijd: "15–25 jaar", dieet: "Vis en inktvis", leeft: "Pacifische kust van Noord-Amerika", status: "Niet bedreigd" },
+  tijger: { lengte: "2,5–3,5 m met staart", gewicht: "100–260 kg", leeftijd: "10–15 jaar in het wild", dieet: "Vlees", leeft: "Bossen in Azië", status: "Bedreigd" },
+  ara: { lengte: "80–95 cm", gewicht: "Ongeveer 1 kg", leeftijd: "30–50 jaar", dieet: "Vruchten, zaden en noten", leeft: "Regenwouden van Midden- en Zuid-Amerika", status: "Sommige soorten zijn bedreigd" },
+  gorilla: { lengte: "1,4–1,8 m staand", gewicht: "70–200 kg", leeftijd: "35–40 jaar", dieet: "Bladeren, stengels en fruit", leeft: "Bossen in Centraal-Afrika", status: "Ernstig bedreigd" },
+  luiaard: { lengte: "50–70 cm", gewicht: "4–8 kg", leeftijd: "20–30 jaar", dieet: "Bladeren", leeft: "Bomen in het regenwoud", status: "De bekende drievingerige luiaard is niet bedreigd" },
+  pijlgifkikker: { lengte: "2–6 cm, afhankelijk van de soort", gewicht: "Enkele grammen", leeftijd: "5–10 jaar", dieet: "Mieren, mijten en andere kleine dieren", leeft: "Bodem van het regenwoud", status: "Meerdere soorten zijn bedreigd" },
+  chimpansee: { lengte: "1–1,7 m", gewicht: "40–70 kg", leeftijd: "40–50 jaar", dieet: "Fruit, bladeren en soms vlees", leeft: "Bossen in Afrika", status: "Bedreigd" },
+  orangoetan: { lengte: "1,2–1,5 m", gewicht: "30–90 kg", leeftijd: "35–45 jaar", dieet: "Vooral fruit", leeft: "Borneo en Sumatra", status: "Ernstig bedreigd" },
+  toekan: { lengte: "55–65 cm", gewicht: "500–800 g", leeftijd: "15–20 jaar", dieet: "Fruit en insecten", leeft: "Bosranden in Zuid-Amerika", status: "Niet bedreigd" },
+  kerkuil: { lengte: "33–39 cm", gewicht: "250–500 g", leeftijd: "4–10 jaar in het wild", dieet: "Muizen en andere kleine dieren", leeft: "Boerderijen en open land", status: "Niet bedreigd" },
+  panda: { lengte: "1,2–1,9 m", gewicht: "70–120 kg", leeftijd: "Ongeveer 20 jaar", dieet: "Bijna alleen bamboe", leeft: "Bergbossen in centraal China", status: "Kwetsbaar" },
+  eekhoorn: { lengte: "Lichaam 20–25 cm", gewicht: "250–350 g", leeftijd: "5–7 jaar", dieet: "Zaden, noten en knoppen", leeft: "Bossen in Europa en Azië", status: "Niet bedreigd" },
+  egel: { lengte: "20–30 cm", gewicht: "0,5–1,5 kg", leeftijd: "3–7 jaar", dieet: "Insecten, wormen en slakken", leeft: "Bossen, tuinen en heggen", status: "Gevoelig" },
+  vos: { lengte: "Lichaam 60–90 cm", gewicht: "4–8 kg", leeftijd: "3–5 jaar in het wild", dieet: "Alleseter", leeft: "Bijna de hele wereld", status: "Niet bedreigd" },
+  wolf: { lengte: "Lichaam 1–1,6 m", gewicht: "25–50 kg", leeftijd: "6–8 jaar in het wild", dieet: "Vlees", leeft: "Bossen en toendra op het noordelijk halfrond", status: "Niet bedreigd" },
+  edelhert: { lengte: "1,6–2,5 m", gewicht: "80–200 kg", leeftijd: "15–20 jaar", dieet: "Gras, knoppen en bast", leeft: "Bossen in Europa en Azië", status: "Niet bedreigd" },
+  bruinebeer: { lengte: "1,5–2,8 m", gewicht: "80–400 kg", leeftijd: "20–30 jaar", dieet: "Alleseter", leeft: "Bossen van Europa, Azië en Noord-Amerika", status: "Niet bedreigd" },
+  honingbij: { lengte: "Werkster 12–15 mm", gewicht: "Ongeveer 0,1 g", leeftijd: "Werkster weken, koningin enkele jaren", dieet: "Nectar en stuifmeel", leeft: "Overal waar mensen imkeren", status: "Wijdverspreid, ook als huisdier gehouden" },
+  monarchvlinder: { lengte: "Spanwijdte 9–10 cm", gewicht: "Minder dan 1 g", leeftijd: "Volwassen dier enkele weken", dieet: "Nectar", leeft: "Noord-Amerika, trek naar Mexico", status: "Bedreigd" },
+  lieveheersbeestje: { lengte: "5–8 mm", gewicht: "Enkele milligrammen", leeftijd: "Ongeveer 1 jaar", dieet: "Bladluizen", leeft: "Tuinen en velden", status: "Niet bedreigd" },
+  libel: { lengte: "Lichaam 7–8 cm", gewicht: "Ongeveer 1 g", leeftijd: "Larve een jaar, volwassen enkele weken", dieet: "Vliegende insecten", leeft: "Vijvers in Europa en Afrika", status: "Niet bedreigd" },
+  sprinkhaan: { lengte: "Lichaam 3–4 cm", gewicht: "Enkele grammen", leeftijd: "Ongeveer 1 jaar", dieet: "Insecten en planten", leeft: "Weiden en heggen in Europa", status: "Niet bedreigd" },
+  vliegendhert: { lengte: "Mannetjes 3–8 cm", gewicht: "Enkele grammen", leeftijd: "Larve jaren, kever enkele weken", dieet: "Larve eet vermolmd hout", leeft: "Oude loofbossen in Europa", status: "Gevoelig" },
+  koninginnenpage: { lengte: "Spanwijdte 6–8 cm", gewicht: "Minder dan 1 g", leeftijd: "Volwassen dier enkele weken", dieet: "Nectar", leeft: "Europa, Azië en Noord-Afrika", status: "Niet bedreigd" },
+  koe: { lengte: "Schouder 1,2–1,5 m", gewicht: "400–800 kg", leeftijd: "15–20 jaar", dieet: "Gras en hooi", leeft: "Boerderijen wereldwijd", status: "Gedomesticeerd" },
+  varken: { lengte: "Schouder 0,7–1 m", gewicht: "100–300 kg", leeftijd: "10–15 jaar", dieet: "Alleseter", leeft: "Boerderijen wereldwijd", status: "Gedomesticeerd" },
+  kip: { lengte: "30–40 cm hoog", gewicht: "1–3 kg", leeftijd: "5–10 jaar", dieet: "Zaden, groen en insecten", leeft: "Boerderijen wereldwijd", status: "Gedomesticeerd" },
+  paard: { lengte: "Schouder 1,4–1,8 m", gewicht: "380–600 kg", leeftijd: "25–30 jaar", dieet: "Gras en hooi", leeft: "Weiden wereldwijd", status: "Gedomesticeerd" },
+  schaap: { lengte: "Schouder 0,6–1 m", gewicht: "45–100 kg", leeftijd: "10–12 jaar", dieet: "Gras", leeft: "Weiden wereldwijd", status: "Gedomesticeerd" },
+  geit: { lengte: "Schouder 0,6–0,9 m", gewicht: "30–80 kg", leeftijd: "12–15 jaar", dieet: "Gras, bladeren en twijgen", leeft: "Boerderijen en rotsige grond", status: "Gedomesticeerd" },
+  eend: { lengte: "50–60 cm", gewicht: "0,7–1,5 kg", leeftijd: "5–10 jaar", dieet: "Planten, zaden en waterdiertjes", leeft: "Meren, sloten en parken", status: "Niet bedreigd" },
+  ezel: { lengte: "Schouder 0,9–1,5 m", gewicht: "150–250 kg", leeftijd: "25–30 jaar", dieet: "Gras en hooi", leeft: "Boerderijen wereldwijd", status: "Gedomesticeerd" },
+  hond: { lengte: "Sterk afhankelijk van het ras", gewicht: "1–70 kg", leeftijd: "10–15 jaar", dieet: "Vlees en brokken", leeft: "Bij mensen, wereldwijd", status: "Gedomesticeerd" },
+  kat: { lengte: "Lichaam 40–50 cm", gewicht: "3–6 kg", leeftijd: "12–18 jaar", dieet: "Vlees", leeft: "Bij mensen, wereldwijd", status: "Gedomesticeerd" },
+  konijn: { lengte: "30–50 cm", gewicht: "1–3 kg", leeftijd: "8–12 jaar", dieet: "Gras en hooi", leeft: "Hok en tuin, wilde soort in Europa", status: "Gedomesticeerd" },
+  hamster: { lengte: "12–18 cm", gewicht: "100–150 g", leeftijd: "2–3 jaar", dieet: "Zaden, groen en insecten", leeft: "Als huisdier; wilde goudhamster in Syrië", status: "Gedomesticeerd" },
+  cavia: { lengte: "20–30 cm", gewicht: "0,7–1,2 kg", leeftijd: "5–7 jaar", dieet: "Hooi, gras en groente", leeft: "Als huisdier; herkomst de Andes", status: "Gedomesticeerd" },
+  grasparkiet: { lengte: "Ongeveer 18 cm", gewicht: "30–40 g", leeftijd: "5–10 jaar", dieet: "Zaden", leeft: "Wild in Australië, als huisdier wereldwijd", status: "Niet bedreigd" },
+  dromedaris: { lengte: "Schouder 1,8–2,2 m", gewicht: "400–600 kg", leeftijd: "Tot ongeveer 40 jaar", dieet: "Dorstige planten en droog gras", leeft: "Woestijnen van Noord-Afrika en het Midden-Oosten", status: "Gedomesticeerd" },
+  stokstaartje: { lengte: "Lichaam 25–35 cm", gewicht: "0,6–1 kg", leeftijd: "6–10 jaar", dieet: "Insecten en schorpioenen", leeft: "Droge vlaktes in zuidelijk Afrika", status: "Niet bedreigd" },
+  woestijnschildpad: { lengte: "25–35 cm", gewicht: "4–7 kg", leeftijd: "50–80 jaar", dieet: "Grassen en wilde bloemen", leeft: "Mojavewoestijn", status: "Ernstig bedreigd" },
+  zandgazelle: { lengte: "Ongeveer 1 m", gewicht: "15–25 kg", leeftijd: "10–12 jaar", dieet: "Grassen en bladeren", leeft: "Woestijnen van het Arabisch Schiereiland", status: "Kwetsbaar" },
+  nijlpaard: { lengte: "3–5 m", gewicht: "1300–1800 kg, mannetjes zwaarder", leeftijd: "40–50 jaar", dieet: "Gras", leeft: "Rivieren en meren in Afrika", status: "Kwetsbaar" },
+  otter: { lengte: "Lichaam 60–90 cm", gewicht: "6–10 kg", leeftijd: "8–12 jaar", dieet: "Vis", leeft: "Rivieren en kusten in Europa", status: "Gevoelig" },
+  bever: { lengte: "Lichaam 80–100 cm", gewicht: "15–30 kg", leeftijd: "10–15 jaar", dieet: "Bast, twijgen en waterplanten", leeft: "Rivieren in Europa, Azië en Noord-Amerika", status: "Niet bedreigd" },
+  flamingo: { lengte: "1,1–1,5 m", gewicht: "2–4 kg", leeftijd: "20–30 jaar", dieet: "Algen en kleine kreeftjes", leeft: "Ondiepe zoute meren", status: "Niet bedreigd" },
+  krokodil: { lengte: "3,5–5 m", gewicht: "200–500 kg", leeftijd: "40–60 jaar", dieet: "Vlees", leeft: "Rivieren en meren in Afrika", status: "Niet bedreigd" },
+  knobbelzwaan: { lengte: "1,4–1,6 m", gewicht: "8–12 kg", leeftijd: "10–20 jaar", dieet: "Waterplanten", leeft: "Meren en grachten in Europa", status: "Niet bedreigd" },
+  kangoeroe: { lengte: "Lichaam 1,5–1,8 m, plus staart", gewicht: "Mannetjes 50–70 kg", leeftijd: "15–20 jaar", dieet: "Gras", leeft: "Oost-Australië", status: "Niet bedreigd" },
+  koala: { lengte: "60–85 cm", gewicht: "4–15 kg", leeftijd: "10–12 jaar in het wild", dieet: "Bijna alleen eucalyptus", leeft: "Oost-Australië", status: "Kwetsbaar" },
+  emoe: { lengte: "1,5–1,9 m", gewicht: "30–45 kg", leeftijd: "10–20 jaar", dieet: "Planten, zaden en insecten", leeft: "Open land in Australië", status: "Niet bedreigd" },
+  wombat: { lengte: "0,8–1,2 m", gewicht: "20–35 kg", leeftijd: "Ongeveer 15 jaar", dieet: "Gras", leeft: "Zuidoost-Australië", status: "Niet bedreigd" },
+  tasmaanseduivel: { lengte: "Lichaam 50–65 cm", gewicht: "6–8 kg", leeftijd: "5–6 jaar in het wild", dieet: "Aas en vlees", leeft: "Tasmanië", status: "Bedreigd" },
+  kookaburra: { lengte: "40–45 cm", gewicht: "300–400 g", leeftijd: "10–15 jaar", dieet: "Insecten en kleine dieren", leeft: "Oost-Australië", status: "Niet bedreigd" },
+  sneeuwluipaard: { lengte: "Lichaam 1–1,3 m", gewicht: "25–55 kg", leeftijd: "10–12 jaar in het wild", dieet: "Vlees, vooral hoefdieren", leeft: "Hoge bergen in Centraal-Azië", status: "Kwetsbaar" },
+  steenbok: { lengte: "1,3–1,5 m", gewicht: "40–100 kg", leeftijd: "15–20 jaar", dieet: "Gras en kruiden", leeft: "Europese Alpen", status: "Niet bedreigd" },
+  lama: { lengte: "Schouder 1,1–1,2 m", gewicht: "130–200 kg", leeftijd: "15–20 jaar", dieet: "Gras", leeft: "Andes, als lastdier", status: "Gedomesticeerd" },
+  marmot: { lengte: "40–60 cm", gewicht: "3–6 kg", leeftijd: "10–15 jaar", dieet: "Gras en kruiden", leeft: "Alpenweiden", status: "Niet bedreigd" },
+  rodepanda: { lengte: "Lichaam 50–65 cm", gewicht: "3–6 kg", leeftijd: "8–10 jaar in het wild", dieet: "Bamboe en fruit", leeft: "Bergbossen van de Himalaya", status: "Bedreigd" },
+  yak: { lengte: "Schouder 1,6–2 m", gewicht: "300–500 kg", leeftijd: "Ongeveer 20 jaar", dieet: "Gras en kruiden", leeft: "Hoogvlakte van Tibet", status: "De wilde jak is ernstig bedreigd" }
+};
+
+const gebiedIcoon = {
+  pool: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v18M4 8l8 4 8-4M4 16l8-4 8 4"/></svg>',
+  savanne: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="3.2"/><path d="M12 3v2.2M12 18.8V21M4.2 7.2l1.6 1.6M18.2 15.2l1.6 1.6M3 12h2.2M18.8 12H21M4.2 16.8l1.6-1.6M18.2 8.8l1.6-1.6"/></svg>',
+  oceaan: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 14c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2M3 18c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2"/></svg>',
+  jungle: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 20c0-8 6-14 15-15-1 9-7 15-15 15z"/><path d="M9 16c2-3 5-5 8-6"/></svg>',
+  bos: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21V11M8 21h8M12 11 7 16h3l-4 5h12l-4-5h3z"/></svg>',
+  insecten: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><ellipse cx="12" cy="14" rx="3.2" ry="4.2"/><circle cx="12" cy="7" r="2"/><path d="M9 6 6 4M15 6l3-2M9 13H5M19 13h-4M9 16l-3 2M15 16l3 2"/></svg>',
+  boerderij: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20V11l8-6 8 6v9M9 20v-5h6v5"/></svg>',
+  huisdieren: '<svg viewBox="0 0 24 24" fill="currentColor"><ellipse cx="6" cy="9" rx="1.7" ry="2.2"/><ellipse cx="10" cy="5.6" rx="1.7" ry="2.2"/><ellipse cx="14" cy="5.6" rx="1.7" ry="2.2"/><ellipse cx="18" cy="9" rx="1.7" ry="2.2"/><path d="M12 11c-2.4 0-5 2.6-5 4.8 0 1.4 1.2 2.1 2.6 1.8 1-.2 1.6-.6 2.4-.6s1.4.4 2.4.6c1.4.3 2.6-.4 2.6-1.8 0-2.2-2.6-4.8-5-4.8z"/></svg>',
+  woestijn: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 17c2.5-3 4.5-3 6.5 0s4 3 6.5 0 4-3 5 0"/><circle cx="17" cy="7" r="2.2"/></svg>',
+  rivier: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 4c2 3 2 5 0 8s-2 5 0 8"/><path d="M8 7c2 2 2 3.5 0 5.5M16 11c-2 2-2 3.5 0 5.5"/></svg>',
+  australie: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 14c2-5 5-7 8-6 2 .6 3 2 4 2 2 0 3 2 2 4-1 3-4 5-8 5-4 0-7-2-6-5z"/></svg>',
+  bergen: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 19 9 8l3 5 3-7 6 13z"/></svg>'
+};
+
+
 // =====================================================
 // 3. ACHIEVEMENTS (BADGES)
 // =====================================================
@@ -2185,14 +2288,120 @@ function dierKlaar(dier) {
   return vragenGedaan(dier) === dier.vragen.length;
 }
 
+// Goede antwoorden binnen één gebied, plus hoeveel vragen er zijn.
+function gebiedStand(gebiedId) {
+  const lijst = dierenVan(gebiedId);
+  let totaal = 0;
+  let goed = 0;
+  lijst.forEach(function (dier) {
+    dier.vragen.forEach(function (v, nummer) {
+      totaal = totaal + 1;
+      if (antwoorden[dier.id + ":" + nummer] === v.goed) goed = goed + 1;
+    });
+  });
+  return { totaal: totaal, goed: goed, dieren: lijst.length, klaar: lijst.filter(dierKlaar).length };
+}
+
+// Zelfde datum, zelfde dier. Geen toeval en geen persoonlijke gegevens.
+function dierVanDeDag(datum) {
+  const dag = datum || new Date();
+  const sleutel = dag.getFullYear() + "-" + (dag.getMonth() + 1) + "-" + dag.getDate();
+  let n = 0;
+  for (let i = 0; i < sleutel.length; i++) {
+    n = (n * 33 + sleutel.charCodeAt(i)) >>> 0;
+  }
+  return dieren[n % dieren.length];
+}
+
+let puntenGetoond = null;
+let puntenTick = 0;
+
+function tekenPunten(waarde) {
+  const el = document.getElementById("punten");
+  const doel = Math.max(0, Math.floor(waarde));
+  if (!el) return;
+  if (puntenGetoond === null || puntenGetoond === doel || minderBeweging()) {
+    el.textContent = String(doel);
+    puntenGetoond = doel;
+    return;
+  }
+  const van = puntenGetoond;
+  const token = ++puntenTick;
+  puntenGetoond = doel;
+  const start = performance.now();
+  function stap(nu) {
+    if (token !== puntenTick) return;
+    const t = Math.min(1, (nu - start) / 320);
+    el.textContent = String(Math.round(van + (doel - van) * t));
+    if (t < 1) requestAnimationFrame(stap);
+  }
+  requestAnimationFrame(stap);
+}
+
+function toonDagkaart() {
+  const kaart = document.getElementById("dag-kaart");
+  if (!kaart) return;
+  const dier = dierVanDeDag();
+  const gebied = zoekGebied(dier.gebied);
+  const datum = new Date().toLocaleDateString("nl-NL", { day: "numeric", month: "long" });
+  kaart.href = "#dier/" + dier.id;
+  kaart.innerHTML = "";
+  const foto = maakFoto(dier.foto, dier.naam, "dag-foto", dier.emoji);
+  kaart.appendChild(foto);
+  const tekst = document.createElement("div");
+  tekst.className = "dag-tekst";
+  tekst.innerHTML =
+    '<p class="vraag-label">Dier van de dag · ' + datum + "</p>" +
+    "<h3></h3><p></p>";
+  tekst.querySelector("h3").textContent = dier.naam;
+  tekst.querySelector("p:last-child").textContent = gebied.naam + " · " + dier.weetjes[0];
+  kaart.appendChild(tekst);
+}
+
+function toonTotaalOverzicht() {
+  const vak = document.getElementById("totaal-overzicht");
+  if (!vak) return;
+  const gedaan = Object.keys(antwoorden).length;
+  const totaal = aantalVragen();
+  const dierenKlaar = dieren.filter(dierKlaar).length;
+  let gebiedenBezig = 0;
+  gebieden.forEach(function (gebied) {
+    if (gebiedStand(gebied.id).goed > 0 || dierenVan(gebied.id).some(function (dier) {
+      return vragenGedaan(dier) > 0;
+    })) gebiedenBezig = gebiedenBezig + 1;
+  });
+  const regels = [
+    [punten, "punten"],
+    [gedaan + "/" + totaal, "vragen gedaan"],
+    [dierenKlaar + "/" + dieren.length, "dieren voltooid"],
+    [gebiedenBezig + "/" + gebieden.length, "gebieden begonnen"]
+  ];
+  vak.innerHTML = '<p class="vraag-label">Jouw quiz</p>';
+  const lijst = document.createElement("div");
+  lijst.className = "totaal-cijfers";
+  regels.forEach(function (regel) {
+    const blok = document.createElement("div");
+    const sterk = document.createElement("strong");
+    sterk.textContent = String(regel[0]);
+    blok.appendChild(sterk);
+    blok.append(regel[1]);
+    lijst.appendChild(blok);
+  });
+  vak.appendChild(lijst);
+}
+
 // Werkt de punten en voortgangsbalk bovenaan bij
 function toonStatus() {
   const gedaan = Object.keys(antwoorden).length;
   const totaal = aantalVragen();
-  document.getElementById("punten").textContent = punten;
+  tekenPunten(punten);
   document.getElementById("beantwoord").textContent = gedaan;
   document.getElementById("totaal").textContent = totaal;
-  document.getElementById("voortgang-vulling").style.width = (gedaan / totaal * 100) + "%";
+  document.getElementById("voortgang-vulling").style.width = (totaal ? gedaan / totaal * 100 : 0) + "%";
+  const voet = document.getElementById("voet-regel");
+  if (voet && !voet.textContent) {
+    voet.textContent = dieren.length + " dieren · " + gebieden.length + " gebieden · " + totaal + " vragen";
+  }
 }
 
 // Laat één weergave zien en verbergt de andere
@@ -2275,6 +2484,8 @@ function toonOverzicht() {
     raster.appendChild(kaart);
   });
 
+  toonDagkaart();
+  toonTotaalOverzicht();
   toonDierIndex();
   toonWelkom();
 }
@@ -2352,8 +2563,15 @@ function toonGebied(gebiedId) {
 
   document.getElementById("gebied-titel").textContent = gebied.naam;
   document.getElementById("gebied-tekst").textContent = gebied.tekst;
+  document.getElementById("gebied-zin").textContent = gebied.zin || "";
+  document.getElementById("gebied-icoon").innerHTML = gebiedIcoon[gebied.id] || "";
+  const stand = gebiedStand(gebiedId);
   document.getElementById("gebied-teller").textContent =
-    lijst.filter(dierKlaar).length + " van " + lijst.length + " dieren voltooid";
+    stand.klaar + " van " + stand.dieren + " dieren voltooid";
+  document.getElementById("gebied-score").textContent =
+    stand.goed + " van " + stand.totaal + " vragen goed";
+  document.getElementById("gebied-balk").style.width =
+    (stand.totaal ? stand.goed / stand.totaal * 100 : 0) + "%";
 
   const raster = document.getElementById("dieren");
   raster.innerHTML = "";
@@ -2411,14 +2629,15 @@ function toonDier(dierId) {
   jong.appendChild(maakFoto(dier.jongFoto, "Foto van een jonge " + dier.naam.toLowerCase(), "jong-foto-img", dier.emoji));
   document.getElementById("jong-naam").textContent = "Jong: " + dier.jongNaam;
 
-  // Weetjes als lijst
+  // Het eerste feit staat in het kader erboven. De lijst toont de rest.
   const lijst = document.getElementById("weetjes");
   lijst.innerHTML = "";
-  dier.weetjes.forEach(function (tekst) {
+  dier.weetjes.slice(1).forEach(function (tekst) {
     const li = document.createElement("li");
     li.textContent = tekst;
     lijst.appendChild(li);
   });
+  toonDierExtra(dier);
 
   // Vorige en volgende dier in hetzelfde gebied
   const buren = dierenVan(gebied.id);
@@ -2431,6 +2650,54 @@ function toonDier(dierId) {
   document.getElementById("volgende-dier").textContent = volgende.naam + " →";
 
   toonVragen(dier);
+}
+
+function toonDierExtra(dier) {
+  const vak = document.getElementById("dier-extra");
+  if (!vak) return;
+  vak.innerHTML = "";
+  const feiten = paspoort[dier.id];
+  if (feiten) {
+    const dl = document.createElement("dl");
+    dl.className = "paspoort";
+    [
+      ["lengte", "Lengte"],
+      ["gewicht", "Gewicht"],
+      ["leeftijd", "Leeftijd"],
+      ["dieet", "Dieet"],
+      ["leeft", "Leeft"],
+      ["status", "Status"]
+    ].forEach(function (paar) {
+      if (!feiten[paar[0]]) return;
+      const dt = document.createElement("dt");
+      dt.textContent = paar[1];
+      const dd = document.createElement("dd");
+      dd.textContent = feiten[paar[0]];
+      if (paar[0] === "status") dd.className = statusKlasse(feiten[paar[0]]);
+      dl.appendChild(dt);
+      dl.appendChild(dd);
+    });
+    vak.appendChild(dl);
+  }
+  if (dier.weetjes && dier.weetjes.length) {
+    const aside = document.createElement("aside");
+    aside.className = "wistjedat";
+    const label = document.createElement("p");
+    label.className = "vraag-label";
+    label.textContent = "Wist je dat?";
+    const p = document.createElement("p");
+    p.textContent = dier.weetjes[0];
+    aside.appendChild(label);
+    aside.appendChild(p);
+    vak.appendChild(aside);
+  }
+}
+
+function statusKlasse(tekst) {
+  const t = String(tekst).toLowerCase();
+  if (t.indexOf("niet bedreigd") !== -1 || t.indexOf("gedomesticeerd") !== -1) return "";
+  if (t.indexOf("bedreigd") !== -1 || t.indexOf("kwetsbaar") !== -1) return "let-op";
+  return "";
 }
 
 // Tekent de drie vraagkaarten van een dier
